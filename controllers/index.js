@@ -9,9 +9,12 @@
 		//Public
 		_self.items = ko.observableArray(items);
 		_self.add = function(){
-			var item = {name:prompt('Name')};
-			_self.items.push(item);
-			$.mobile.changePage('list-form.html?id=1');
+			var name = prompt('Name');
+			if (name) {
+				var item = {name:name};
+				_self.items.push(item);
+				$.mobile.changePage('list-form.html?id=1');
+			}
 		}
 	}
 	var viewModel = {

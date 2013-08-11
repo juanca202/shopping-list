@@ -9,7 +9,7 @@
 		//Public
 		_self.items = ko.observableArray(items);
 		_self.add = function(){
-			
+			$.mobile.changePage('item-form.html?lid=1');
 		}
 	}
 	var viewModel = {
@@ -25,6 +25,6 @@
 			ko.applyBindings(viewModel, $page[0]);
 		})
 		.on('pageshow', function(e){
-			debugger;
+			//TODO:Load list
 		});
 })(jQuery);

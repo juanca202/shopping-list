@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>  
+<html> 
+<head> 
+    <meta charset="UTF-8">
+    <title>Shopping list</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="libraries/jquery/jquery.mobile-1.4.0-alpha.1.min.css" />
+	<link rel="stylesheet" href="themes/default/base.css" />
+	<script src="libraries/jquery/jquery-2.0.3.min.js"></script>
+	<script src="libraries/jquery.validate/jquery.validate.min.js"></script>
+	<script src="libraries/jquery.validate/localization/messages_es.js"></script>
+    <script src="libraries/knockout/knockout-2.3.0.js"></script>
+	<script src="libraries/allmarkedup/purl.js"></script>
+	<script src="libraries/app/websql-adapter.js"></script>
+	<script src="libraries/app/common.js"></script>
+</head>
+
+<body> 
+	<form id="item-form" data-role="page">		
+		<script src="controllers/list-form.js"></script>
+		<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false">
+			<h1>Create new item</h1>
+		</div>
+		<div data-role="content">
+			<div data-role="fieldcontain">
+				<label for="name">Name:</label>
+				<input type="text" name="name" id="name" />
+			</div>
+			<div data-role="fieldcontain">
+				<label for="unit">Unit/Size:</label>
+				<input type="text" name="unit" id="unit" />
+			</div>
+			<div data-role="fieldcontain">
+				<label for="price">Retail price:</label>
+				<input type="text" name="price" id="name" />
+			</div>
+			<div data-role="fieldcontain">
+				<label for="upc">UPC:</label>
+				<input type="text" name="upc" id="upc" />
+				<button>Scan</button>
+			</div>
+			<div data-role="fieldcontain">
+				<label for="picture">Picture:</label>
+				<button id="picture">Attach</button>
+			</div>
+			<div data-role="fieldcontain">
+				<label for="category">Category:</label>
+				<select name="category" id="category">
+					<option></option>
+					<option>Vegetables</option>
+					<option>Fruits</option>
+					<option>Refrigerated</option>
+					<option>Frozen</option>
+					<option>Condiments</option>
+					<option>Groceries</option>
+					<option>Canned foods</option>
+					<option>Dairy</option>
+					<option>Meat</option>
+					<option>Seefood</option>
+					<option>Beverages</option>
+					<option>Snacks</option>
+					<option>Baby stuffs</option>
+					<option>Pets</option>
+					<option>Personal care</option>
+					<option>Medicine</option>
+					<option>Cleaning stuff</option>
+					<option>Office supplies</option>
+				</select>
+			</div>
+		</div>
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+			<div data-role="navbar">
+				<ul>
+					<li><button data-bind="click:lists.add">Create</button></li>
+				</ul>
+			</div>
+		</div>
+	</form>
+	
+	<script src="libraries/jquery/jquery.mobile-1.4.0-alpha.1.min.js"></script>
+</body>
+</html>
