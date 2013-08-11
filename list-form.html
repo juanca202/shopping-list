@@ -16,10 +16,10 @@
 </head>
 
 <body> 
-	<div id="index" data-role="page">		
-		<script src="controllers/index.js"></script>
+	<div id="list-form" data-role="page">		
+		<script src="controllers/list-form.js"></script>
 		<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false">
-			<h1>Shopping list</h1>
+			<h1>My List</h1>
 		</div>
 		<div data-role="content">
 			<ul data-role="listview" data-bind="foreach:lists.items">
@@ -29,7 +29,7 @@
 		<div data-role="footer" data-position="fixed" data-tap-toggle="false">
 			<div data-role="navbar">
 				<ul>
-					<li><button data-bind="click:lists.add">Add new list</button></li>
+					<li><button data-bind="click:lists.add">Add new item</button></li>
 				</ul>
 			</div>
 		</div>
