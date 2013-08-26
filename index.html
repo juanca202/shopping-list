@@ -1,40 +1,20 @@
-﻿<!DOCTYPE html>  
-<html> 
-<head> 
-    <meta charset="UTF-8">
-    <title>Shopping list</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<link rel="stylesheet" href="libraries/jquery/jquery.mobile-1.4.0-alpha.1.min.css" />
-	<link rel="stylesheet" href="themes/default/base.css" />
-	<script src="libraries/jquery/jquery-2.0.3.min.js"></script>
-	<script src="libraries/jquery.validate/jquery.validate.min.js"></script>
-	<script src="libraries/jquery.validate/localization/messages_es.js"></script>
-    <script src="libraries/knockout/knockout-2.3.0.js"></script>
-	<script src="libraries/allmarkedup/purl.js"></script>
-	<script src="libraries/app/websql-adapter.js"></script>
-	<script src="libraries/app/common.js"></script>
-</head>
-
-<body> 
-	<div id="index" data-role="page">		
-		<script src="controllers/index.js"></script>
-		<div data-id="main-header" data-role="header" data-position="fixed" data-tap-toggle="false">
-			<h1>Shopping list</h1>
-		</div>
-		<div data-role="content">
-			<ul data-role="listview" data-bind="foreach:lists.items">
-				<li><a href="#" data-bind="text:name"></a></li>
-			</ul>
-		</div>
-		<div data-role="footer" data-position="fixed" data-tap-toggle="false">
-			<div data-role="navbar">
-				<ul>
-					<li><button data-bind="click:lists.add">Add new list</button></li>
-				</ul>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Shopping List</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="libraries/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<style>
+			body { padding-top: 70px; }
+		</style>
+    </head>
+    <body>
+        <div id="applicationHost">
+            <div class="splash">
+				<h1 class="message text-center">Shopping List</h1>
 			</div>
-		</div>
-	</div>
-	
-	<script src="libraries/jquery/jquery.mobile-1.4.0-alpha.1.min.js"></script>
-</body>
+        </div>
+
+        <script src="libraries/require/require.js" data-main="app/main"></script>
+    </body>
 </html>
