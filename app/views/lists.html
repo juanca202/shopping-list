@@ -6,6 +6,9 @@
 		</div>
 	</nav>
     <div class="list-group" data-bind="foreach:items">
-		<a href="#" class="list-group-item" data-bind="text:name"></a>
+		<a class="list-group-item" data-bind="attr:{href:'#lists/'+id}">
+			<span class="badge pull-right" data-bind="text:itemsCount"></span>
+			<span data-bind="text:name"></span>
+		</a>
 	</div>
 </div>

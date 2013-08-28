@@ -7,8 +7,8 @@
     return {
         displayName: 'Lists',
         items: ko.observableArray([
-			{name:'Household monthly purchases'},
-			{name:'Ingredients for sushi'}
+			{id:1, name:'Household monthly purchases', itemsCount:45},
+			{id:2, name:'Ingredients for sushi', itemsCount:4}
 		]),
         activate: function () {
             console.log('lists activated');

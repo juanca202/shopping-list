@@ -3,17 +3,37 @@
 		<h4 class="navbar-text" style="margin-left:10px;">Create list</h4>
 		<div class="pull-right" style="margin-right:10px;">
 			<a href="#" class="btn btn-default navbar-btn">Cancel</a>
-			<button type="submit" class="btn btn-primary">Create</button>
+			<button type="submit" class="btn btn-primary" data-bind="visible:mode=='create'">Create</button>
+			<button type="submit" class="btn btn-primary" data-bind="visible:mode=='edit'">Edit</button>
 		</div>
 	</nav>
     <div>
 		<div class="form-group">
 			<label>Name</label>
-			<input type="text" class="form-control" placeholder="Name">
+			<input type="text" class="form-control" placeholder="Name" data-bind="value:name" />
 		</div>
 		<div class="form-group">
 			<label>Items</label>
-			<input type="search" class="form-control" placeholder="Search a product">
+			<div class="input-group">
+			  <input type="search" class="form-control" placeholder="Add new product">
+			  <span class="input-group-btn">
+				<button class="btn btn-default" type="button">Scan</button>
+			  </span>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="list-group" data-bind="foreach:items">
+				<div class="list-group-item"><a href="#">
+					<!-- ko if:imageUrl -->
+						<img class="pull-right" data-bind="attr:{src:imageUrl}" style="max-height:42px;" />
+					<!-- /ko -->
+					<small class="text-muted" data-bind="text:'{0} {1}'.format(quantity, unit)"></small>
+					<div data-bind="text:name"></div>
+				</a></div>
+			</div>
 		</div>
 	</div>		
+	<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+		<p class="navbar-text text-center" style="float:none;">Estimated price: $45</p>
+	</nav>
 </form>

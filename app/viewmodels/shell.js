@@ -5,7 +5,9 @@
             router.map([
                 { route: '', moduleId: 'viewmodels/lists' },
 				{ route: 'lists/add', moduleId: 'viewmodels/list-form' },
-				{ route: 'items/add', moduleId: 'viewmodels/item-form' }
+				{ route: 'lists/:id', moduleId: 'viewmodels/list-form' },
+				{ route: 'lists/:id/buy', moduleId: 'viewmodels/list-buy' },
+				{ route: 'lists/:id/items/add', moduleId: 'viewmodels/item-form' }
             ]);
             
             return router.activate();
