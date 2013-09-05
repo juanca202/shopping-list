@@ -1,13 +1,31 @@
 define(['plugins/http', 'durandal/app', 'knockout'], function (http, app, ko) {
-    //Note: This module exports an object.
-    //That means that every module that "requires" it will get the same object instance.
-    //If you wish to be able to create multiple instances, instead export a function.
-    //See the "welcome" module for an example of function export.
-
+    var items = [
+		{id:1, name:'Shampoo', quantity:1, unit:'Bottle', imageUrl:'images/shampoo.jpg', price:1.23, checked:ko.observable(false)},
+		{id:2, name:'Dutch cheese', quantity:250, unit:'Grs.', imageUrl:'images/dutch-cheese.jpg', price:1.23, checked:ko.observable(false)},
+		{id:3, name:'Shampoo', quantity:1, unit:'Bottle', imageUrl:'images/shampoo.jpg', price:1.23, checked:ko.observable(false)},
+		{id:4, name:'Dutch cheese', quantity:250, unit:'Grs.', imageUrl:'images/dutch-cheese.jpg', price:1.23, checked:ko.observable(false)},
+		{id:5, name:'Shampoo', quantity:1, unit:'Bottle', imageUrl:'images/shampoo.jpg', price:1.23, checked:ko.observable(false)},
+		{id:6, name:'Dutch cheese', quantity:250, unit:'Grs.', imageUrl:'images/dutch-cheese.jpg', price:1.23, checked:ko.observable(false)},
+		{id:7, name:'Shampoo', quantity:1, unit:'Bottle', imageUrl:'images/shampoo.jpg', price:1.23, checked:ko.observable(false)},
+		{id:8, name:'Dutch cheese', quantity:250, unit:'Grs.', imageUrl:'images/dutch-cheese.jpg', price:1.23, checked:ko.observable(false)},
+		{id:9, name:'Shampoo', quantity:1, unit:'Bottle', imageUrl:'images/shampoo.jpg', price:1.23, checked:ko.observable(false)},
+		{id:10, name:'Dutch cheese', quantity:250, unit:'Grs.', imageUrl:'images/dutch-cheese.jpg', price:5.23, checked:ko.observable(false)}
+	];
+	
     return {
-		items: ko.observableArray([
-			{name:'Shampoo', quantity:1, unit:'bottle'}
-		]);
+		items: items,
+		total:ko.computed(function(){
+			var total = 0;
+			$.each(items, function(){
+				if(this.checked()) {
+					total = total+this.price;
+				}
+			});
+			return total;
+		}),
+		toggleChecked: function(item){
+			item.checked(!item.checked());
+		},
         activate: function (id) {
             console.log('list '+id+' activated');
         },

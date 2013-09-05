@@ -1,11 +1,24 @@
 ﻿<div>
-	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-		<h4 class="navbar-text" style="margin-left:10px;" data-bind="text:displayName"></h4>
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<h4 class="navbar-text" style="margin-left:10px;">Buying</h4>
 		<div class="pull-right" style="margin-right:10px;">
-			<a href="#lists/add" class="btn btn-default navbar-btn">Save purchase</a>
+			<a href="#" class="btn btn-default navbar-btn">Close</a>
+			<a href="#lists/add" class="btn btn-primary navbar-btn">Save purchase</a>
 		</div>
 	</nav>
-    <div class="list-group" data-bind="foreach:items">
-		<a href="#" class="list-group-item" data-bind="text:name"></a>
+    <div class="list-group" data-bind="foreach:items" style="margin-bottom: 70px;">
+		<a class="list-group-item" data-bind="click:$root.toggleChecked, css:{'item-checked':checked}">
+			<input type="checkbox" class="pull-left" data-bind="checked:checked" style="margin-right:10px;" />
+			<!-- ko if:imageUrl -->
+				<img class="image pull-right" data-bind="attr:{src:imageUrl}" style="max-height:42px;" />
+			<!-- /ko -->
+			<div style="overflow:hidden;">
+				<small class="text-muted" data-bind="text:'{0} {1}'.format(quantity, unit)"></small>
+				<div data-bind="text:name"></div>
+			</div>
+		</a>
 	</div>
+	<nav class="navbar navbar-default navbar-fixed-bottom" data-bind="visible:total()>0">
+		<p class="navbar-text text-center" style="float:none;">Estimated price: <strong data-bind="text:'$'+Number(total()).formatMoney()"></strong></p>
+	</nav>
 </div>

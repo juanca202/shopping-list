@@ -7,19 +7,20 @@ define(['plugins/http', 'durandal/app', 'knockout'], function (http, app, ko) {
 		var self = this;
 		self.activate = function (id) {
 			if (id) {
+				self.id = id;
 				self.mode = 'edit';
 				self.name = 'Household monthly purchases';
 				self.items = ko.observableArray([
-					{name:'Shampoo', quantity:1, unit:'Bottle', imageUrl:'images/shampoo.jpg'},
-					{name:'Dutch cheese', quantity:250, unit:'Grs.', imageUrl:'images/dutch-cheese.jpg'},
-					{name:'Shampoo', quantity:1, unit:'Bottle', imageUrl:'images/shampoo.jpg'},
-					{name:'Dutch cheese', quantity:250, unit:'Grs.', imageUrl:'images/dutch-cheese.jpg'},
-					{name:'Shampoo', quantity:1, unit:'Bottle', imageUrl:'images/shampoo.jpg'},
-					{name:'Dutch cheese', quantity:250, unit:'Grs.', imageUrl:'images/dutch-cheese.jpg'},
-					{name:'Shampoo', quantity:1, unit:'Bottle', imageUrl:'images/shampoo.jpg'},
-					{name:'Dutch cheese', quantity:250, unit:'Grs.', imageUrl:'images/dutch-cheese.jpg'},
-					{name:'Shampoo', quantity:1, unit:'Bottle', imageUrl:'images/shampoo.jpg'},
-					{name:'Dutch cheese', quantity:250, unit:'Grs.', imageUrl:'images/dutch-cheese.jpg'}
+					{id:1, name:'Shampoo', quantity:1, unit:'Bottle', imageUrl:'images/shampoo.jpg'},
+					{id:2, name:'Dutch cheese', quantity:250, unit:'Grs.', imageUrl:'images/dutch-cheese.jpg'},
+					{id:3, name:'Shampoo', quantity:1, unit:'Bottle', imageUrl:'images/shampoo.jpg'},
+					{id:4, name:'Dutch cheese', quantity:250, unit:'Grs.', imageUrl:'images/dutch-cheese.jpg'},
+					{id:5, name:'Shampoo', quantity:1, unit:'Bottle', imageUrl:'images/shampoo.jpg'},
+					{id:6, name:'Dutch cheese', quantity:250, unit:'Grs.', imageUrl:'images/dutch-cheese.jpg'},
+					{id:7, name:'Shampoo', quantity:1, unit:'Bottle', imageUrl:'images/shampoo.jpg'},
+					{id:8, name:'Dutch cheese', quantity:250, unit:'Grs.', imageUrl:'images/dutch-cheese.jpg'},
+					{id:9, name:'Shampoo', quantity:1, unit:'Bottle', imageUrl:'images/shampoo.jpg'},
+					{id:10, name:'Dutch cheese', quantity:250, unit:'Grs.', imageUrl:'images/dutch-cheese.jpg'}
 				]);
 			}
         };

@@ -6,7 +6,8 @@
         'transitions' : '../libraries/durandal/js/transitions',
         'knockout': '../libraries/knockout/knockout-2.3.0',
         'bootstrap': '../libraries/bootstrap/js/bootstrap',
-        'jquery': '../libraries/jquery/jquery-2.0.3'
+        'jquery': '../libraries/jquery/jquery-2.0.3',
+		'dataservice': '../libraries/app/dataservice'
     },
     shim: {
         'bootstrap': {
@@ -16,7 +17,7 @@
     }
 });
 
-define(['durandal/system', 'durandal/app', 'durandal/viewLocator'],  function (system, app, viewLocator) {
+define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'dataservice'],  function (system, app, viewLocator, dataservice) {
     //>>excludeStart("build", true);
     system.debug(true);
     //>>excludeEnd("build");
@@ -37,6 +38,8 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator'],  function (s
         //Show the app by setting the root view model for our application with a transition.
         app.setRoot('viewmodels/shell', 'entrance');
     });
+	
+	dataservice.install();
 });
 
 String.prototype.format = function() {
@@ -48,3 +51,13 @@ String.prototype.format = function() {
     }
     return s;
 };
+Number.prototype.formatMoney = function(c, d, t){
+var n = this, 
+	c = isNaN(c = Math.abs(c)) ? 2 : c, 
+	d = d == undefined ? "." : d, 
+	t = t == undefined ? "," : t, 
+	s = n < 0 ? "-" : "", 
+	i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
+	j = (j = i.length) > 3 ? j % 3 : 0;
+   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+ };

@@ -2,12 +2,12 @@
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 		<h4 class="navbar-text" style="margin-left:10px;">Lists</h4>
 		<div class="pull-right" style="margin-right:10px;">
-			<a href="#lists/add" class="btn btn-default navbar-btn">Create list</a>
+			<a href="#lists/add" class="btn btn-primary navbar-btn">Create list</a>
 		</div>
 	</nav>
     <div class="list-group" data-bind="foreach:items">
-		<a class="list-group-item" data-bind="attr:{href:'#lists/'+id}">
-			<span class="badge pull-right" data-bind="text:itemsCount"></span>
+		<a class="list-group-item" data-bind="attr:{href:open? '#lists/'+id+'/buying' : '#lists/'+id}">
+			<span class="badge pull-right" data-bind="visible:open">Open</span>
 			<span data-bind="text:name"></span>
 		</a>
 	</div>

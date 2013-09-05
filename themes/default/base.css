@@ -1,0 +1,4 @@
+body { padding-top: 70px; }
+.item-checked,
+.list-group-item.item-checked:hover {text-decoration: line-through;}
+.item-checked .image {opacity:.5; -webkit-filter: grayscale(100%);}
