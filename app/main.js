@@ -17,7 +17,7 @@
     }
 });
 
-define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'dataservice', 'jquery'],  function (system, app, viewLocator, dataservice, $) {
+define(['durandal/system', 'durandal/app', 'durandal/viewLocator'],  function (system, app, viewLocator) {
     //>>excludeStart("build", true);
     system.debug(true);
     //>>excludeEnd("build");
@@ -38,15 +38,6 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'dataservice'
         //Show the app by setting the root view model for our application with a transition.
         app.setRoot('viewmodels/shell', 'entrance');
     });
-	
-	dataservice.install();
-	
-	$(function(){
-		alert('Jquery Ready');
-	});
-	$(document).on('deviceready', function(){
-		alert('PhoneGap Ready');
-	});
 });
 
 String.prototype.format = function() {

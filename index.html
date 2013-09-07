@@ -14,6 +14,11 @@
         </div>
 		
 		<script type="text/javascript" src="phonegap.js"></script>
+		<script>
+			document.addEventListener("deviceready", function(){
+				alert('PhoneGap Ready');
+			});
+		</script>
 		<!-- <script src="libraries/twitter/typeahead.min.js"></script> -->
         <script src="libraries/require/require.js" data-main="app/main"></script>
     </body>
