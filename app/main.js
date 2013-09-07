@@ -7,7 +7,8 @@
         'knockout': '../libraries/knockout/knockout-2.3.0',
         'bootstrap': '../libraries/bootstrap/js/bootstrap',
         'jquery': '../libraries/jquery/jquery-2.0.3',
-		'dataservice': '../libraries/app/dataservice'
+		'dataservice': '../libraries/app/dataservice',
+		'phonegap':'phonegap'
     },
     shim: {
         'bootstrap': {
@@ -17,7 +18,7 @@
     }
 });
 
-define(['durandal/system', 'durandal/app', 'durandal/viewLocator'],  function (system, app, viewLocator) {
+define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'phonegap'],  function (system, app, viewLocator, phonegap) {
     //>>excludeStart("build", true);
     system.debug(true);
     //>>excludeEnd("build");
@@ -38,6 +39,10 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator'],  function (s
         //Show the app by setting the root view model for our application with a transition.
         app.setRoot('viewmodels/shell', 'entrance');
     });
+	
+	document.addEventListener("deviceready", function(){
+		alert('PhoneGap Ready');
+	});
 });
 
 String.prototype.format = function() {
