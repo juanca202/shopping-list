@@ -12,6 +12,10 @@
 				{ route: 'products/add', moduleId: 'viewmodels/product-form' },
 				{ route: 'products/:pid', moduleId: 'viewmodels/product-form' }
             ]);
+			//Update anaytics whenever the router navigates
+			router.on('router:navigation:complete', function(instance, instruction) {
+				gaPlugin.trackPage(function(){}, function(){}, instruction.fragment);
+			});
             
             return router.activate();
         }
