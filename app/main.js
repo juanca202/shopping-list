@@ -17,7 +17,7 @@
     }
 });
 
-define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'dataservice'],  function (system, app, viewLocator, dataservice) {
+define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'dataservice', 'jquery'],  function (system, app, viewLocator, dataservice, $) {
     //>>excludeStart("build", true);
     system.debug(true);
     //>>excludeEnd("build");
@@ -40,6 +40,10 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'dataservice'
     });
 	
 	dataservice.install();
+	
+	$(document).on('deviceReady', function(){
+		app.showMessage('PhoneGap Ready');
+	});
 });
 
 String.prototype.format = function() {
