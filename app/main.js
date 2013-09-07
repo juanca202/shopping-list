@@ -41,8 +41,11 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'dataservice'
 	
 	dataservice.install();
 	
+	$(function(){
+		alert('Jquery Ready');
+	});
 	$(document).on('deviceReady', function(){
-		app.showMessage('PhoneGap Ready');
+		alert('PhoneGap Ready');
 	});
 });
 

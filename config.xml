@@ -16,6 +16,8 @@
     </author>
 	
 	<preference name="phonegap-version" value="2.9.0" />
+	
+	<access origin="http://127.0.0.1*"/>
 	<!--
 	<access origin="https://parse.com" />
 	
