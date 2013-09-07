@@ -14,7 +14,7 @@
             ]);
 			//Update anaytics whenever the router navigates
 			router.on('router:navigation:complete', function(instance, instruction) {
-				gaPlugin.trackPage(function(){}, function(){}, instruction.fragment);
+				if (typeof gaPlugin!='undefined') gaPlugin.trackPage(function(){}, function(){}, instruction.fragment);
 			});
             
             return router.activate();
