@@ -1,6 +1,4 @@
 define(['jquery', 'durandal/system', 'durandal/app', 'data/list', 'data/tools'], function ($, system, app, list, tools) {
-	alert('data/list loaded');
-
 	var version = '1.0',
 		initialize = function() {
 			//alert(localStorage.getItem('listInstalled'));
