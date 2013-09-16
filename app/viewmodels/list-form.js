@@ -25,7 +25,7 @@ define(['jquery', 'durandal/system', 'durandal/app', 'knockout', 'data/list'], f
 			};
 			self.scan = function() {
 				try {
-					var scanner = cordova.require("cordova/plugin/barcodescanner");
+					var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 					scanner.scan(
 					function (result) {
 					  alert("We got a barcode\n" +
