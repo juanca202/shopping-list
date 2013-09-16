@@ -35,11 +35,10 @@ define(['jquery', 'durandal/system', 'durandal/app', 'knockout', 'data/list'], f
 					}, 
 					function (error) {
 					  alert("Scanning failed: " + error);
-					}
+					});
 				}catch(e){
 					alert(e.message);
 				}
-			);
 			},
 			self.list = new List(),
 			self.items = ko.observableArray();
