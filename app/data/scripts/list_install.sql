@@ -1,11 +1,11 @@
 CREATE TABLE IF NOT EXISTS `list` (
-  `id` int(11) PRIMARY KEY,
-  `name` int(11) NOT NULL
+  `id` INTEGER PRIMARY KEY,
+  `name` INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS `list_item` (
-  `id` int(11) PRIMARY KEY,
-  `lid` int(11) NOT NULL,
-  `pid` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL
+  `id` INTEGER PRIMARY KEY,
+  `lid` INTEGER NOT NULL,
+  `pid` INTEGER NOT NULL,
+  `quantity` INTEGER NOT NULL
 );
