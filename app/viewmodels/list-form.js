@@ -1,12 +1,6 @@
 define(['jquery', 'durandal/system', 'durandal/app', 'knockout', 'data/list'], function ($, system, app, ko, list) {
     'use strict';
 	
-	try {
-		var scanner = cordova.require("cordova/plugin/barcodescanner");
-	}catch(e){
-		alert(e.message);
-	}
-	
 	var List = function(data) {
 			var data = data || {};
 			this.id = ko.observable(data.id);
@@ -30,15 +24,20 @@ define(['jquery', 'durandal/system', 'durandal/app', 'knockout', 'data/list'], f
 					});
 			};
 			self.scan = function() {
-				scanner.scan(
-				function (result) {
-				  alert("We got a barcode\n" +
-						"Result: " + result.text + "\n" +
-						"Format: " + result.format + "\n" +
-						"Cancelled: " + result.cancelled);
-				}, 
-				function (error) {
-				  alert("Scanning failed: " + error);
+				try {
+					var scanner = cordova.require("cordova/plugin/barcodescanner");
+					scanner.scan(
+					function (result) {
+					  alert("We got a barcode\n" +
+							"Result: " + result.text + "\n" +
+							"Format: " + result.format + "\n" +
+							"Cancelled: " + result.cancelled);
+					}, 
+					function (error) {
+					  alert("Scanning failed: " + error);
+					}
+				}catch(e){
+					alert(e.message);
 				}
 			);
 			},
