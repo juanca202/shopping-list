@@ -4,6 +4,7 @@ define(['jquery', 'durandal/system', 'durandal/app', 'data/list', 'data/tools'],
 	var version = '1.0',
 		initialize = function() {
 			alert('data/list initializing');
+			alert(localStorage.getItem('listInstalled'));
 			try{
 				if (localStorage.getItem('listInstalled')!=version) {
 					alert('installing database');
