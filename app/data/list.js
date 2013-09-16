@@ -1,4 +1,6 @@
 define(['jquery', 'durandal/system', 'durandal/app', 'data/list', 'data/tools'], function ($, system, app, list, tools) {
+	alert('data/list loaded');
+
 	var version = '1.0',
 		initialize = function() {
 			if (localStorage.getItem('listInstalled')!=version) {
@@ -7,6 +9,7 @@ define(['jquery', 'durandal/system', 'durandal/app', 'data/list', 'data/tools'],
 					localStorage.setItem('listInstalled', version);
 					system.log('list database installed');
 				});
+				alert('data/list initialized');
 			}
 		},
 		viewModel = {

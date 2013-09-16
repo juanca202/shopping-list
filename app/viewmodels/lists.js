@@ -19,10 +19,10 @@
     return {
         displayName: 'Lists',
         items: items,
-		lastPurchases: ko.observableArray([
+		lastPurchases: ko.observableArray([/*
 			{list:'list 1', date:'5 days ago', amount:78.25},
 			{list:'list 2', date:'5 days ago', amount:113.15}
-		]),
+		*/]),
         activate: function () {
             list.getAll()
 				.done(function(response){

@@ -1,8 +1,11 @@
 define(['jquery', 'durandal/system', 'durandal/app', 'knockout', 'data/list'], function ($, system, app, ko, list) {
     'use strict';
 	
-	var scanner = cordova.require("cordova/plugin/BarcodeScanner"),
-		List = function(data) {
+	if (typeof cordova != 'undefined') {
+		var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+	}
+	
+	var List = function(data) {
 			var data = data || {};
 			this.id = ko.observable(data.id);
 			this.name = ko.observable(data.name);
