@@ -11,12 +11,19 @@
 		</a>
 	</div>
 	
-	<h4>Ultimas compras</h4>
-	<div class="list-group" data-bind="foreach:lastPurchases">
-		<a class="list-group-item">
-			<small class="text-muted pull-right" data-bind="text:date"></small>
-			<div class="list-group-item-heading" data-bind="text:list"></div>
-			<p class="list-group-item-text" data-bind="text:'${0}'.format(Number(amount).formatMoney())"></p>
-		</a>
+	<div class="text-center" data-bind="visible:items().length==0">
+		<div>No list created yet</div>
+		<a href="#lists/create">Create list</a>
+	</div>
+	
+	<div data-bind="visible:lastPurchases().length>0">
+		<h4>Ultimas compras</h4>
+		<div class="list-group" data-bind="foreach:lastPurchases">
+			<a class="list-group-item">
+				<small class="text-muted pull-right" data-bind="text:date"></small>
+				<div class="list-group-item-heading" data-bind="text:list"></div>
+				<p class="list-group-item-text" data-bind="text:'${0}'.format(Number(amount).formatMoney())"></p>
+			</a>
+		</div>
 	</div>
 </div>
