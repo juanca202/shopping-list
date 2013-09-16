@@ -1,10 +1,10 @@
 define(['jquery', 'durandal/system', 'durandal/app', 'knockout', 'data/list'], function ($, system, app, ko, list) {
     'use strict';
 	
-	if (typeof cordova != 'undefined') {
-		alert('calling to plugin');
+	try {
 		var scanner = cordova.require("cordova/plugin/BarcodeScanner");
-		alert(scanner);
+	}catch(e){
+		alert(e.message);
 	}
 	
 	var List = function(data) {
