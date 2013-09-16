@@ -1,17 +1,40 @@
-﻿define(['plugins/http', 'durandal/app', 'knockout'], function (http, app, ko) {
-    //Note: This module exports an object.
-    //That means that every module that "requires" it will get the same object instance.
-    //If you wish to be able to create multiple instances, instead export a function.
-    //See the "welcome" module for an example of function export.
-
+﻿define(['durandal/app', 'knockout', 'data/list'], function (app, ko, list) {
+    var items = ko.observableArray(),
+		Actions = function(){
+			var self = this;
+			self.items = [
+				{name:'Update', url:'lists/{0}'},
+				{name:'Remove', url:'lists', callback:function(id){
+					list.remove(id).done(function(response){
+						location.href = '#';	
+					});
+				}},
+				{name:'Purchase', url:'lists/{0}/purchase'}
+			],
+			self.show = function(item){
+				app.showDialog('viewmodels/menu', {context:item, actions:self.items});
+			}
+		};
+	
     return {
         displayName: 'Lists',
-        items: ko.observableArray([
-			{id:1, name:'Household monthly purchases', open:true},
-			{id:2, name:'Ingredients for sushi', open:false}
+        items: items,
+		lastPurchases: ko.observableArray([
+			{list:'list 1', date:'5 days ago', amount:78.25},
+			{list:'list 2', date:'5 days ago', amount:113.15}
 		]),
         activate: function () {
-            console.log('lists activated');
-        }
+            list.getAll()
+				.done(function(response){
+					items(response);
+				});
+        },
+		actions: new Actions(),
+		purchase: function(item){
+			location.href = '#lists/{0}/purchase'.format(item.id);
+		},
+		update: function(item){
+			location.href = '#lists/{0}'.format(item.id);
+		}
     };
 });

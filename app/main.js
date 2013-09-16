@@ -7,7 +7,7 @@
         'knockout': '../libraries/knockout/knockout-2.3.0',
         'bootstrap': '../libraries/bootstrap/js/bootstrap',
         'jquery': '../libraries/jquery/jquery-2.0.3',
-		'dataservice': '../libraries/app/dataservice'
+		'mobile': '../libraries/jquery/jquery.mobile.custom.min'
     },
     shim: {
         'bootstrap': {
@@ -17,7 +17,7 @@
     }
 });
 
-define(['durandal/system', 'durandal/app', 'durandal/viewLocator'],  function (system, app, viewLocator) {
+define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'mobile'],  function (system, app, viewLocator, mobile) {
     //>>excludeStart("build", true);
     system.debug(true);
     //>>excludeEnd("build");
@@ -39,6 +39,8 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator'],  function (s
         app.setRoot('viewmodels/shell', 'entrance');
 		//app.adapteToDevice();
     });
+	
+	app.storage = openDatabase("sl", "1.0", "Shopping List", 5 * 1024 * 1024); // 5MB
 });
 
 String.prototype.format = function() {

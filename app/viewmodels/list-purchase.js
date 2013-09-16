@@ -31,7 +31,7 @@ define(['plugins/http', 'durandal/app', 'knockout'], function (http, app, ko) {
         },
         canDeactivate: function () {
             //the router's activator calls this function to see if it can leave the screen
-            return app.showMessage('Are you sure you want to leave this page?', 'Navigate', ['Yes', 'No']);
+            //return app.showMessage('Are you sure you want to leave this page?', 'Navigate', ['Yes', 'No']);
         }
     };
 });

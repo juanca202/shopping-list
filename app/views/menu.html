@@ -1,0 +1,12 @@
+<div class="modal" data-backdrop="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body" style="padding:0;">
+				<div class="menu" data-bind="foreach:items">
+				  <a href="#" class="menu-item" data-bind="attr:{href:url.format($root.context.id)}, text:name"></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

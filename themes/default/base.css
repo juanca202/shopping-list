@@ -2,3 +2,13 @@ body { padding-top: 70px; }
 .item-checked,
 .list-group-item.item-checked:hover {text-decoration: line-through;}
 .item-checked .image {opacity:.5; -webkit-filter: grayscale(100%);}
+
+.menu {}
+.menu .menu-item {
+	padding: 15px;
+	display: block;
+	border-bottom: 1px solid #DDD;
+}
+.menu .menu-item:last-child {
+	border:0;
+}
