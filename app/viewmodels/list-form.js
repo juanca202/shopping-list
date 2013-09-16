@@ -2,7 +2,7 @@ define(['jquery', 'durandal/system', 'durandal/app', 'knockout', 'data/list'], f
     'use strict';
 	
 	try {
-		var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+		var scanner = cordova.require("cordova/plugin/barcodescanner");
 	}catch(e){
 		alert(e.message);
 	}
