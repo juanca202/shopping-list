@@ -6,11 +6,17 @@ define(['jquery', 'durandal/system', 'durandal/app', 'data/list', 'data/tools'],
 			alert('data/list initializing');
 			try{
 				if (localStorage.getItem('listInstalled')!=version) {
+					alert('installing database');
 					system.log('installing list database');
-					tools.runSql(app.storage, 'app/data/scripts/list_install.sql').done(function(){
-						localStorage.setItem('listInstalled', version);
-						system.log('list database installed');
-					});
+					tools.runSql(app.storage, 'app/data/scripts/list_install.sql')
+						.done(function(){
+							alert('loaded database script');
+							localStorage.setItem('listInstalled', version);
+							system.log('list database installed');
+						})
+						.fail(function(){
+							alert('error loading script');
+						});
 					alert('data/list initialized');
 				}
 			}catch(e){
