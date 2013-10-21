@@ -8,6 +8,7 @@
 				{ route: 'lists/:lid', moduleId: 'viewmodels/list-form' },
 				{ route: 'lists/:lid/purchase', moduleId: 'viewmodels/list-purchase' },
 				{ route: 'lists/:lid/items/create', moduleId: 'viewmodels/item-form' },
+				{ route: 'lists/:lid/product/search', moduleId: 'viewmodels/product-search' },
 				{ route: 'lists/:lid/items/:iid', moduleId: 'viewmodels/item-form' },
 				{ route: 'products/create', moduleId: 'viewmodels/product-form' },
 				{ route: 'products/:pid', moduleId: 'viewmodels/product-form' }

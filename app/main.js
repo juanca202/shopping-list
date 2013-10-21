@@ -5,9 +5,11 @@
         'plugins' : '../libraries/durandal/js/plugins',
         'transitions' : '../libraries/durandal/js/transitions',
         'knockout': '../libraries/knockout/knockout-2.3.0',
+		'knockout-bootstrap': '../libraries/knockout/knockout-bootstrap.min',
         'bootstrap': '../libraries/bootstrap/js/bootstrap',
         'jquery': '../libraries/jquery/jquery-2.0.3',
-		'mobile': '../libraries/jquery/jquery.mobile.custom.min'
+		'mobile': '../libraries/jquery/jquery.mobile.custom.min',
+		'twitter/typeahead': '../libraries/twitter/typeahead.min'
     },
     shim: {
         'bootstrap': {

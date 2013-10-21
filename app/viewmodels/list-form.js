@@ -23,23 +23,6 @@ define(['jquery', 'durandal/system', 'durandal/app', 'knockout', 'data/list'], f
 						location.href = '#';
 					});
 			};
-			self.scan = function() {
-				try {
-					var scanner = cordova.require("cordova/plugin/BarcodeScanner");
-					scanner.scan(
-					function (result) {
-					  alert("We got a barcode\n" +
-							"Result: " + result.text + "\n" +
-							"Format: " + result.format + "\n" +
-							"Cancelled: " + result.cancelled);
-					}, 
-					function (error) {
-					  alert("Scanning failed: " + error);
-					});
-				}catch(e){
-					alert(e.message);
-				}
-			},
 			self.list = new List(),
 			self.items = ko.observableArray();
 		}

@@ -66,7 +66,7 @@ define(['jquery', 'durandal/system', 'durandal/app', 'data/list', 'data/tools'],
 				deferred.resolve([
 					{id:1, name:'Shampoo', quantity:1, unit:'Bottle', imageUrl:'images/shampoo.jpg'},
 					{id:2, name:'Dutch cheese', quantity:250, unit:'Grs.', imageUrl:'images/dutch-cheese.jpg'},
-					{id:3, name:'Shampoo', quantity:1, unit:'Bottle', imageUrl:'images/shampoo.jpg'},
+					{id:3, name:'Shampoo', quantity:1, unit:'Bottle', imageUrl:'images/shampoo.jpg'}/*,
 					{id:4, name:'Dutch cheese', quantity:250, unit:'Grs.', imageUrl:'images/dutch-cheese.jpg'},
 					{id:5, name:'Shampoo', quantity:1, unit:'Bottle', imageUrl:'images/shampoo.jpg'},
 					{id:6, name:'Dutch cheese', quantity:250, unit:'Grs.', imageUrl:'images/dutch-cheese.jpg'},
@@ -74,7 +74,7 @@ define(['jquery', 'durandal/system', 'durandal/app', 'data/list', 'data/tools'],
 					{id:8, name:'Dutch cheese', quantity:250, unit:'Grs.', imageUrl:'images/dutch-cheese.jpg'},
 					{id:9, name:'Shampoo', quantity:1, unit:'Bottle', imageUrl:'images/shampoo.jpg'},
 					{id:10, name:'Dutch cheese', quantity:250, unit:'Grs.', imageUrl:'images/dutch-cheese.jpg'}
-				]);
+				*/]);
 				return deferred.promise();
 			},
 			remove: function(id){

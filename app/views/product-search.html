@@ -1,0 +1,20 @@
+﻿<form role="form">
+	<link href="libraries/twitter/typeahead.css" rel="stylesheet" />
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<h4 class="navbar-text" style="margin-left:10px;">Search a product</h4>
+		<div class="pull-right" style="margin-right:10px;">
+			<a href="#" class="btn btn-default navbar-btn" data-bind="click:cancel">Cancel</a>
+		</div>
+	</nav>
+    <div>
+		<div class="form-group">
+			<label>Enter product name or barcode</label>
+			<div class="input-group">	
+				<input type="search" class="form-control typeahead-products" name="product" />
+				<span class="input-group-btn">
+					<button class="btn btn-primary" type="button">Scan</button>
+				</span>
+			</div>
+		</div>
+	</div>		
+</form>
