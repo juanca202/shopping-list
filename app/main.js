@@ -1,15 +1,16 @@
-﻿requirejs.config({
+requirejs.config({
     paths: {
         'text': '../libraries/require/text',
         'durandal':'../libraries/durandal/js',
         'plugins' : '../libraries/durandal/js/plugins',
         'transitions' : '../libraries/durandal/js/transitions',
-        'knockout': '../libraries/knockout/knockout-2.3.0',
+        'knockout': '../libraries/knockout/knockout-3.0.0',
 		'knockout-bootstrap': '../libraries/knockout/knockout-bootstrap.min',
         'bootstrap': '../libraries/bootstrap/js/bootstrap',
         'jquery': '../libraries/jquery/jquery-2.0.3',
 		'mobile': '../libraries/jquery/jquery.mobile.custom.min',
-		'twitter/typeahead': '../libraries/twitter/typeahead.min'
+		'twitter/typeahead': '../libraries/twitter/typeahead.min',
+		'fastclick': '../libraries/ftlabs/fastclick'
     },
     shim: {
         'bootstrap': {
@@ -44,7 +45,6 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'mobile'],  f
 	
 	app.storage = openDatabase("sl", "1.0", "Shopping List", 5 * 1024 * 1024); // 5MB
 });
-
 String.prototype.format = function() {
     var s = this,
         i = arguments.length;
@@ -55,12 +55,12 @@ String.prototype.format = function() {
     return s;
 };
 Number.prototype.formatMoney = function(c, d, t){
-var n = this, 
-	c = isNaN(c = Math.abs(c)) ? 2 : c, 
-	d = d == undefined ? "." : d, 
-	t = t == undefined ? "," : t, 
-	s = n < 0 ? "-" : "", 
-	i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
-	j = (j = i.length) > 3 ? j % 3 : 0;
-   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
- };
+	var n = this, 
+		c = isNaN(c = Math.abs(c)) ? 2 : c, 
+		d = d == undefined ? "." : d, 
+		t = t == undefined ? "," : t, 
+		s = n < 0 ? "-" : "", 
+		i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
+		j = (j = i.length) > 3 ? j % 3 : 0;
+	return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+};

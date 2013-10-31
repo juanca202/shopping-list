@@ -1,4 +1,4 @@
-﻿define(['durandal/app', 'knockout', 'data/list'], function (app, ko, list) {
+﻿define(['durandal/app', 'knockout', 'models/list'], function (app, ko, list) {
     var items = ko.observableArray(),
 		Actions = function(){
 			var self = this;
@@ -19,10 +19,7 @@
     return {
         displayName: 'Lists',
         items: items,
-		lastPurchases: ko.observableArray([/*
-			{list:'list 1', date:'5 days ago', amount:78.25},
-			{list:'list 2', date:'5 days ago', amount:113.15}
-		*/]),
+		lastPurchases: ko.observableArray(),
         activate: function () {
             list.getAll()
 				.done(function(response){
@@ -30,6 +27,9 @@
 				});
         },
 		actions: new Actions(),
+		create: function() {
+			location.href = '#lists/create/temp-{0}'.format(new Date().getTime());
+		},
 		purchase: function(item){
 			location.href = '#lists/{0}/purchase'.format(item.id);
 		},

@@ -1,16 +1,38 @@
-define(['plugins/http', 'durandal/app', 'knockout'], function (http, app, ko) {
-    //Note: This module exports an object.
-    //That means that every module that "requires" it will get the same object instance.
-    //If you wish to be able to create multiple instances, instead export a function.
-    //See the "welcome" module for an example of function export.
-
-    return {
-        activate: function () {
-            
-        },
-        canDeactivate: function () {
-            //the router's activator calls this function to see if it can leave the screen
-            return app.showMessage('Are you sure you want to leave this page?', 'Navigate', ['Yes', 'No']);
-        }
-    };
+define(['plugins/http', 'durandal/app', 'knockout', 'models/product'], function (http, app, ko, product) {
+	'use strict';
+	
+    var viewModel = function(){
+			var self = this;
+			self.activate = function (params) {
+				if (params.id) {
+					$.when(product.get(params.id))
+						.done(function(product, items){
+							
+						});
+				}
+				product.getCategories().done(function(response){
+					self.productCategories(response);
+				});
+			};
+			self.save = function(form){
+				product.create(ko.toJS(self.product))
+					.done(function(){
+						history.back();
+					});
+			};
+			self.scan = function(){
+			
+			};
+			self.product = {
+				name: ko.observable(),
+				cid: ko.observable(),
+				unit: ko.observable(),
+				price: ko.observable(),
+				code: ko.observable(),
+				picture: ko.observable()
+			};
+			self.productCategories = ko.observableArray();
+		};
+	
+    return viewModel;
 });

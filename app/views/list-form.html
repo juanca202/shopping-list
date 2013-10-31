@@ -1,4 +1,4 @@
-﻿<form role="form" style="padding-bottom:70px;">
+<form role="form" style="padding-bottom:70px;">
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 		<h4 class="navbar-text" style="margin-left:10px;"><a href="#">List</a></h4>
 		<div class="pull-right" style="margin-right:10px;">
@@ -15,15 +15,15 @@
 			<label>Products</label>
 			<div class="list-group">
 				<!-- ko foreach:items -->
-					<a class="list-group-item" data-bind="attr:{href:'#lists/{0}/items/{1}'.format($root.id, id)}">
-						<!-- ko if:imageUrl -->
-							<img class="pull-right" data-bind="attr:{src:imageUrl}" style="max-height:42px;" />
+					<a class="list-group-item" data-bind="click:$root.select">
+						<!-- ko if:picture!='undefined' -->
+							<img class="pull-right" data-bind="attr:{src:picture}" style="max-height:42px;" />
 						<!-- /ko -->
-						<small class="text-muted" data-bind="text:'{0} {1}'.format(quantity, unit)"></small>
+						<small class="text-muted" data-bind="text:code"></small>
 						<div data-bind="text:name"></div>
 					</a>
 				<!-- /ko -->
-				<a class="list-group-item" style="background:#e4e4e4; text-align:center; font-weight:bold;" data-bind="attr:{href:'#lists/{0}/product/search'.format($root.id)}">+ Add product</a>
+				<a class="list-group-item" style="background:#e4e4e4; text-align:center; font-weight:bold;" data-bind="attr:{href:'#products/search?lid={0}'.format($root.tlid())}">+ Add product</a>
 			</div>
 		</div>
 	</div>		

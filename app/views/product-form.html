@@ -1,6 +1,6 @@
-﻿<form role="form">
+<form role="form" data-bind="submit:save">
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-		<h4 class="navbar-text" style="margin-left:10px;">Edit product</h4>
+		<h4 class="navbar-text" style="margin-left:10px;">Product</h4>
 		<div class="pull-right" style="margin-right:10px;">
 			<a href="#" class="btn btn-default navbar-btn">Cancel</a>
 			<button type="submit" class="btn btn-primary">Save</button>
@@ -9,48 +9,32 @@
     <div>
 		<div class="form-group">
 			<label>Name</label>
-			<input type="text" name="name" />
+			<input type="text" name="name" class="form-control" data-bind="value:product.name" />
 		</div>
 		<div class="form-group">
 			<label>Unit/Size</label>
-			<input type="text" name="unit" />
+			<input type="text" name="unit" class="form-control" data-bind="value:product.unit" />
 		</div>
 		<div class="form-group">
 			<label>Retail price</label>
-			<input type="text" name="price" />
+			<input type="text" name="price" class="form-control" data-bind="value:product.price" />
 		</div>
 		<div class="form-group">
 			<label>UPC</label>
-			<input type="text" name="upc" />
-			<button>Scan</button>
-		</div>
-		<div class="form-group">
-			<label>Picture</label>
-			<button id="picture">Attach</button>
+			<div class="input-group">	
+				<input type="search" class="form-control" name="code" data-bind="value:product.code" />
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" data-bind="click:scan">Scan</button>
+				</span>
+			</div>
 		</div>
 		<div class="form-group">
 			<label>Category</label>
-			<select name="category">
-				<option></option>
-				<option>Vegetables</option>
-				<option>Fruits</option>
-				<option>Refrigerated</option>
-				<option>Frozen</option>
-				<option>Condiments</option>
-				<option>Groceries</option>
-				<option>Canned foods</option>
-				<option>Dairy</option>
-				<option>Meat</option>
-				<option>Seefood</option>
-				<option>Beverages</option>
-				<option>Snacks</option>
-				<option>Baby stuffs</option>
-				<option>Pets</option>
-				<option>Personal care</option>
-				<option>Medicine</option>
-				<option>Cleaning stuff</option>
-				<option>Office supplies</option>
-			</select>
+			<select name="cid" class="form-control" data-bind="options:productCategories, optionsValue:'id', optionsText:'name', optionsCaption:'Select a category', value:product.cid"></select>
+		</div>
+		<div class="form-group">
+			<label>Picture</label>
+			<button class="btn btn-default">Attach</button>
 		</div>
 	</div>		
 </form>

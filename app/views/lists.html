@@ -2,7 +2,7 @@
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 		<h4 class="navbar-text" style="margin-left:10px;">Lists</h4>
 		<div class="pull-right" style="margin-right:10px;">
-			<a href="#lists/create" class="btn btn-primary navbar-btn">Create list</a>
+			<a href="#" data-bind="click:create" class="btn btn-primary navbar-btn">Create list</a>
 		</div>
 	</nav>
     <div class="list-group" data-bind="foreach:items">
@@ -13,7 +13,7 @@
 	
 	<div class="text-center" data-bind="visible:items().length==0">
 		<div style="font-size:20px;">No list created yet</div>
-		<a href="#lists/create">Create list</a>
+		<a href="#" data-bind="click:create">Create list</a>
 	</div>
 	
 	<div data-bind="visible:lastPurchases().length>0">

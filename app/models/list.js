@@ -1,13 +1,16 @@
-define(['jquery', 'durandal/system', 'durandal/app', 'data/list', 'data/tools'], function ($, system, app, list, tools) {
+define(['jquery', 'durandal/system', 'durandal/app', 'models/list', 'models/tools'], function ($, system, app, list, tools) {
+	'use strict';
+	
 	var version = '1.0',
 		initialize = function() {
+			//alert(localStorage.getItem('listInstalled'));
 			try{
-				if (localStorage.getItem('productInstalled')!=version) {
-					system.log('installing product database');
-					tools.runSql(app.storage, 'app/data/scripts/product_install.sql')
+				if (localStorage.getItem('listVersion')!=version) {
+					system.log('installing list database');
+					tools.runSql(app.storage, 'app/models/schemas/list.sql')
 						.done(function(){
-							localStorage.setItem('productInstalled', version);
-							system.log('product database installed');
+							localStorage.setItem('listVersion', version);
+							system.log('list database installed');
 						})
 						.fail(function(){
 							//TODO;
@@ -17,7 +20,7 @@ define(['jquery', 'durandal/system', 'durandal/app', 'data/list', 'data/tools'],
 				alert(e.message);
 			}
 		},
-		viewModel = {
+		model = {
 			create: function(list){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
@@ -60,6 +63,22 @@ define(['jquery', 'durandal/system', 'durandal/app', 'data/list', 'data/tools'],
 				});
 				return deferred.promise();
 			},
+			getItems: function(id){
+				var deferred = $.Deferred();
+				deferred.resolve([
+					{id:1, name:'Shampoo', quantity:1, unit:'Bottle', picture:'images/shampoo.jpg'},
+					{id:2, name:'Dutch cheese', quantity:250, unit:'Grs.', picture:'images/dutch-cheese.jpg'},
+					{id:3, name:'Shampoo', quantity:1, unit:'Bottle', picture:'images/shampoo.jpg'}/*,
+					{id:4, name:'Dutch cheese', quantity:250, unit:'Grs.', picture:'images/dutch-cheese.jpg'},
+					{id:5, name:'Shampoo', quantity:1, unit:'Bottle', picture:'images/shampoo.jpg'},
+					{id:6, name:'Dutch cheese', quantity:250, unit:'Grs.', picture:'images/dutch-cheese.jpg'},
+					{id:7, name:'Shampoo', quantity:1, unit:'Bottle', picture:'images/shampoo.jpg'},
+					{id:8, name:'Dutch cheese', quantity:250, unit:'Grs.', picture:'images/dutch-cheese.jpg'},
+					{id:9, name:'Shampoo', quantity:1, unit:'Bottle', picture:'images/shampoo.jpg'},
+					{id:10, name:'Dutch cheese', quantity:250, unit:'Grs.', picture:'images/dutch-cheese.jpg'}
+				*/]);
+				return deferred.promise();
+			},
 			remove: function(id){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
@@ -71,11 +90,10 @@ define(['jquery', 'durandal/system', 'durandal/app', 'data/list', 'data/tools'],
 					});
 				});
 				return deferred.promise();
-			},
-			
+			}
 		};
 	
 	initialize();
 	
-	return viewModel;
+	return model;
 });

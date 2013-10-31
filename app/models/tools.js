@@ -10,7 +10,7 @@ define(['jquery', 'durandal/system', 'durandal/app'],  function ($, system, app)
 						db.transaction(function (tx) {
 							$.each(scripts, function(i){ 
 								var query = $.trim(this);
-								if (query!='') {
+								if (query!=='') {
 									tx.executeSql(query, [], function(tx, results){
 										scriptsExecuted++;
 									}, function(tx, error){
@@ -38,5 +38,5 @@ define(['jquery', 'durandal/system', 'durandal/app'],  function ($, system, app)
 				console.log(err.stack);
 			}
 		}
-	}
+	};
 });

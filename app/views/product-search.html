@@ -1,4 +1,4 @@
-﻿<form role="form">
+<form role="form">
 	<link href="libraries/twitter/typeahead.css" rel="stylesheet" />
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 		<h4 class="navbar-text" style="margin-left:10px;">Search a product</h4>
@@ -10,11 +10,26 @@
 		<div class="form-group">
 			<label>Enter product name or barcode</label>
 			<div class="input-group">	
-				<input type="search" class="form-control typeahead-products" name="product" />
+				<input type="search" class="form-control" name="product" data-bind="value:query, valueUpdate: 'afterkeydown'" />
 				<span class="input-group-btn">
-					<button class="btn btn-primary" type="button">Scan</button>
+					<button class="btn btn-primary" type="button" data-bind="click:scan">Scan</button>
 				</span>
 			</div>
+		</div>
+		
+		<div class="list-group">
+			<!-- ko foreach:items -->
+				<a class="list-group-item" data-bind="click:$root.select">
+					<!-- ko if:picture!='undefined' -->
+						<img class="pull-right" data-bind="attr:{src:picture}" style="max-height:42px;" />
+					<!-- /ko -->
+					<small class="text-muted" data-bind="text:code"></small>
+					<div data-bind="text:name"></div>
+				</a>
+			<!-- /ko -->
+			<!-- ko if:query().length>0 --> 
+				<a class="list-group-item" style="background:#e4e4e4; text-align:center; font-weight:bold;" data-bind="attr:{href:'#products/create?name={0}&lid={1}'.format($root.query(), $root.lid())}">+ Add product</a>
+			<!-- /ko -->
 		</div>
 	</div>		
 </form>
