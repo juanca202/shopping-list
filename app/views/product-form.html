@@ -9,20 +9,20 @@
     <div>
 		<div class="form-group">
 			<label>Name</label>
-			<input type="text" name="name" class="form-control" data-bind="value:product.name" />
+			<input type="text" name="name" class="form-control" data-bind="value:product().name" />
 		</div>
 		<div class="form-group">
 			<label>Unit/Size</label>
-			<input type="text" name="unit" class="form-control" data-bind="value:product.unit" />
+			<input type="text" name="unit" class="form-control" data-bind="value:product().unit" />
 		</div>
 		<div class="form-group">
 			<label>Retail price</label>
-			<input type="text" name="price" class="form-control" data-bind="value:product.price" />
+			<input type="text" name="price" class="form-control" data-bind="value:product().price" />
 		</div>
 		<div class="form-group">
 			<label>UPC</label>
 			<div class="input-group">	
-				<input type="search" class="form-control" name="code" data-bind="value:product.code" />
+				<input type="search" class="form-control" name="code" data-bind="value:product().code" />
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button" data-bind="click:scan">Scan</button>
 				</span>
@@ -30,7 +30,7 @@
 		</div>
 		<div class="form-group">
 			<label>Category</label>
-			<select name="cid" class="form-control" data-bind="options:productCategories, optionsValue:'id', optionsText:'name', optionsCaption:'Select a category', value:product.cid"></select>
+			<select name="cid" class="form-control" data-bind="options:productCategories, optionsValue:'id', optionsText:'name', optionsCaption:'Select a category', value:product().cid"></select>
 		</div>
 		<div class="form-group">
 			<label>Picture</label>

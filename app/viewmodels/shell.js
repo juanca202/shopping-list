@@ -5,13 +5,11 @@
         activate: function () {
             router.map([
                 { route: '', moduleId: 'viewmodels/lists' },
-				{ route: 'lists/create/:tlid', moduleId: 'viewmodels/list-form' },
 				{ route: 'lists/:lid', moduleId: 'viewmodels/list-form' },
 				{ route: 'lists/:lid/purchase', moduleId: 'viewmodels/list-purchase' },
 				{ route: 'lists/:lid/items/create', moduleId: 'viewmodels/item-form' },
 				{ route: 'lists/:lid/items/:iid', moduleId: 'viewmodels/item-form' },
 				{ route: 'products/search', moduleId: 'viewmodels/product-search' },
-				{ route: 'products/create', moduleId: 'viewmodels/product-form' },
 				{ route: 'products/:pid', moduleId: 'viewmodels/product-form' }
 			]);
 			//Update anaytics whenever the router navigates

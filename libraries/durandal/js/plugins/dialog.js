@@ -1,5 +1,5 @@
 /**
- * Durandal 2.0.0 Copyright (c) 2012 Blue Spire Consulting, Inc. All Rights Reserved.
+ * Durandal 2.0.1 Copyright (c) 2012 Blue Spire Consulting, Inc. All Rights Reserved.
  * Available via the MIT license.
  * see: http://durandaljs.com or https://github.com/BlueSpire/Durandal for details.
  */
@@ -79,7 +79,6 @@ define(['durandal/system', 'durandal/app', 'durandal/composition', 'durandal/act
      * @property {string} defaultViewMarkup
      * @static
      */
-	/*
     MessageBox.defaultViewMarkup = [
         '<div data-view="plugins/messageBox" class="messageBox">',
             '<div class="modal-header">',
@@ -92,25 +91,6 @@ define(['durandal/system', 'durandal/app', 'durandal/composition', 'durandal/act
                 '<button class="btn" data-bind="click: function () { $parent.selectOption($data); }, text: $data, css: { \'btn-primary\': $index() == 0, autofocus: $index() == 0 }"></button>',
             '</div>',
         '</div>'
-	].join('\n');
-	*/
-	MessageBox.defaultViewMarkup = [	
-		'<div data-view="plugins/messageBox" class="messageBox modal">',
-			'<div class="modal-dialog">',
-				'<div class="modal-content">',
-					'<div class="modal-header">',
-						'<button type="button" class="close" data-dismiss="modal">&times;</button>',
-						'<h4 class="modal-title" data-bind="text: title"></h4>',
-					'</div>',
-					'<div class="modal-body">',
-						'<p class="message" data-bind="text: message"></p>',
-					'</div>',
-					'<div class="modal-footer" data-bind="foreach: options">',
-						'<button class="btn btn-default" data-bind="click: function () { $parent.selectOption($data); }, text: $data, css: { \'btn-primary\': $index() == 0, autofocus: $index() == 0 }"></button>',
-					'</div>',
-				'</div>',
-			'</div>',
-		'</div>'
     ].join('\n');
 
     function ensureDialogInstance(objOrModuleId) {
@@ -185,7 +165,8 @@ define(['durandal/system', 'durandal/app', 'durandal/composition', 'durandal/act
         createCompositionSettings: function(obj, dialogContext) {
             var settings = {
                 model:obj,
-                activate:false
+                activate:false,
+                transition: false
             };
 
             if (dialogContext.attached) {
@@ -215,7 +196,7 @@ define(['durandal/system', 'durandal/app', 'durandal/composition', 'durandal/act
          * Closes the dialog associated with the specified object.
          * @method close
          * @param {object} obj The object whose dialog should be closed.
-         * @param {object} result* The results to return back to the dialog caller after closing.
+         * @param {object} results* The results to return back to the dialog caller after closing.
          */
         close:function(obj){
             var theDialog = this.getDialog(obj);
@@ -254,11 +235,11 @@ define(['durandal/system', 'durandal/app', 'durandal/composition', 'durandal/act
                                             dialogContext.removeHost(theDialog);
                                             delete instance.__dialog__;
 
-                                            if(args.length == 0){
+                                            if (args.length === 0) {
                                                 dfd.resolve();
-                                            }else if(args.length == 1){
-                                                dfd.resolve(args[0])
-                                            }else{
+                                            } else if (args.length === 1) {
+                                                dfd.resolve(args[0]);
+                                            } else {
                                                 dfd.resolve.apply(dfd, args);
                                             }
                                         }
@@ -348,16 +329,16 @@ define(['durandal/system', 'durandal/app', 'durandal/composition', 'durandal/act
             theDialog.blockout = blockout.get(0);
 
             if (!dialog.isOpen()) {
-                //theDialog.oldBodyMarginRight = body.css("margin-right");
-                //theDialog.oldInlineMarginRight = body.get(0).style.marginRight;
+                theDialog.oldBodyMarginRight = body.css("margin-right");
+                theDialog.oldInlineMarginRight = body.get(0).style.marginRight;
 
                 var html = $("html");
                 var oldBodyOuterWidth = body.outerWidth(true);
-                //var oldScrollTop = html.scrollTop();
+                var oldScrollTop = html.scrollTop();
                 $("html").css("overflow-y", "hidden");
                 var newBodyOuterWidth = $("body").outerWidth(true);
-                //body.css("margin-right", (newBodyOuterWidth - oldBodyOuterWidth + parseInt(theDialog.oldBodyMarginRight)) + "px");
-                //html.scrollTop(oldScrollTop); // necessary for Firefox
+                body.css("margin-right", (newBodyOuterWidth - oldBodyOuterWidth + parseInt(theDialog.oldBodyMarginRight, 10)) + "px");
+                html.scrollTop(oldScrollTop); // necessary for Firefox
             }
         },
         /**
@@ -374,7 +355,6 @@ define(['durandal/system', 'durandal/app', 'durandal/composition', 'durandal/act
                 ko.removeNode(theDialog.blockout);
             }, this.removeDelay);
 
-			/*	
             if (!dialog.isOpen()) {
                 var html = $("html");
                 var oldScrollTop = html.scrollTop(); // necessary for Firefox.
@@ -386,7 +366,10 @@ define(['durandal/system', 'durandal/app', 'durandal/composition', 'durandal/act
                     $("body").css("margin-right", '');
                 }
             }
-			*/
+        },
+        attached: function (view) {
+            //To prevent flickering in IE8, we set visibility to hidden first, and later restore it
+            $(view).css("visibility", "hidden");
         },
         /**
          * This function is called after the modal is fully composed into the DOM, allowing your implementation to do any final modifications, such as positioning or animation. You can obtain the original dialog object by using `getDialog` on context.model.
@@ -396,29 +379,59 @@ define(['durandal/system', 'durandal/app', 'durandal/composition', 'durandal/act
          * @param {object} context The composition context.
          */
         compositionComplete: function (child, parent, context) {
-            var $child = $(child);
-            var width = $child.width();
-            var height = $child.height();
             var theDialog = dialog.getDialog(context.model);
-
-			/*	
-            $child.css({
-                'margin-top': (-height / 2).toString() + 'px',
-                'margin-left': (-width / 2).toString() + 'px'
+            var $child = $(child);
+            var loadables = $child.find("img").filter(function () {
+                //Remove images with known width and height
+                var $this = $(this);
+                return !(this.style.width && this.style.height) && !($this.attr("width") && $this.attr("height"));
             });
-			*/
 
-            $(theDialog.host).css('opacity', 1);
+            $child.data("predefinedWidth", $child.get(0).style.width);
 
-            if ($(child).hasClass('autoclose')) {
-                $(theDialog.blockout).click(function() {
+            var setDialogPosition = function () {
+                //Setting a short timeout is need in IE8, otherwise we could do this straight away
+                setTimeout(function () {
+                    //We will clear and then set width for dialogs without width set 
+                    if (!$child.data("predefinedWidth")) {
+                        $child.css({ width: '' }); //Reset width
+                    }
+                    var width = $child.outerWidth(false);
+                    var height = $child.outerHeight(false);
+                    var windowHeight = $(window).height();
+                    var constrainedHeight = Math.min(height, windowHeight);
+
+                    $child.css({
+                        'margin-top': (-constrainedHeight / 2).toString() + 'px',
+                        'margin-left': (-width / 2).toString() + 'px'
+                    });
+
+                    if (!$child.data("predefinedWidth")) {
+                        //Ensure the correct width after margin-left has been set
+                        $child.outerWidth(width);
+                    }
+
+                    if (height > windowHeight) {
+                        $child.css("overflow-y", "auto");
+                    } else {
+                        $child.css("overflow-y", "");
+                    }
+
+                    $(theDialog.host).css('opacity', 1);
+                    $child.css("visibility", "visible");
+
+                    $child.find('.autofocus').first().focus();
+                }, 1);
+            };
+
+            setDialogPosition();
+            loadables.load(setDialogPosition);
+
+            if ($child.hasClass('autoclose')) {
+                $(theDialog.blockout).click(function () {
                     theDialog.close();
                 });
             }
-
-            $('.autofocus', child).each(function() {
-                $(this).focus();
-            });
         }
     });
 

@@ -9,3 +9,7 @@ CREATE TABLE IF NOT EXISTS `list_item` (
   `pid` INTEGER NOT NULL,
   `quantity` INTEGER NOT NULL
 );
+
+CREATE UNIQUE INDEX list_idx ON list(name);
+CREATE UNIQUE INDEX list_item_idx ON list_item(lid, pid);
+INSERT INTO list(name) VALUES ('My shopping list'); 

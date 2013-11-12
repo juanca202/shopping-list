@@ -5,21 +5,20 @@ define(['plugins/http', 'durandal/app', 'knockout', 'models/product'], function 
 		var self = this,
 			queryTimeout;
 		self.activate = function (params) {
-        	
+        	self.fid(params.fid);
         };
 		self.attached = function (params) {
-        	self.lid(params.lid);
+        	
 		};
 		self.cancel = function(){
 			history.back();
 		};
-		self.select = function(item){
-			history.back();
-			app.trigger('list-item:select', item);
+		self.select = function(product){
+			app.trigger('product:select', product);
 		}
 		
 		self.items = ko.observableArray();
-		self.lid = ko.observable();
+		self.fid = ko.observable();
 		self.query = ko.observable('');
 		self.query.subscribe(function(value){
 			clearTimeout(queryTimeout);
@@ -52,6 +51,5 @@ define(['plugins/http', 'durandal/app', 'knockout', 'models/product'], function 
 			}
 		};
 	};
-
     return viewModel;
 });

@@ -21,11 +21,25 @@ define(['jquery', 'durandal/system', 'durandal/app', 'models/list', 'models/tool
 			}
 		},
 		model = {
-			create: function(list){
+			save: function(list){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
-					tx.executeSql('INSERT INTO list(name) VALUES (?);', [list.name], function(tx, r){
-						deferred.resolve(r);
+					var params = list.id? [list.id, list.name] : [list.name],
+						query = list.id? 'UPDATE list SET name = ? WHERE id = ?' : 'INSERT INTO list(name) VALUES (?)';
+					tx.executeSql(query, params, function(tx, r){
+						deferred.resolve({success:true, id:r.insertId});
+					}, function(tx, e) {
+						system.log(e);
+						deferred.reject("Transaction Error: " + e.message);
+					});
+				});
+				return deferred.promise();
+			},
+			remove: function(id){
+				var deferred = $.Deferred();
+				app.storage.transaction(function(tx) {
+					tx.executeSql('DELETE FROM list WHERE id = ?', [id], function(tx, r){
+						deferred.resolve(r.rows.item(0));
 					}, function(tx, e) {
 						system.log(e);
 						deferred.reject("Transaction Error: " + e.message);
@@ -63,33 +77,53 @@ define(['jquery', 'durandal/system', 'durandal/app', 'models/list', 'models/tool
 				});
 				return deferred.promise();
 			},
-			getItems: function(id){
-				var deferred = $.Deferred();
-				deferred.resolve([
-					{id:1, name:'Shampoo', quantity:1, unit:'Bottle', picture:'images/shampoo.jpg'},
-					{id:2, name:'Dutch cheese', quantity:250, unit:'Grs.', picture:'images/dutch-cheese.jpg'},
-					{id:3, name:'Shampoo', quantity:1, unit:'Bottle', picture:'images/shampoo.jpg'}/*,
-					{id:4, name:'Dutch cheese', quantity:250, unit:'Grs.', picture:'images/dutch-cheese.jpg'},
-					{id:5, name:'Shampoo', quantity:1, unit:'Bottle', picture:'images/shampoo.jpg'},
-					{id:6, name:'Dutch cheese', quantity:250, unit:'Grs.', picture:'images/dutch-cheese.jpg'},
-					{id:7, name:'Shampoo', quantity:1, unit:'Bottle', picture:'images/shampoo.jpg'},
-					{id:8, name:'Dutch cheese', quantity:250, unit:'Grs.', picture:'images/dutch-cheese.jpg'},
-					{id:9, name:'Shampoo', quantity:1, unit:'Bottle', picture:'images/shampoo.jpg'},
-					{id:10, name:'Dutch cheese', quantity:250, unit:'Grs.', picture:'images/dutch-cheese.jpg'}
-				*/]);
-				return deferred.promise();
-			},
-			remove: function(id){
-				var deferred = $.Deferred();
-				app.storage.transaction(function(tx) {
-					tx.executeSql('DELETE FROM list WHERE id = ?', [id], function(tx, r){
-						deferred.resolve(r.rows.item(0));
-					}, function(tx, e) {
-						system.log(e);
-						deferred.reject("Transaction Error: " + e.message);
+			items: {
+				create: function(lid, items){
+					var deferred = $.Deferred();
+					app.storage.transaction(function(tx) {
+						$.each(items, function(i){
+							tx.executeSql('INSERT INTO list_item(lid, pid, quantity) VALUES (?, ?, ?);', [lid, this.pid, this.quantity], function(tx, r){
+								if (items.length==i+1) deferred.resolve(r);
+							}, function(tx, e) {
+								system.log(e);
+								deferred.reject("Transaction Error: " + e.message);
+							});
+						});
 					});
-				});
-				return deferred.promise();
+					return deferred.promise();
+				},
+				update: function(lid, items){
+					var deferred = $.Deferred();
+					app.storage.transaction(function(tx) {
+						$.each(items, function(i){
+							tx.executeSql('UPDATE list_item SET quantity = ? WHERE id = ?', [this.quantity, lid], function(tx, r){
+								if (items.length==i+1) deferred.resolve(r);
+							}, function(tx, e) {
+								system.log(e);
+								deferred.reject("Transaction Error: " + e.message);
+							});
+						});
+					});
+					return deferred.promise();
+				},
+				getAll: function(lid){
+					var deferred = $.Deferred();
+					app.storage.transaction(function(tx) {
+						tx.executeSql('SELECT * FROM list_item i, product p WHERE i.pid = p.id AND i.lid = ?', [lid], function(tx, r){
+							var rows = r.rows,
+								items = [];
+							for (var i = 0; i < rows.length; i++) {
+								var row = rows.item(i);
+								items.push(row);
+							}
+							deferred.resolve(items);
+						}, function(tx, e) {
+							system.log(e);
+							deferred.reject("Transaction Error: " + e.message);
+						});
+					});
+					return deferred.promise();
+				}
 			}
 		};
 	

@@ -27,8 +27,8 @@
 					<div data-bind="text:name"></div>
 				</a>
 			<!-- /ko -->
-			<!-- ko if:query().length>0 --> 
-				<a class="list-group-item" style="background:#e4e4e4; text-align:center; font-weight:bold;" data-bind="attr:{href:'#products/create?name={0}&lid={1}'.format($root.query(), $root.lid())}">+ Add product</a>
+			<!-- ko if:query().length>0 && items().length==0 --> 
+				<a class="list-group-item" style="background:#e4e4e4; text-align:center; font-weight:bold;" data-bind="attr:{href:'#products/create?name={0}'.format($root.query())}">+ Create</a>
 			<!-- /ko -->
 		</div>
 	</div>		
