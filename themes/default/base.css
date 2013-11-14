@@ -15,3 +15,4 @@ body { padding-top: 70px; }
 
 .form-control {border-radius: 0; border-right: 0; border-left: 0; border-top: 0px; outline: none; box-shadow:none !important; -webkit-box-shadow:none !important;}
 .btn-right {border: 0; position: absolute; top: 0; right: 0; border-radius: 0;}
+select {-webkit-appearance: initial;}
