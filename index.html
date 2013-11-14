@@ -18,8 +18,7 @@
 		<script>
 			document.addEventListener("deviceready", function(){
 				alert('PhoneGap device ready');
-				gaPlugin = window.plugins.gaPlugin;
-				gaPlugin.init(function(result){
+				window.plugins.gaPlugin.init(function(result){
 					alert('gaPlugin init: '+result);
 				}, function(error){
 					alert('gaPlugin fail: '+error);
