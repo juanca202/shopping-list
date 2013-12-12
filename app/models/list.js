@@ -1,19 +1,22 @@
-define(['jquery', 'durandal/system', 'durandal/app', 'models/list', 'models/tools'], function ($, system, app, list, tools) {
+define(function (require) {
 	'use strict';
 	
-	var version = '1.0',
+	var $ = require('jquery'),
+		system = require('durandal/system'),
+		app = require('durandal/app'),
+		tools = require('factor/tools'),
+		version = '1.0',
 		initialize = function() {
-			//alert(localStorage.getItem('listInstalled'));
 			try{
-				if (localStorage.getItem('listVersion')!=version) {
+				if (localStorage['listVersion']!=version) {
 					system.log('installing list database');
 					tools.runSql(app.storage, 'app/models/schemas/list.sql')
 						.done(function(){
-							localStorage.setItem('listVersion', version);
+							localStorage['listVersion'] = version;
 							system.log('list database installed');
 						})
 						.fail(function(){
-							//TODO;
+							system.log('fail list database installation');
 						});
 				}
 			}catch(e){
@@ -24,10 +27,11 @@ define(['jquery', 'durandal/system', 'durandal/app', 'models/list', 'models/tool
 			save: function(list){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
-					var params = list.id? [list.id, list.name] : [list.name],
+					var params = list.id? [list.name, list.id] : [list.name],
 						query = list.id? 'UPDATE list SET name = ? WHERE id = ?' : 'INSERT INTO list(name) VALUES (?)';
 					tx.executeSql(query, params, function(tx, r){
-						deferred.resolve({success:true, id:r.insertId});
+						var id = list.id? list.id : r.insertId;
+						deferred.resolve({success:r.rowsAffected==1, id:id});
 					}, function(tx, e) {
 						system.log(e);
 						deferred.reject("Transaction Error: " + e.message);
@@ -51,7 +55,7 @@ define(['jquery', 'durandal/system', 'durandal/app', 'models/list', 'models/tool
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
 					tx.executeSql('SELECT * FROM list WHERE id = ?', [id], function(tx, r){
-						deferred.resolve(r.rows.item(0));
+						deferred.resolve({success:true, list:r.rows.item(0)});
 					}, function(tx, e) {
 						system.log(e);
 						deferred.reject("Transaction Error: " + e.message);
@@ -64,12 +68,12 @@ define(['jquery', 'durandal/system', 'durandal/app', 'models/list', 'models/tool
 				app.storage.transaction(function(tx) {
 					tx.executeSql('SELECT * FROM list', [], function(tx, r){
 						var rows = r.rows,
-							items = [];
+							lists = [];
 						for (var i = 0; i < rows.length; i++) {
 							var row = rows.item(i);
-							items.push(row);
+							lists.push(row);
 						}
-						deferred.resolve(items);
+						deferred.resolve({success:true, lists:lists});
 					}, function(tx, e) {
 						system.log(e);
 						deferred.reject("Transaction Error: " + e.message);
@@ -78,30 +82,38 @@ define(['jquery', 'durandal/system', 'durandal/app', 'models/list', 'models/tool
 				return deferred.promise();
 			},
 			items: {
-				create: function(lid, items){
+				save: function(lid, items){
 					var deferred = $.Deferred();
 					app.storage.transaction(function(tx) {
 						$.each(items, function(i){
-							tx.executeSql('INSERT INTO list_item(lid, pid, quantity) VALUES (?, ?, ?);', [lid, this.pid, this.quantity], function(tx, r){
-								if (items.length==i+1) deferred.resolve(r);
+							var item = this,
+								params = item.id? [item.quantity, item.unit, item.checked, item.id] : [lid, item.product.id, item.quantity, item.unit, item.checked],
+								query = item.id? 'UPDATE list_item SET quantity = ?, unit = ?, checked = ? WHERE id = ?' : 'INSERT INTO list_item(lid, pid, quantity, unit, checked) VALUES (?, ?, ?, ?, ?);';
+							tx.executeSql(query, params, function(tx, r){
+								if (!item.id && r.rowsAffected==1) {
+									$.extend(item, {id:r.insertId});
+								}
 							}, function(tx, e) {
 								system.log(e);
 								deferred.reject("Transaction Error: " + e.message);
 							});
 						});
+					}, function (error) {
+						system.log(error);
+						deferred.reject({success:false, message:error});
+					}, function (){
+						deferred.resolve({success:true, items:items});
 					});
 					return deferred.promise();
 				},
-				update: function(lid, items){
+				remove: function(id){
 					var deferred = $.Deferred();
 					app.storage.transaction(function(tx) {
-						$.each(items, function(i){
-							tx.executeSql('UPDATE list_item SET quantity = ? WHERE id = ?', [this.quantity, lid], function(tx, r){
-								if (items.length==i+1) deferred.resolve(r);
-							}, function(tx, e) {
-								system.log(e);
-								deferred.reject("Transaction Error: " + e.message);
-							});
+						tx.executeSql('DELETE FROM list_item WHERE id = ?', [id], function(tx, r){
+							deferred.resolve({success:r.rowsAffected==1});
+						}, function(tx, e) {
+							system.log(e);
+							deferred.reject("Transaction Error: " + e.message);
 						});
 					});
 					return deferred.promise();
@@ -109,18 +121,35 @@ define(['jquery', 'durandal/system', 'durandal/app', 'models/list', 'models/tool
 				getAll: function(lid){
 					var deferred = $.Deferred();
 					app.storage.transaction(function(tx) {
-						tx.executeSql('SELECT * FROM list_item i, product p WHERE i.pid = p.id AND i.lid = ?', [lid], function(tx, r){
+						tx.executeSql('SELECT i.id, i.quantity, i.unit, i.checked, p.id AS product_id, p.code AS product_code, p.name AS product_name, p.unit AS product_unit, p.price AS product_price, p.picture AS product_picture FROM list_item i, product p WHERE i.pid = p.id AND i.lid = ?', [lid], function(tx, r){
 							var rows = r.rows,
 								items = [];
 							for (var i = 0; i < rows.length; i++) {
-								var row = rows.item(i);
-								items.push(row);
+								var row = rows.item(i), product, item = {};
+								$.each(row, function(key, value){
+									var k = key.split('_');
+									if (k.length>1) {
+										if (!item[k[0]]) {
+											item[k[0]] = {};
+										}
+										item[k[0]][k[1]] = value;
+									}else{
+										item[key] = value;
+									}
+									if (key=='checked') {
+										item[key] = value=='true';
+									}
+								});
+								items.push(item);
 							}
-							deferred.resolve(items);
+							deferred.resolve({success:true, items:items});
 						}, function(tx, e) {
 							system.log(e);
 							deferred.reject("Transaction Error: " + e.message);
 						});
+					}, function(e){
+						system.log(e);
+						deferred.reject("Transaction Error: " + e.message);
 					});
 					return deferred.promise();
 				}

@@ -1,5 +1,10 @@
-﻿define(['plugins/router', 'durandal/app', 'fastclick'], function (router, app, fastclick) {
-
+define(function (require) {
+	'use strict';
+	
+	var router = require('plugins/router'),
+		app = require('durandal/app'),
+		fastclick = require('fastclick');	 
+	 
     return {
         router: router,
         activate: function () {

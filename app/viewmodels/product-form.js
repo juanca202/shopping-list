@@ -1,13 +1,18 @@
-define(['plugins/http', 'durandal/app', 'knockout', 'models/product'], function (http, app, ko, product) {
+define(function (require) {
 	'use strict';
 	
-    var viewModel = function(){
+	var $ = require('jquery'),
+		system = require('durandal/system'),
+		app = require('durandal/app'),
+		ko = require('knockout'),
+		product = require('models/product'),
+		viewModel = function(){
 			var self = this;
 			self.activate = function (id, params) {
 				if (id != 'create') {
 					$.when(product.get(id))
 						.done(function(product){
-							self.product(product)
+							self.product(product);
 						});
 				}else if(params) {
 					self.product(params);

@@ -1,26 +1,43 @@
-﻿define(['durandal/app', 'knockout', 'models/list'], function (app, ko, list) {
-    var viewModel = function() {
-		var self = this;
-		self.activate = function () {
-            list.getAll()
-				.done(function(response){
-					self.items(response);
+define(function (require) {
+	'use strict';
+	
+	var system = require('durandal/system'),
+		app = require('durandal/app'),
+		ko = require('knockout'),
+		list = require('models/list'),
+		message = require('factor/message'),
+		viewModel = function() {
+			var self = this;
+			self.activate = function () {
+				list.getAll()
+					.done(function(response){
+						if (response.success) {
+							self.lists(response.lists);
+						}else{
+							app.showMessage(response.message);
+						}
+					});
+				//TODO: get last purchases
+			};
+			self.lists = ko.observableArray();
+			self.lastPurchases = ko.observableArray();
+			self.create = function() {
+				message.prompt('Enter list name').done(function(name){
+					if (name) {
+						list.save({name:name}).done(function(response){
+							if (response.success) {
+								location.href = '#/lists/{0}'.format(response.id);
+							}
+						});
+					}
 				});
-        };
-		self.items = ko.observableArray();
-		self.lastPurchases = ko.observableArray();
-		self.create = function() {
-			location.href = '#lists/create';
+			};
+			self.update = function(item){
+				location.href = '#lists/{0}'.format(item.id);
+			};
+			self.show = function(item){
+				app.showDialog('viewmodels/menu', {context:item, actions:self.items});
+			}
 		};
-		self.purchase = function(item){
-			location.href = '#lists/{0}/purchase'.format(item.id);
-		};
-		self.update = function(item){
-			location.href = '#lists/{0}'.format(item.id);
-		};
-		self.show = function(item){
-			app.showDialog('viewmodels/menu', {context:item, actions:self.items});
-		}
-	};
     return viewModel;
 });

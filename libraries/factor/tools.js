@@ -1,4 +1,10 @@
-define(['jquery', 'durandal/system', 'durandal/app'],  function ($, system, app) {
+define(function (require) {
+	'use strict';
+	
+	var $ = require('jquery'),
+		system = require('durandal/system'),
+		app = require('durandal/app');
+	
 	return {
 		runSql:function(db, url) {
 			try {
@@ -14,8 +20,8 @@ define(['jquery', 'durandal/system', 'durandal/app'],  function ($, system, app)
 									tx.executeSql(query, [], function(tx, results){
 										scriptsExecuted++;
 									}, function(tx, error){
-										console.log(error);
-										console.log(String(query));
+										system.log(error);
+										system.log(String(query));
 									});
 								}else{
 									scripts.splice(i, 1);
@@ -34,8 +40,8 @@ define(['jquery', 'durandal/system', 'durandal/app'],  function ($, system, app)
 					});
 				return deferred.promise();
 			}catch(err){
-				console.log(err.message);
-				console.log(err.stack);
+				system.log(err.message);
+				system.log(err.stack);
 			}
 		}
 	};

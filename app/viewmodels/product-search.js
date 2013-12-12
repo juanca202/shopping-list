@@ -1,7 +1,12 @@
-define(['plugins/http', 'durandal/app', 'knockout', 'models/product'], function (http, app, ko, product) {
+define(function (require) {
 	'use strict';
 	
-	var viewModel = function() {
+	var $ = require('plugins/http'),
+		system = require('durandal/system'),
+		app = require('durandal/app'),
+		ko = require('knockout'),
+		product = require('models/product'),
+		viewModel = function() {
 		var self = this,
 			queryTimeout;
 		self.activate = function (params) {
@@ -15,7 +20,7 @@ define(['plugins/http', 'durandal/app', 'knockout', 'models/product'], function 
 		};
 		self.select = function(product){
 			app.trigger('product:select', product);
-		}
+		};
 		
 		self.items = ko.observableArray();
 		self.fid = ko.observable();
@@ -23,7 +28,7 @@ define(['plugins/http', 'durandal/app', 'knockout', 'models/product'], function 
 		self.query.subscribe(function(value){
 			clearTimeout(queryTimeout);
 			queryTimeout = setTimeout(function(){
-				if($.trim(value)!='') {
+				if($.trim(value)!=='') {
 					product.search(value, 5)
 						.done(function(response){
 							self.items(response);	

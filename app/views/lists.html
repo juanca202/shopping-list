@@ -5,13 +5,13 @@
 			<a href="#" data-bind="click:create" class="btn btn-primary navbar-btn">Create list</a>
 		</div>
 	</nav>
-    <div class="list-group" data-bind="foreach:items">
-		<a class="list-group-item" data-bind="event:{click:$root.update}">
+    <div class="list-group" data-bind="foreach:lists">
+		<a href="#" class="list-group-item" data-bind="event:{click:$root.update}">
 			<span data-bind="text:name"></span>
 		</a>
 	</div>
 	
-	<div class="text-center" data-bind="visible:items().length==0">
+	<div class="text-center" data-bind="visible:lists().length==0">
 		<div style="font-size:20px;">No list created yet</div>
 		<a href="#" data-bind="click:create">Create list</a>
 	</div>
