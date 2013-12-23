@@ -1,5 +1,5 @@
 /*
-* jQuery Mobile v1.4.0pre
+* jQuery Mobile v1.4.0
 * http://jquerymobile.com
 *
 * Copyright 2010, 2013 jQuery Foundation, Inc. and other contributors
@@ -284,7 +284,6 @@ function handleTouchMove( event ) {
 			( Math.abs( t.pageX - startX ) > moveThreshold ||
 				Math.abs( t.pageY - startY ) > moveThreshold );
 
-
 	if ( didScroll && !didCancel ) {
 		triggerVirtualEvent( "vmousecancel", event, flags );
 	}
@@ -483,7 +482,7 @@ if ( eventCaptureSupported ) {
 			//
 			// Because the target of the touch event that triggered the vclick
 			// can be different from the target of the click event synthesized
-			// by the browser. The target of a mouse/click event that is syntehsized
+			// by the browser. The target of a mouse/click event that is synthesized
 			// from a touch event seems to be implementation specific. For example,
 			// some browsers will fire mouse/click events for a link that is near
 			// a touch event, even though the target of the touchstart/touchend event
@@ -527,6 +526,7 @@ if ( eventCaptureSupported ) {
 (function( $ ) {
 	$.mobile = {};
 }( jQuery ));
+
 	(function( $, undefined ) {
 		var support = {
 			touch: "ontouchend" in document
@@ -673,7 +673,7 @@ if ( eventCaptureSupported ) {
 
 		durationThreshold: 1000, // More time than this, and it isn't a swipe.
 
-		horizontalDistanceThreshold: 10,  // Swipe horizontal displacement must be more than this.
+		horizontalDistanceThreshold: 30,  // Swipe horizontal displacement must be more than this.
 
 		verticalDistanceThreshold: 75,  // Swipe vertical displacement must be less than this.
 
@@ -726,7 +726,7 @@ if ( eventCaptureSupported ) {
 					}
 
 					stop = $.event.special.swipe.stop( event );
-					if ( !emitted ){
+					if ( !emitted ) {
 						emitted = $.event.special.swipe.handleSwipe( start, stop, thisObject, origTarget );
 					}
 					// prevent scrolling

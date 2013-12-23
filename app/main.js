@@ -6,6 +6,7 @@ requirejs.config({
         'transitions' : '../libraries/durandal/js/transitions',
         'knockout': '../libraries/knockout/knockout-3.0.0',
 		'knockout.mapping': '../libraries/knockout/knockout.mapping-latest',
+		'knockouch': '../libraries/knockout/knockouch',
         'bootstrap': '../libraries/bootstrap/js/bootstrap',
         'jquery': '../libraries/jquery/jquery-2.0.3',
 		'mobile': '../libraries/jquery/jquery.mobile.custom.min',
@@ -17,7 +18,10 @@ requirejs.config({
         'bootstrap': {
             deps: ['jquery'],
             exports: 'jQuery'
-       }
+		},
+		'knockouch': {
+			deps: ['../libraries/hammer/hammer.min']
+		}
     }
 });
 
@@ -28,7 +32,11 @@ define(function (require) {
 		system = require('durandal/system'),
 		app = require('durandal/app'),
 		viewLocator = require('durandal/viewLocator'),
-		mobile = require('mobile');
+		mobile = require('mobile'),
+		bootstrap = require('bootstrap'),
+		ko = require('knockout');
+		
+	require('knockouch');
 	
 	//>>excludeStart("build", true);
     system.debug(true);

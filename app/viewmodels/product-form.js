@@ -8,21 +8,19 @@ define(function (require) {
 		product = require('models/product'),
 		viewModel = function(){
 			var self = this;
-			self.activate = function (id, params) {
-				if (id != 'create') {
-					$.when(product.get(id))
-						.done(function(product){
-							self.product(product);
-						});
-				}else if(params) {
-					self.product(params);
-				}
+			self.activate = function (productData) {
+				self.product(productData);
 				product.getCategories().done(function(response){
 					self.productCategories(response);
 				});
 			};
+			self.attachPicture = function(){
+			
+			};
+			self.product = ko.observable();
+			self.productCategories = ko.observableArray();
 			self.save = function(form){
-				product.create(self.product())
+				product.save(self.product())
 					.done(function(response){
 						app.trigger('product:select', $.extend({id:response.insertId}, self.product()));
 					});
@@ -30,8 +28,6 @@ define(function (require) {
 			self.scan = function(){
 			
 			};
-			self.product = ko.observable();
-			self.productCategories = ko.observableArray();
 		};
 	
     return viewModel;

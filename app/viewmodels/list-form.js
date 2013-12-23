@@ -7,6 +7,8 @@ define(function (require) {
 		ko = require('knockout'),
 		list = require('models/list'),
 		product = require('models/product'),
+		dialog = require('plugins/dialog'),
+		mobile = require('mobile'),
 		ViewModel = function(){
 			var self = this,
 				//Private vars
@@ -26,24 +28,19 @@ define(function (require) {
 							if (listResponse.success && itemsResponse.success) {
 								ko.mapping.fromJS(listResponse.list, self.list);
 								ko.mapping.fromJS(itemsResponse.items, {}, self.items);
-								/*
-								self.items()[self.items().length-1].checked.subscribe(function(){
-									self.saveItems();
-								});
-								*/
 							}
 						});
 				}
 			};
 			self.addProduct = function(product) {
-				self.items.push(ko.mapping.fromJS({id:null, quantity:-1, unit:product.unit, product:product, checked:false}));
+				self.items.push(ko.mapping.fromJS({id:null, quantity:null, unit:product.unit, product:product, price:null, checked:false}));
 				self.products([]);
 				self.query('');
 				self.saveItems();
 			};
 			self.createProduct = function(name){
-				var productData = {name:name, picture:'undefined'};
-				product.create(productData).done(function(response){
+				var productData = {name:name};
+				product.save(productData).done(function(response){
 					if (response.success) {
 						product.get(response.id).done(function(response){
 							self.addProduct(response.product);
@@ -134,6 +131,19 @@ define(function (require) {
 				}else{
 					self.currentItem({id:ko.observable(-1)});
 				}
+			};
+			self.showItem = function(item){
+				location.href = '#list_items/{0}'.format(item.id());
+			};
+			self.showProduct = function(item){
+				location.href = '#product/{0}'.format(item.product().id());
+			};
+			self.toggleItemCheck = function(item){
+				if (self.currentItem().id()==item.id()) {
+					self.currentItem({id:ko.observable(-1)});
+				}
+				item.checked(!item.checked());
+				self.saveItems();
 			};
 		},
 		viewModel = new ViewModel();

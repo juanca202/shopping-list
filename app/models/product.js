@@ -4,13 +4,13 @@ define(function (require) {
 	var $ = require('jquery'),
 		system = require('durandal/system'),
 		app = require('durandal/app'),
-		tools = require('factor/tools'),
+		utils = require('factor/utils'),
 		version = '1.0',
 		initialize = function() {
 			try{
 				if (localStorage.getItem('productVersion')!=version) {
 					system.log('installing product database');
-					tools.runSql(app.storage, 'app/models/schemas/product.sql')
+					utils.runSql(app.storage, 'app/models/schemas/product.sql')
 						.done(function(){
 							localStorage.setItem('productVersion', version);
 							system.log('product database installed');
@@ -24,11 +24,14 @@ define(function (require) {
 			}
 		},
 		model = {
-			create: function(product){
+			save: function(product){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
-					tx.executeSql('INSERT INTO product(name, cid, unit, price, code, picture) VALUES (?, ?, ?, ?, ?, ?);', [product.name, product.cid, product.unit, product.price, product.code, product.picture], function(tx, r){
-						deferred.resolve({success:true, id:r.insertId});
+					var params = product.id? [product.name, product.cid, product.code, product.picture, product.id] : [product.name, product.cid, product.code, product.picture],
+						query = product.id? 'UPDATE product SET name = ?, cid = ?, code = ?, picture = ? WHERE id = ?' : 'INSERT INTO product(name, cid, code, picture) VALUES (?, ?, ?, ?)';
+					tx.executeSql(query, params, function(tx, r){
+						var id = product.id? product.id : r.insertId;
+						deferred.resolve({success:r.rowsAffected==1, id:id});
 					}, function(tx, e) {
 						system.log(e);
 						deferred.reject("Transaction Error: " + e.message);

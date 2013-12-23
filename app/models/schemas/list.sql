@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `list_item` (
   `lid` INTEGER NOT NULL,
   `pid` INTEGER NOT NULL,
   `rid` INTEGER NULL,
+  `price` float(11,2) NULL,
   `quantity` INTEGER NULL,
   `unit` varchar(20) NULL,
   `checked` varchar(5) NULL

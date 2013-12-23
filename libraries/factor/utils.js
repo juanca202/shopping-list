@@ -43,6 +43,24 @@ define(function (require) {
 				system.log(err.message);
 				system.log(err.stack);
 			}
+		},
+		parseRecord: function(row) {
+			var item = {};
+			$.each(row, function(key, value){
+				var k = key.split('_');
+				if (k.length>1) {
+					if (!item[k[0]]) {
+						item[k[0]] = {};
+					}
+					item[k[0]][k[1]] = value;
+				}else{
+					item[key] = value;
+				}
+				if (key=='checked') {
+					item[key] = value=='true';
+				}
+			});
+			return item;
 		}
 	};
 });
