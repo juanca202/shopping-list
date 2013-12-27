@@ -11,26 +11,28 @@ define(function (require) {
 				var deferred = $.Deferred();
 				$.get(url)
 					.done(function(result){
-						var scripts = result.split(";"),
-							scriptsExecuted = 0;
+						var sentences = result.split(";"),
+							queriesExecuted = 0,
+							queriesToRun = 0;
 						db.transaction(function (tx) {
-							$.each(scripts, function(i){ 
+							$.each(sentences, function(i){ 
 								var query = $.trim(this);
-								if (query!=='') {
+								if (query!=='' && query.indexOf('--')!=0) {
+									queriesToRun++;
 									tx.executeSql(query, [], function(tx, results){
-										scriptsExecuted++;
+										queriesExecuted++;
 									}, function(tx, error){
 										system.log(error);
 										system.log(String(query));
 									});
-								}else{
-									scripts.splice(i, 1);
 								}
 							});
 						}, function (error) {
+							system.log(error);
+							system.log(String(query));
 							deferred.reject(error);
 						}, function (){
-							if (scriptsExecuted==scripts.length) {
+							if (queriesExecuted==queriesToRun) {
 								deferred.resolve();
 							}
 						});

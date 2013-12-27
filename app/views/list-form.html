@@ -3,13 +3,15 @@
 		#list-form .exist {opacity:.4;}
 		#list-form .checkbox {padding-left:0; margin:0; padding-top: 10px; padding-bottom: 10px;}
 		#list-form [type="search"] {padding: 20px 12px;}
+		#list-form .list-group-item {-webkit-transition: opacity .5s; overflow:hidden; opacity:1;}
 		#list-form .list-group-item a {display:block; margin: -10px -15px; padding: 10px 15px;}
 		#list-form .list-group-item a:hover {text-decoration:none; background-color: #F5F5F5;}
 		#list-form .list-group-item .tools {margin: -10px -15px; margin-top:10px;}
 		#list-form .list-group-item .tools button {border-radius:0; background-color: #F8F8F8; font-size:11px;}
-		#list-form .list-group-item .tools button .glyphicon {margin-bottom: 5px; display: block;}
+		#list-form .list-group-item .tools button .glyphicon {margin-bottom: 5px; margin-left: auto; margin-right: auto; display: block;}
 		#list-form .list-group-item:last-child .tools button:first-child {border-bottom-left-radius: 4px;}
 		#list-form .list-group-item:last-child .tools button:last-child {border-bottom-right-radius: 4px;}
+		#list-form .slide-up {margin: 0; border: 0; padding: 0px 15px; height: 0px; opacity:0;}
 	</style>
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 		<div class="navbar-left">
@@ -24,45 +26,49 @@
 		
 		<div class="list-group">
 			<!-- ko foreach:products -->
-				<a href="#" class="list-group-item" data-bind="text:name, css:{exist:typeof exist=='boolean'}, click:$root.selectProduct"></a>
+				<a href="#" class="list-group-item" data-bind="css:{exist:typeof exist=='boolean'}, click:$root.selectProduct"><span style="color:#05B83E;" class="pull-right glyphicon glyphicon-plus-sign"></span><span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="opacity:.5"></span><span data-bind="text:name"></span></a>
 			<!-- /ko -->
-			<!-- ko if:query().length>0 && products().length==0 --> 
-				<a href="#" class="list-group-item" data-bind="text:query, click:$root.createProduct.bind($data, query())"></a>
+			<!-- ko if:query().length>0 && products().length==0 -->
+				<a href="#" class="list-group-item" data-bind="click:$root.createProduct.bind($data, $root.queryParts().name)"><span style="color:#05B83E;" class="pull-right glyphicon glyphicon-plus-sign"></span><span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="opacity:.5"></span><span data-bind="text:$root.queryParts().name"></span></a>
 			<!-- /ko -->
 		</div>
 		
 		<div class="list-group">
 			<!-- ko foreach:items -->
-				<!-- ko if:!checked() -->
-					<div class="list-group-item">
-						<a href="#" class="pull-right glyphicon glyphicon-info-sign" data-bind="click:$root.setCurrentItem"></a>
-						<a href="#" data-bind="click:$root.toggleItemCheck">
-							<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
-							<span style="opacity:.5;" data-bind="visible:price()>0, text:'@ ${0}'.format(Number(price()).format(2))"></span>
-						</a>
-						<div class="row tools" data-bind="visible:$root.currentItem().id()==id()">
-							<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showItem"><span class="glyphicon glyphicon-pencil"></span> Quantity/Price</button>
-							<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showProduct"><span class="glyphicon glyphicon-pencil"></span> Product info</button>
-							<button class="col-xs-4 btn btn-sm" data-bind="click:$root.removeItem"><span class="glyphicon glyphicon-trash"></span> Delete item</button>
-						</div>
+				<div class="list-group-item" data-bind="css:{'slide-up':checked()}">
+					<a href="#" class="pull-right" data-bind="click:$root.setCurrentItem"><span class="glyphicon glyphicon-info-sign"></span></a>
+					<a href="#" data-bind="click:$root.toggleItemCheck">
+						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
+						<span style="opacity:.5;" data-bind="visible:price()>0, text:'@ ${0}'.format(Number(price()).format(2))"></span>
+					</a>
+					<div class="row tools" data-bind="visible:$root.currentItem().id()==id()">
+						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showItem"><span class="glyphicon glyphicon-pencil"></span> Quantity/Price</button>
+						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showProduct"><span class="glyphicon glyphicon-pencil"></span> Product info</button>
+						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.removeItem"><span class="glyphicon glyphicon-trash"></span> Delete item</button>
 					</div>
-				<!-- /ko -->		
+				</div>		
 			<!-- /ko -->
 		</div>
 		<div class="list-group" style="margin-top:20px;">
 			<!-- ko foreach:items -->
-				<!-- ko if:checked -->
-					<a href="#" class="list-group-item" data-bind="click:$root.toggleItemCheck" style="text-decoration: line-through; opacity:.5;">
+					<a href="#" class="list-group-item" data-bind="css:{'slide-up':!checked()}, click:$root.toggleItemCheck" style="text-decoration: line-through; opacity:.5;">
 						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
 						<span style="opacity:.5;" data-bind="visible:price()>0, text:'@ ${0}'.format(Number(price()).format(2))"></span>
-					</a>	
-				<!-- /ko -->
+					</a>
 			<!-- /ko -->
 		</div>
-	</div>		
-	<!--
-	<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
-		<p class="navbar-text text-center" style="float:none;">Estimated price: $45</p>
+	</div>
+	<nav class="navbar navbar-default navbar-fixed-bottom" data-bind="visible:totalPrice().remaining>0 || totalPrice().checked>0">
+		<div class="pull-right" style="margin-right:10px; margin-top:8px;" data-bind="visible:totalPrice().checked>0">
+			<button type="submit" class="btn btn-primary">Save purchase</button>
+		</div>
+		<div style="margin-left:10px; margin-top:8px; font-size:13px;">
+			<div data-bind="visible:totalPrice().remaining>0">
+				Remaining: <strong data-bind="text:'${0}'.format(Number(totalPrice().remaining).format(2))"></strong> 
+			</div>
+			<div data-bind="visible:totalPrice().checked>0">
+				Purchased: <strong data-bind="text:'${0}'.format(Number(totalPrice().checked).format(2))"></strong>
+			</div>
+		</div>
 	</nav>
-	-->
 </form>

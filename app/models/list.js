@@ -5,25 +5,32 @@ define(function (require) {
 		system = require('durandal/system'),
 		app = require('durandal/app'),
 		utils = require('factor/utils'),
-		version = '1.0',
-		initialize = function() {
-			try{
-				if (localStorage['listVersion']!=version) {
-					system.log('installing list database');
-					utils.runSql(app.storage, 'app/models/schemas/list.sql')
-						.done(function(){
-							localStorage['listVersion'] = version;
-							system.log('list database installed');
-						})
-						.fail(function(){
-							system.log('fail list database installation');
-						});
-				}
-			}catch(e){
-				alert(e.message);
-			}
-		},
 		model = {
+			version: '1.0',
+			initialize: function() {
+				try{
+					var deferred = $.Deferred();
+					if (localStorage['list.version']!=model.version) {
+						system.log('installing list database');
+						utils.runSql(app.storage, 'app/models/schemas/list.sql')
+							.done(function(){
+								localStorage['list.version'] = model.version;
+								system.log('list database installed');
+								deferred.resolve({success:true});
+							})
+							.fail(function(){
+								var message = 'fail list database installation';
+								system.log(message);
+								deferred.reject({success:false, message:message});
+							});
+					}else{
+						deferred.resolve({success:true});
+					}
+					return deferred.promise();
+				}catch(e){
+					system.log(e.message);
+				}
+			},
 			save: function(list){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
@@ -88,6 +95,7 @@ define(function (require) {
 					
 					if (typeof _arguments[0]=='number') { //Multiple rows affect params: lid, items
 						var items = _arguments[1];
+						var lid = _arguments[0];
 						app.storage.transaction(function(tx) {						
 							$.each(items, function(i){
 								var item = this,
@@ -173,8 +181,6 @@ define(function (require) {
 				}
 			}
 		};
-	
-	initialize();
 	
 	return model;
 });

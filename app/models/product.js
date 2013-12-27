@@ -5,25 +5,32 @@ define(function (require) {
 		system = require('durandal/system'),
 		app = require('durandal/app'),
 		utils = require('factor/utils'),
-		version = '1.0',
-		initialize = function() {
-			try{
-				if (localStorage.getItem('productVersion')!=version) {
-					system.log('installing product database');
-					utils.runSql(app.storage, 'app/models/schemas/product.sql')
-						.done(function(){
-							localStorage.setItem('productVersion', version);
-							system.log('product database installed');
-						})
-						.fail(function(err){
-							system.log(err);
-						});
-				}
-			}catch(e){
-				alert(e.message);
-			}
-		},
 		model = {
+			version: '1.0',
+			initialize: function() {
+				try{
+					var deferred = $.Deferred();
+					if (localStorage['product.version']!=model.version) {
+						system.log('installing product database');
+						utils.runSql(app.storage, 'app/models/schemas/product.sql')
+							.done(function(){
+								localStorage['product.version'] = model.version;
+								system.log('product database installed');
+								deferred.resolve({success:true});
+							})
+							.fail(function(err){
+								var message = 'fail list database installation';
+								system.log(err);
+								deferred.reject({success:false, message:err});
+							});
+					}else{
+						deferred.resolve({success:true});
+					}
+					return deferred.promise();
+				}catch(e){
+					system.log(e.message);
+				}
+			},
 			save: function(product){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
@@ -118,8 +125,6 @@ define(function (require) {
 				return deferred.promise();
 			}
 		};
-	
-	initialize();
 	
 	return model;
 });

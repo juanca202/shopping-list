@@ -5,18 +5,21 @@ define(function (require) {
 		app = require('durandal/app'),
 		ko = require('knockout'),
 		list = require('models/list'),
+		product = require('models/product'),
 		message = require('factor/message'),
 		viewModel = function() {
 			var self = this;
 			self.activate = function () {
-				list.getAll()
-					.done(function(response){
-						if (response.success) {
-							self.lists(response.lists);
-						}else{
-							app.showMessage(response.message);
-						}
-					});
+				$.when(list.initialize(), product.initialize()).done(function() {
+					list.getAll()
+						.done(function(response){
+							if (response.success) {
+								self.lists(response.lists);
+							}else{
+								app.showMessage(response.message);
+							}
+						});
+				});
 				//TODO: get last purchases
 			};
 			self.lists = ko.observableArray();
