@@ -1,4 +1,6 @@
 body { padding-top: 70px; }
+#logo-header {background:url(images/logo-header.png) no-repeat; background-size:32px;}
+
 .item-checked,
 .list-group-item.item-checked:hover {text-decoration: line-through;}
 .item-checked .image {opacity:.5; -webkit-filter: grayscale(100%);}

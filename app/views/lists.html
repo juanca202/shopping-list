@@ -3,21 +3,28 @@
 		<div class="pull-right" style="margin-right:10px;">
 			<a href="#" data-bind="click:create" class="btn btn-primary navbar-btn">Create list</a>
 		</div>
-		<h4 class="navbar-text" style="margin-left:10px;">Lists</h4>
+		<h4 id="logo-header" class="navbar-text" style="margin-left:9px;"></h4>
 	</nav>
-    <div class="list-group" data-bind="foreach:lists">
-		<a href="#" class="list-group-item" data-bind="event:{click:$root.update}">
-			<span data-bind="text:name"></span>
-		</a>
+	
+	<div data-bind="visible:lists().length>0">
+		<h4>Lists</h4>
+		<div class="list-group" data-bind="foreach:lists">
+			<a href="#" class="list-group-item" data-bind="event:{click:$root.update}">
+				<span data-bind="text:name"></span>
+			</a>
+		</div>
 	</div>
 	
-	<div class="text-center" data-bind="visible:lists().length==0">
-		<div style="font-size:20px;">No list created yet</div>
+	<div data-bind="visible:lists().length==0">
+		<h4>Lists</h4>
+		<div style="font-size:17px; opacity:.5;">No list created yet</div>
 		<a href="#" data-bind="click:create">Create list</a>
 	</div>
 	
+	<hr />
+	
 	<div data-bind="visible:lastPurchases().length>0">
-		<h4>Ultimas compras</h4>
+		<h4>Last purchases</h4>
 		<div class="list-group" data-bind="foreach:lastPurchases">
 			<a class="list-group-item">
 				<small class="text-muted pull-right" data-bind="text:date"></small>
@@ -27,5 +34,8 @@
 		</div>
 	</div>
 	
-	<small class="text-muted text-center" style="margin-top:10px; display:block;">v0.1.4</small>
+	<div data-bind="visible:lastPurchases().length==0">
+		<h4>Purchases</h4>
+		<div style="font-size:17px; opacity:.5;">No purchases saved yet</div>
+	</div>
 </div>
