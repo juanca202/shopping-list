@@ -106,6 +106,7 @@ define(function (require) {
 				try {
 					var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 					scanner.scan(function (result) {
+						alert(result.text+' '+result.format);
 						product.search(result.text, 5)
 							.done(function(response){
 								if (response.success) {
@@ -127,7 +128,7 @@ define(function (require) {
 								}
 							});	
 					}, function (error) {
-						alert("Scanning failed: " + error);
+						//alert("Scanning failed: " + error);
 					});
 				}catch(e){
 					alert(e.message);

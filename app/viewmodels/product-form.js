@@ -59,7 +59,7 @@ define(function (require) {
 						alert(result.text+' '+result.format);
 						self.product.code(result.text);		
 					}, function (error) {
-						alert("Scanning failed: " + error);
+						//alert("Scanning failed: " + error);
 					});
 				}catch(e){
 					alert(e.message);
