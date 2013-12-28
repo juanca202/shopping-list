@@ -11,6 +11,8 @@ CREATE TABLE IF NOT EXISTS `product_category` (
   `name` varchar(80) NOT NULL
 );
 
+-- CREATE UNIQUE INDEX product_idx ON product(name);
+
 INSERT INTO product_category(name) VALUES ('Vegetables'); 
 INSERT INTO product_category(name) VALUES ('Fruits'); 
 INSERT INTO product_category(name) VALUES ('Refrigerated'); 

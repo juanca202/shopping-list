@@ -1,23 +1,23 @@
-<form role="form" data-bind="submit:save">
+﻿<form role="form" data-bind="submit:save">
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 		<div class="pull-right" style="margin-right:10px; margin-top:8px;">
 			<button type="submit" class="btn btn-primary">Save</button>
 		</div>
 		<div class="navbar-left">
-			<a class="btn navbar-btn" data-bind="text:'‹ {0}'.format(product().name), click:cancel"></a>
+			<a class="btn navbar-btn" data-bind="text:'‹ {0}'.format(product.name()), click:back"></a>
 		</div>
 	</nav>
 	<div>
 		<div class="form-group" style="position:relative;">
-			<input type="text" name="name" class="form-control" placeholder="Name" data-bind="value:product().name" />
+			<input type="text" name="name" class="form-control" placeholder="Name" data-bind="value:product.name" />
 			<button class="btn btn-default btn-right" type="button" data-bind="click:attachPicture"><img src="themes/default/images/picture.png" style="width:16px; height:16px;" /></button>
 		</div>
 		<div class="form-group" style="position:relative;">	
-			<input type="number" class="form-control" name="code" placeholder="Barcode #" data-bind="value:product().code" />
+			<input type="number" class="form-control" name="code" placeholder="Barcode #" data-bind="value:product.code" />
 			<button class="btn btn-default btn-right" type="button" data-bind="click:scan"><img src="themes/default/images/scan-barcode.png" style="width:16px; height:16px;" /></button>
 		</div>
 		<div class="form-group">
-			<select name="cid" class="form-control" data-bind="options:productCategories, optionsValue:'id', optionsText:'name', optionsCaption:'Select a category...', value:product().cid"></select>
+			<select name="cid" class="form-control" data-bind="options:productCategories, optionsValue:'id', optionsText:'name', optionsCaption:'Select a category...', value:product.cid"></select>
 		</div>
 	</div>		
 </form>

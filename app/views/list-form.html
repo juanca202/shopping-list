@@ -4,6 +4,8 @@
 		#list-form .checkbox {padding-left:0; margin:0; padding-top: 10px; padding-bottom: 10px;}
 		#list-form [type="search"] {padding: 20px 12px;}
 		#list-form .list-group-item {-webkit-transition: opacity .5s; overflow:hidden; opacity:1;}
+		#list-form #autocomplete .list-group-item:first-child {border-top:0; border-radius:0;}
+		#list-form #autocomplete.open {margin-top: -15px;}
 		#list-form .list-group-item a {display:block; margin: -10px -15px; padding: 10px 15px;}
 		#list-form .list-group-item a:hover {text-decoration:none; background-color: #F5F5F5;}
 		#list-form .list-group-item .tools {margin: -10px -15px; margin-top:10px;}
@@ -14,22 +16,33 @@
 		#list-form .slide-up {margin: 0; border: 0; padding: 0px 15px; height: 0px; opacity:0;}
 	</style>
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<ul class="nav navbar-nav navbar-right">
+		  <li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Options <b class="caret"></b></a>
+			<ul class="dropdown-menu">
+			  <li><a href="#">Edit</a></li>
+			  <li><a href="#">Delete</a></li>
+			  <li class="divider"></li>
+			  <li><a href="#">Share</a></li>
+			</ul>
+		  </li>
+		</ul>
 		<div class="navbar-left">
 			<a href="#" class="btn navbar-btn" data-bind="text:'‹ {0}'.format(list.name())"></a>
 		</div>
 	</nav>
-    <div>
+    <div style="position:relative;">
 		<div class="form-group" style="position:relative; margin: -15px; margin-bottom: 15px;">
 			<input type="search" class="form-control" placeholder="Add a product to list" data-bind="value:query, valueUpdate: 'afterkeydown'" />
 			<button class="btn btn-default btn-right" type="button" style="padding: 10px 12px;" data-bind="click:scan"><span class="glyphicon glyphicon-barcode"></span></button>
 		</div>
 		
-		<div class="list-group">
+		<div id="autocomplete" class="list-group" data-bind="css:{open:query().length>0 || products().length>0}">
 			<!-- ko foreach:products -->
-				<a href="#" class="list-group-item" data-bind="css:{exist:typeof exist=='boolean'}, click:$root.selectProduct"><span style="color:#05B83E;" class="pull-right glyphicon glyphicon-plus-sign"></span><span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="opacity:.5"></span><span data-bind="text:name"></span></a>
+				<a href="#" class="list-group-item" data-bind="css:{exist:typeof exist=='boolean'}, click:$root.selectProduct"><span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="opacity:.5"></span><span data-bind="text:name"></span><span style="opacity:.5" data-bind="visible:$root.queryParts().name!=name, text:' - {0}'.format(code)"></span></a>
 			<!-- /ko -->
 			<!-- ko if:query().length>0 && products().length==0 -->
-				<a href="#" class="list-group-item" data-bind="click:$root.createProduct.bind($data, $root.queryParts().name)"><span style="color:#05B83E;" class="pull-right glyphicon glyphicon-plus-sign"></span><span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="opacity:.5"></span><span data-bind="text:$root.queryParts().name"></span></a>
+				<a href="#" class="list-group-item" data-bind="click:$root.createProduct.bind($data, $root.queryParts().name)"><span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="opacity:.5"></span><span data-bind="text:$root.queryParts().name"></span></a>
 			<!-- /ko -->
 		</div>
 		

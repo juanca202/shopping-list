@@ -109,7 +109,7 @@ define(function (require) {
 			search: function(query, limit){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
-					tx.executeSql('SELECT * FROM product WHERE name LIKE ? OR name LIKE ? LIMIT ?', [query+'%', '% '+query+'%', limit], function(tx, r){
+					tx.executeSql('SELECT * FROM product WHERE name LIKE ? OR name LIKE ? OR code = ? LIMIT ?', [query+'%', '% '+query+'%', query, limit], function(tx, r){
 						var rows = r.rows,
 							products = [];
 						for (var i = 0; i < rows.length; i++) {

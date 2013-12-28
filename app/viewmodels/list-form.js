@@ -21,6 +21,8 @@ define(function (require) {
 			self.activate = function (id, params) {
 				self.mode(id == 'create'? 'create' : 'update');
 				self.currentItem({id:ko.observable(-1)}); //Limpia el item actual si hay alguno seleccionado
+				self.products([]);
+				self.query('');
 				if (self.mode() == 'create') {
 					self.reset();
 				}else{
@@ -33,7 +35,7 @@ define(function (require) {
 						});
 				}
 			};
-			self.addProduct = function(product) {
+			self.addItem = function(product) {
 				self.items.push(ko.mapping.fromJS({id:null, quantity:self.queryParts().quantity, unit:product.unit, product:product, price:null, checked:false}));
 				self.products([]);
 				self.query('');
@@ -44,7 +46,7 @@ define(function (require) {
 				product.save(productData).done(function(response){
 					if (response.success) {
 						product.get(response.id).done(function(response){
-							self.addProduct(response.product);
+							self.addItem(response.product);
 						});
 					}
 				});	
@@ -72,17 +74,9 @@ define(function (require) {
 					if($.trim(value)!=='') {
 						product.search(query, 5)
 							.done(function(response){
-								var productExists = false; 
-								$.each(response.products, function(){
-									var currentProduct = this;
-									$.each(self.items(), function(){
-										if (this.product.id==currentProduct.id) {
-											currentProduct.exist = true;
-											return;
-										}	
-									});
-								});
-								self.products(response.products);	
+								if (response.success) {
+									self.products(response.products);	
+								}
 							});
 					}else{
 						self.products([]);
@@ -111,15 +105,29 @@ define(function (require) {
 			self.scan = function() {
 				try {
 					var scanner = cordova.require("cordova/plugin/BarcodeScanner");
-					scanner.scan(
-					function (result) {
-					  alert("We got a barcode\n" +
-							"Result: " + result.text + "\n" +
-							"Format: " + result.format + "\n" +
-							"Cancelled: " + result.cancelled);
-					}, 
-					function (error) {
-					  alert("Scanning failed: " + error);
+					scanner.scan(function (result) {
+						product.search(result.text, 5)
+							.done(function(response){
+								if (response.success) {
+									if (response.products.length==1) {
+										var exists = false,
+											product = response.products[0]; 
+										$.each(self.items(), function(){
+											if (this.product.id()==product.id) {
+												exists = true;
+												return;
+											}	
+										});
+										if (!exists) {
+											self.addItem(product);
+										}
+									}else{
+										self.products(response.products);
+									}
+								}
+							});	
+					}, function (error) {
+						alert("Scanning failed: " + error);
 					});
 				}catch(e){
 					alert(e.message);
@@ -134,7 +142,7 @@ define(function (require) {
 					}	
 				});
 				if (!exists) {
-					self.addProduct(product);
+					self.addItem(product);
 				}
 			};
 			self.setCurrentItem = function(item) {
@@ -148,7 +156,7 @@ define(function (require) {
 				location.href = '#list_items/{0}'.format(item.id());
 			};
 			self.showProduct = function(item){
-				location.href = '#products/{0}'.format(item.product.id());
+				location.href = '#products/{0}?lid={1}'.format(item.product.id(), self.list.id());
 			};
 			self.toggleItemCheck = function(item){
 				if (self.currentItem().id()==item.id()) {
