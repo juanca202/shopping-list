@@ -9,16 +9,17 @@ define(function (require) {
 		product = require('models/product'),
 		dialog = require('plugins/dialog'),
 		mobile = require('mobile'),
+		_id,
 		ViewModel = function(){
 			var self = this,
 				//Private vars
-				emptyList = {id:null, name:''},
 				queryTimeout;
 				
 			ko.mapping = require('knockout.mapping');	
 			
 			//Public vars
 			self.activate = function (id, params) {
+				_id = id;
 				self.mode(id == 'create'? 'create' : 'update');
 				self.currentItem({id:ko.observable(-1)}); //Limpia el item actual si hay alguno seleccionado
 				self.products([]);
@@ -29,17 +30,26 @@ define(function (require) {
 					$.when(list.get(id), list.items.getAll(id))
 						.done(function(listResponse, itemsResponse){
 							if (listResponse.success && itemsResponse.success) {
-								ko.mapping.fromJS(listResponse.list, self.list);
+								self.list(listResponse.list);
 								ko.mapping.fromJS(itemsResponse.items, {}, self.items);
 							}
 						});
 				}
 			};
 			self.addItem = function(product) {
-				self.items.push(ko.mapping.fromJS({id:null, quantity:self.queryParts().quantity, unit:product.unit, product:product, price:null, checked:false}));
+				self.items.push(ko.mapping.fromJS({
+					id:null, 
+					quantity:self.queryParts().quantity, 
+					unit:product.unit, 
+					product:product, 
+					price:null, 
+					checked:false
+				}));
+				self.saveItems();
+				self.refreshItems();
+				self.currentItem({id:ko.observable(-1)});
 				self.products([]);
 				self.query('');
-				self.saveItems();
 			};
 			self.createProduct = function(name){
 				var productData = {name:name};
@@ -53,7 +63,7 @@ define(function (require) {
 			};
 			self.currentItem = ko.observable({id:ko.observable(-1)});
 			self.items = ko.observableArray();
-			self.list = ko.mapping.fromJS(emptyList);
+			self.list = ko.observable();
 			self.mode = ko.observable('create');
 			self.products = ko.observableArray();
 			self.query = ko.observable('');
@@ -83,6 +93,14 @@ define(function (require) {
 					}
 				}, 300);
 			});
+			self.refreshItems = function() {
+				list.items.getAll(_id)
+					.done(function(response){
+						if (response.success) {
+							ko.mapping.fromJS(response.items, self.items);
+						}
+					});
+			};
 			self.removeItem = function(item) {
 				list.items.remove(item.id()).done(function(response){
 					if (response.success) {
@@ -91,11 +109,11 @@ define(function (require) {
 				});
 			};
 			self.reset = function() {
-				ko.mapping.fromJS(list, emptyList);
+				self.list(null);
 				self.items([]);
 			};
 			self.saveItems = function() {			
-				list.items.save(self.list.id(), ko.mapping.toJS(self.items()))
+				list.items.save(self.list().id, ko.mapping.toJS(self.items()))
 					.done(function(response){
 						if (response.success) {
 							ko.mapping.fromJS(response.items, self.items);
@@ -131,7 +149,7 @@ define(function (require) {
 						//alert("Scanning failed: " + error);
 					});
 				}catch(e){
-					alert(e.message);
+					system.log(e.message);
 				}
 			};
 			self.selectProduct = function(product) {
@@ -157,7 +175,7 @@ define(function (require) {
 				location.href = '#list_items/{0}'.format(item.id());
 			};
 			self.showProduct = function(item){
-				location.href = '#products/{0}?lid={1}'.format(item.product.id(), self.list.id());
+				location.href = '#products/{0}?lid={1}'.format(item.product.id(), self.list().id);
 			};
 			self.toggleItemCheck = function(item){
 				if (self.currentItem().id()==item.id()) {

@@ -1,16 +1,14 @@
 define(function (require) {
 	'use strict';
 	
-	var $ = require('jquery'),
-		system = require('durandal/system'),
-		app = require('durandal/app'),
+	var app = require('durandal/app'),
 		ko = require('knockout'),
+		system = require('durandal/system'),
 		product = require('models/product'),
 		viewModel = function(){
 			var self = this,
 				//Private vars
-				lid,
-				emptyProduct = {id:'', cid:'', code:'', name:'', picture:''};
+				lid;
 				
 			ko.mapping = require('knockout.mapping');	
 				
@@ -18,7 +16,7 @@ define(function (require) {
 				lid = params.lid;
 				product.get(id).done(function(response){
 					if (response.success) {
-						ko.mapping.fromJS(response.product, self.product);
+						self.product(response.product);
 					}
 				});
 				product.getCategories().done(function(response){
@@ -42,10 +40,10 @@ define(function (require) {
 			self.back = function(){
 				location.href = '#lists/{0}'.format(lid);
 			};
-			self.product = ko.mapping.fromJS(emptyProduct);
+			self.product = ko.observable();
 			self.productCategories = ko.observableArray();
 			self.save = function(form){
-				product.save(ko.mapping.toJS(self.product))
+				product.save(ko.mapping.toJS(self.product()))
 					.done(function(response){
 						if (response.success) {
 							self.back();
@@ -56,7 +54,7 @@ define(function (require) {
 				try {
 					var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 					scanner.scan(function (result) {
-						alert(result.text+' '+result.format);
+						//alert(result.text+' '+result.format);
 						self.product.code(result.text);		
 					}, function (error) {
 						//alert("Scanning failed: " + error);

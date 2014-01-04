@@ -161,7 +161,7 @@ define(function (require) {
 				getAll: function(lid){
 					var deferred = $.Deferred();
 					app.storage.transaction(function(tx) {
-						tx.executeSql('SELECT i.id, i.quantity, i.unit, i.price, i.checked, p.id AS product_id, p.code AS product_code, p.name AS product_name, p.picture AS product_picture FROM list_item i, product p WHERE i.pid = p.id AND i.lid = ?', [lid], function(tx, r){
+						tx.executeSql('SELECT i.id, i.quantity, i.unit, i.price, i.checked, p.id AS product_id, p.code AS product_code, p.name AS product_name, p.picture AS product_picture FROM list_item i, product p WHERE i.pid = p.id AND i.lid = ? ORDER BY p.cid', [lid], function(tx, r){
 							var rows = r.rows,
 								items = [];
 							for (var i = 0; i < rows.length; i++) {

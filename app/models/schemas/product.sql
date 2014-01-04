@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `product` (
 CREATE TABLE IF NOT EXISTS `product_category` (
   `id` INTEGER PRIMARY KEY,
   `name` varchar(80) NOT NULL
+  `color` varchar(7) NULL
 );
 
 -- CREATE UNIQUE INDEX product_idx ON product(name);
