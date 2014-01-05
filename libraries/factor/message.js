@@ -9,7 +9,7 @@ define(function (require) {
 					deferred.resolve(r.input1);
 				}, null, null, defaultText)
 			}else{
-				deferred.resolve(prompt(message));
+				deferred.resolve(prompt(message, defaultText));
 			}
 			return deferred.promise();
 		}

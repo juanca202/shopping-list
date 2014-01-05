@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS `purchase_item` (
   `id` INTEGER PRIMARY KEY,
   `puid` INTEGER NOT NULL,
   `pid` INTEGER NOT NULL,
+  `cid` INTEGER NOT NULL,
   `price` float(11,2) NULL,
   `quantity` INTEGER NULL,
   `unit` varchar(20) NULL

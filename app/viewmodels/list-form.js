@@ -8,6 +8,7 @@ define(function (require) {
 		list = require('models/list'),
 		product = require('models/product'),
 		dialog = require('plugins/dialog'),
+		message = require('factor/message'),
 		mobile = require('mobile'),
 		ViewModel = function(){
 			var self = this,
@@ -65,6 +66,13 @@ define(function (require) {
 			self.currentItem = ko.observable({id:ko.observable(-1)});
 			self.items = ko.observableArray();
 			self.list = ko.observable();
+			self.markAll = function() {
+				$.each(self.items(), function(){
+					var item = this;
+					item.checked(true);
+				});
+				self.saveItems();
+			};
 			self.products = ko.observableArray();
 			self.query = ko.observable('');
 			self.queryParts = ko.observable({quantity:null, name:''});
@@ -105,10 +113,24 @@ define(function (require) {
 						}
 					});
 			};
+			self.remove = function() {
+				
+			};
 			self.removeItem = function(item) {
 				list.items.remove(item.id()).done(function(response){
 					if (response.success) {
 						self.items.remove(item);
+					}
+				});
+			};
+			self.rename = function() {
+				message.prompt('Enter list name', self.list().name).done(function(name){
+					if (name) {
+						list.save({id:self.list().id, name:name}).done(function(response){
+							if (response.success) {
+								//TODO
+							}
+						});
 					}
 				});
 			};
@@ -207,6 +229,13 @@ define(function (require) {
 					remaining:remaining
 				};
 			});
+			self.unmarkAll = function() {
+				$.each(self.items(), function(){
+					var item = this;
+					item.checked(false);
+				});
+				self.saveItems();
+			};
 			self.addTransition = function(elem) { 
 				if (elem.nodeType === 1) $(elem).hide().slideDown('fast') ;
 			};
