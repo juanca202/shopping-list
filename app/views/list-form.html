@@ -52,6 +52,8 @@
 			<!-- /ko -->
 		</div>
 		
+		<div data-bind="visible:items().length==0" style="font-size:17px; opacity:.5; text-align:center; padding:50px;">No products added yet</div>
+		
 		<div class="list-group">
 			<!-- ko foreach:items -->
 				<div class="list-group-item" data-bind="css:{'slide-up':checked()}">
