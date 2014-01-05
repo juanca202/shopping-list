@@ -67,31 +67,35 @@ define(function (require) {
 			self.mode = ko.observable('create');
 			self.products = ko.observableArray();
 			self.query = ko.observable('');
-			self.queryParts = ko.observable();
+			self.queryParts = ko.observable({quantity:null, name:''});
 			self.query.subscribe(function(value){
 				clearTimeout(queryTimeout);
 				var query,
 					keywords = $.trim(value).split(' ');
 				//Si el primer valor es un numero entonces corresponde a la cantidad y solo se busca de la segunda palabra en adelante
 				if (keywords.length>1 && Number(keywords[0])>0) {
-					query = keywords.splice(1).join(' ');
+					query = $.trim(keywords.splice(1).join(' '));
 					self.queryParts({quantity:Number(keywords[0]), name:query});
+				//Si el valor es un numero no hace la busqueda
+				}else if (!isNaN(value)) {
+					query = '';
+					self.queryParts({quantity:null, name:''});
 				}else{
-					query = value;
+					query = $.trim(value);
 					self.queryParts({quantity:null, name:query});
 				}
-				queryTimeout = setTimeout(function(){
-					if($.trim(value)!=='') {
+				if(query!=='') {
+					queryTimeout = setTimeout(function(){
 						product.search(query, 5)
 							.done(function(response){
 								if (response.success) {
 									self.products(response.products);	
 								}
 							});
-					}else{
-						self.products([]);
-					}
-				}, 300);
+					}, 300);
+				}else{
+					self.products([]);
+				}
 			});
 			self.refreshItems = function() {
 				list.items.getAll(_id)

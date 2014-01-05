@@ -43,11 +43,11 @@
 			<button class="btn btn-default btn-right" type="button" style="padding: 10px 12px;" data-bind="click:scan"><span class="glyphicon glyphicon-barcode"></span></button>
 		</div>
 		
-		<div id="autocomplete" class="list-group" data-bind="css:{open:query().length>0 || products().length>0}">
+		<div id="autocomplete" class="list-group" data-bind="css:{open:queryParts().name.length>0 || products().length>0}">
 			<!-- ko foreach:products -->
 				<a href="#" class="list-group-item" data-bind="css:{exist:typeof exist=='boolean'}, click:$root.selectProduct"><span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="opacity:.5"></span><span data-bind="text:name"></span><span style="opacity:.5" data-bind="visible:$root.queryParts().name==code, text:' - {0}'.format(code)"></span></a>
 			<!-- /ko -->
-			<!-- ko if:query().length>0 && products().length==0 -->
+			<!-- ko if:queryParts().name.length>0 && products().length==0 -->
 				<a href="#" class="list-group-item" data-bind="click:$root.createProduct.bind($data, $root.queryParts().name)"><span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="opacity:.5"></span><span data-bind="text:$root.queryParts().name"></span></a>
 			<!-- /ko -->
 		</div>
