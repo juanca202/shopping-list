@@ -20,6 +20,7 @@
 			<select name="cid" class="form-control" data-bind="options:$root.productCategories, optionsValue:'id', optionsText:'name', optionsCaption:'Select a category...', value:cid"></select>
 		</div>
 		
+		<div data-bind="text:picture"></div>
 		<!-- ko if:picture!='undefined' -->
 			<img data-bind="attr:{src:picture}" style="width:100%;" />
 		<!-- /ko -->

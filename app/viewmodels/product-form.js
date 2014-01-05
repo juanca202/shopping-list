@@ -56,7 +56,7 @@ define(function (require) {
 					var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 					scanner.scan(function (result) {
 						//alert(result.text+' '+result.format);
-						self.product.code(result.text);		
+						self.product().code = result.text;		
 					}, function (error) {
 						//alert("Scanning failed: " + error);
 					});
