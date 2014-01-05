@@ -50,11 +50,19 @@ define(function (require) {
 			var item = {};
 			$.each(row, function(key, value){
 				var k = key.split('_');
-				if (k.length>1) {
+				if (k.length==2) {
 					if (!item[k[0]]) {
 						item[k[0]] = {};
 					}
 					item[k[0]][k[1]] = value;
+				}if (k.length==3) {
+					if (!item[k[0]]) {
+						item[k[0]] = {};
+					}
+					if (!item[k[0]][k[1]]) {
+						item[k[0]][k[1]] = {};
+					}
+					item[k[0]][k[1]][k[2]] = value;
 				}else{
 					item[key] = value;
 				}

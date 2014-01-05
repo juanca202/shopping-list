@@ -5,16 +5,15 @@
 		#list-form [type="search"] {padding: 20px 12px;}
 		#list-form #autocomplete .list-group-item:first-child {border-top:0; border-radius:0;}
 		#list-form #autocomplete.open {margin-top: -15px;}
-		#list-form .list-group-item {-webkit-transition: opacity .5s; overflow:hidden; opacity:1; border-radius:0;}
+		#list-form .list-group-item {-webkit-transition: opacity .5s; overflow:hidden; opacity:1;}
+		#list-form .list-group-item {-webkit-transition: opacity .5s; overflow:hidden; opacity:1;}
 		#list-form .list-group-item a {display:block; margin: -10px -15px; padding: 10px 15px;}
 		#list-form .list-group-item a:hover {text-decoration:none; background-color: #F5F5F5;}
-		#list-form .list-group-item .tools {margin: -10px -15px; margin-top:10px;}
-		#list-form .list-group-item .tools button {border-radius:0; background-color: #F8F8F8; font-size:11px;}
-		#list-form .list-group-item .tools button .glyphicon {margin-bottom: 5px; margin-left: auto; margin-right: auto; display: block;}
-		/*
-		#list-form .list-group-item:last-child .tools button:first-child {border-bottom-left-radius: 4px;}
-		#list-form .list-group-item:last-child .tools button:last-child {border-bottom-right-radius: 4px;}
-		*/
+		#list-form .list-group-item .checkbox,
+		#list-form .list-group-item .actions-pane {border-left:2px solid rgba(255,255,255,0);}
+		#list-form .list-group-item .actions-pane {margin: -10px -15px; margin-top:10px;}
+		#list-form .list-group-item .actions-pane button {border-radius:0; background-color: #F8F8F8; font-size:11px;}
+		#list-form .list-group-item .actions-pane button .glyphicon {margin-bottom: 5px; margin-left: auto; margin-right: auto; display: block;}
 		#list-form .slide-up {margin: 0; border: 0; padding: 0px 15px; height: 0px; opacity:0;}
 	</style>
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -56,12 +55,12 @@
 		<div class="list-group">
 			<!-- ko foreach:items -->
 				<div class="list-group-item" data-bind="css:{'slide-up':checked()}">
-					<a href="#" class="pull-right" data-bind="click:$root.setCurrentItem"><span class="glyphicon glyphicon-info-sign"></span></a>
-					<a href="#" data-bind="click:$root.toggleItemCheck">
+					<a href="#" class="actions pull-right" data-bind="click:$root.setCurrentItem"><span class="glyphicon glyphicon-info-sign"></span></a>
+					<a href="#" class="checkbox" data-bind="click:$root.toggleItemCheck, style:{'border-left-color':product.category.color? product.category.color : 'inherit'}">
 						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
 						<span style="opacity:.5;" data-bind="visible:price()>0, text:'@ ${0}'.format(Number(price()).format(2))"></span>
 					</a>
-					<div class="row tools" data-bind="visible:$root.currentItem().id()==id()">
+					<div class="row actions-pane" data-bind="visible:$root.currentItem().id()==id(), style:{'border-left-color':product.category.color? product.category.color : 'inherit'}">
 						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showItem"><span class="glyphicon glyphicon-pencil"></span> Quantity/Price</button>
 						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showProduct"><span class="glyphicon glyphicon-pencil"></span> Product info</button>
 						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.removeItem"><span class="glyphicon glyphicon-trash"></span> Delete item</button>

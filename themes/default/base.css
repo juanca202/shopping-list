@@ -3,6 +3,7 @@ body { padding-top: 51px; }
 
 .item-checked,
 .list-group-item.item-checked:hover {text-decoration: line-through;}
+.list-group-item {border-radius:0 !important;}
 .item-checked .image {opacity:.5; -webkit-filter: grayscale(100%);}
 
 .menu {}

@@ -8,27 +8,27 @@ CREATE TABLE IF NOT EXISTS `product` (
 
 CREATE TABLE IF NOT EXISTS `product_category` (
   `id` INTEGER PRIMARY KEY,
-  `name` varchar(80) NOT NULL
+  `name` varchar(80) NOT NULL,
   `color` varchar(7) NULL
 );
 
--- CREATE UNIQUE INDEX product_idx ON product(name);
+-- CREATE UNIQUE INDEX product_idx ON product(name, color);
 
-INSERT INTO product_category(name) VALUES ('Vegetables'); 
-INSERT INTO product_category(name) VALUES ('Fruits'); 
-INSERT INTO product_category(name) VALUES ('Refrigerated'); 
-INSERT INTO product_category(name) VALUES ('Frozen'); 
-INSERT INTO product_category(name) VALUES ('Condiments'); 
-INSERT INTO product_category(name) VALUES ('Groceries'); 
-INSERT INTO product_category(name) VALUES ('Canned foods'); 
-INSERT INTO product_category(name) VALUES ('Dairy'); 
-INSERT INTO product_category(name) VALUES ('Meat'); 
-INSERT INTO product_category(name) VALUES ('Seefood'); 
-INSERT INTO product_category(name) VALUES ('Beverages'); 
-INSERT INTO product_category(name) VALUES ('Snacks'); 
-INSERT INTO product_category(name) VALUES ('Baby stuffs'); 
-INSERT INTO product_category(name) VALUES ('Pets'); 
-INSERT INTO product_category(name) VALUES ('Personal care'); 
-INSERT INTO product_category(name) VALUES ('Medicine'); 
-INSERT INTO product_category(name) VALUES ('Cleaning stuff'); 
-INSERT INTO product_category(name) VALUES ('Office supplies');
+INSERT INTO product_category(name, color) VALUES ('Vegetables', '#66FF33'); 
+INSERT INTO product_category(name, color) VALUES ('Fruits', '#CCFF33'); 
+INSERT INTO product_category(name, color) VALUES ('Refrigerated', '#003DF5'); 
+INSERT INTO product_category(name, color) VALUES ('Frozen', '#002EB8'); 
+INSERT INTO product_category(name, color) VALUES ('Condiments', '#B88A00'); 
+INSERT INTO product_category(name, color) VALUES ('Groceries', '#F5B800'); 
+INSERT INTO product_category(name, color) VALUES ('Canned foods', '#FF6633'); 
+INSERT INTO product_category(name, color) VALUES ('Dairy', '#FF3366'); 
+INSERT INTO product_category(name, color) VALUES ('Meat', '#CC33FF'); 
+INSERT INTO product_category(name, color) VALUES ('Seefood', '#33CCFF'); 
+INSERT INTO product_category(name, color) VALUES ('Beverages', '#33FFCC'); 
+INSERT INTO product_category(name, color) VALUES ('Snacks', '#CC6600'); 
+INSERT INTO product_category(name, color) VALUES ('Baby stuffs', '#FF33CC'); 
+INSERT INTO product_category(name, color) VALUES ('Pets', '#FFCC33'); 
+INSERT INTO product_category(name, color) VALUES ('Personal care', '#33FF66'); 
+INSERT INTO product_category(name, color) VALUES ('Medicine', '#CC0000'); 
+INSERT INTO product_category(name, color) VALUES ('Cleaning stuff', '#6633FF'); 
+INSERT INTO product_category(name, color) VALUES ('Office supplies', '#00CC00');

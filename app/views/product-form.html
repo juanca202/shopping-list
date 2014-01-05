@@ -14,7 +14,7 @@
 		</div>
 		<div class="form-group" style="position:relative;">	
 			<input type="number" class="form-control" name="code" placeholder="Barcode #" data-bind="value:code" />
-			<button class="btn btn-default btn-right" type="button" data-bind="click:$root.scan"><img src="themes/default/images/scan-barcode.png" style="width:16px; height:16px;" /></button>
+			<button class="btn btn-default btn-right" type="button" data-bind="click:$root.scan"><span class="glyphicon glyphicon-barcode"></span></button>
 		</div>
 		<div class="form-group">
 			<select name="cid" class="form-control" data-bind="options:$root.productCategories, optionsValue:'id', optionsText:'name', optionsCaption:'Select a category...', value:cid"></select>

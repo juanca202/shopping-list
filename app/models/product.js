@@ -1,4 +1,4 @@
-define(function (require) {
+﻿define(function (require) {
 	'use strict';
 	
 	var $ = require('jquery'),
@@ -49,8 +49,8 @@ define(function (require) {
 			get: function(id){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
-					tx.executeSql('SELECT * FROM product WHERE id = ?', [id], function(tx, r){
-						deferred.resolve({success:true, product:r.rows.item(0)});
+					tx.executeSql('SELECT p.id, p.cid, p.code, p.name, p.picture, c.color AS category_color FROM product p LEFT JOIN product_category c ON p.cid = c.id WHERE p.id = ?', [id], function(tx, r){
+						deferred.resolve({success:true, product:utils.parseRecord(r.rows.item(0))});
 					}, function(tx, e) {
 						system.log(e);
 						deferred.reject("Transaction Error: " + e.message);
@@ -61,12 +61,12 @@ define(function (require) {
 			getAll: function(){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
-					tx.executeSql('SELECT * FROM product', [], function(tx, r){
+					tx.executeSql('SELECT p.id, p.cid, p.code, p.name, p.picture, c.color AS category_color FROM product p LEFT JOIN product_category c ON p.cid = c.id', [], function(tx, r){
 						var rows = r.rows,
 							products = [];
 						for (var i = 0; i < rows.length; i++) {
 							var row = rows.item(i);
-							products.push(row);
+							products.push(utils.parseRecord(row));
 						}
 						deferred.resolve({success:true, products:products});
 					}, function(tx, e) {
@@ -109,12 +109,12 @@ define(function (require) {
 			search: function(query, limit){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
-					tx.executeSql('SELECT * FROM product WHERE name LIKE ? OR name LIKE ? OR code = ? LIMIT ?', [query+'%', '% '+query+'%', query, limit], function(tx, r){
+					tx.executeSql('SELECT p.id, p.cid, p.code, p.name, p.picture, c.color AS category_color FROM product p LEFT JOIN product_category c ON p.cid = c.id WHERE p.name LIKE ? OR p.name LIKE ? OR p.code = ? LIMIT ?', [query+'%', '% '+query+'%', query, limit], function(tx, r){
 						var rows = r.rows,
 							products = [];
 						for (var i = 0; i < rows.length; i++) {
 							var row = rows.item(i);
-							products.push(row);
+							products.push(utils.parseRecord(row));
 						}
 						deferred.resolve({success:true, products:products});
 					}, function(tx, e) {
