@@ -9,10 +9,11 @@ define(function (require) {
 		product = require('models/product'),
 		dialog = require('plugins/dialog'),
 		mobile = require('mobile'),
-		_id,
 		ViewModel = function(){
 			var self = this,
 				//Private vars
+				_id,
+				mode,
 				queryTimeout;
 				
 			ko.mapping = require('knockout.mapping');	
@@ -20,11 +21,11 @@ define(function (require) {
 			//Public vars
 			self.activate = function (id, params) {
 				_id = id;
-				self.mode(id == 'create'? 'create' : 'update');
+				mode = id == 'create'? 'create' : 'update';
 				self.currentItem({id:ko.observable(-1)}); //Limpia el item actual si hay alguno seleccionado
 				self.products([]);
 				self.query('');
-				if (self.mode() == 'create') {
+				if (mode == 'create') {
 					self.reset();
 				}else{
 					$.when(list.get(id), list.items.getAll(id))
@@ -64,7 +65,6 @@ define(function (require) {
 			self.currentItem = ko.observable({id:ko.observable(-1)});
 			self.items = ko.observableArray();
 			self.list = ko.observable();
-			self.mode = ko.observable('create');
 			self.products = ko.observableArray();
 			self.query = ko.observable('');
 			self.queryParts = ko.observable({quantity:null, name:''});
@@ -142,7 +142,8 @@ define(function (require) {
 											}	
 										});
 										if (!exists) {
-											self.addItem(product);
+											location.href = '#products/create?lid={0}&code={1}'.format(self.list().id, product.code);
+											//self.addItem(product);
 										}
 									}else{
 										self.products(response.products);
@@ -193,7 +194,7 @@ define(function (require) {
 					checked = 0;
 				$.each(self.items(), function(){
 					if (this.price()>0) {
-						var total = this.quantity()*this.price();
+						var total = (this.quantity() || 1)*this.price();
 						if (this.checked()) {
 							checked += total;
 						}else{

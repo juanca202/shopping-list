@@ -8,17 +8,25 @@ define(function (require) {
 		viewModel = function(){
 			var self = this,
 				//Private vars
+				_id,	
+				mode,	
 				lid;
 				
 			ko.mapping = require('knockout.mapping');	
 				
 			self.activate = function (id, params) {
+				_id = id;
+				mode = id == 'create'? 'create' : 'update';
 				lid = params.lid;
-				product.get(id).done(function(response){
-					if (response.success) {
-						self.product(response.product);
-					}
-				});
+				if (mode=='update') {
+					product.get(id).done(function(response){
+						if (response.success) {
+							self.product(response.product);
+						}
+					});
+				}else{
+					self.product($.extend({name:'', code:'', cid:''}, params));
+				}
 				product.getCategories().done(function(response){
 					if (response.success) {
 						self.productCategories(response.categories);

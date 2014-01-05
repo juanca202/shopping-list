@@ -2,9 +2,14 @@
 	<style>
 		#list-form .exist {opacity:.4;}
 		#list-form .checkbox {padding-left:0; margin:0; padding-top: 10px; padding-bottom: 10px;}
+		#list-form .checkbox .price {color:#A9A9A9;}
 		#list-form [type="search"] {padding: 20px 12px;}
+		/*#list-form #autocomplete {display:none;}*/
 		#list-form #autocomplete .list-group-item:first-child {border-top:0; border-radius:0;}
-		#list-form #autocomplete.open {margin-top: -15px;}
+		#list-form #autocomplete.open {margin-top: -15px; /*display:block;*/}
+		#list-form .list-group.checked .checkbox {text-decoration: line-through;}
+		#list-form .list-group.checked .checkbox,
+		#list-form .list-group.checked .actions {color:#999;}
 		#list-form .list-group-item {-webkit-transition: opacity .5s; overflow:hidden; opacity:1;}
 		#list-form .list-group-item {-webkit-transition: opacity .5s; overflow:hidden; opacity:1;}
 		#list-form .list-group-item a {display:block; margin: -10px -15px; padding: 10px 15px;}
@@ -70,12 +75,20 @@
 				</div>		
 			<!-- /ko -->
 		</div>
-		<div class="list-group" style="margin-top:20px;">
+		<div class="list-group checked" style="margin-top:20px;">
 			<!-- ko foreach:items -->
-					<a href="#" class="list-group-item" data-bind="css:{'slide-up':!checked()}, click:$root.toggleItemCheck" style="text-decoration: line-through; opacity:.5;">
-						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
-						<span style="opacity:.5;" data-bind="visible:price()>0, text:'@ ${0}'.format(Number(price()).format(2))"></span>
+				<div class="list-group-item" data-bind="css:{'slide-up':!checked()}">
+					<a href="#" class="actions pull-right" data-bind="click:$root.setCurrentItem"><span class="glyphicon glyphicon-info-sign"></span></a>
+					<a href="#" class="checkbox" data-bind="click:$root.toggleItemCheck">
+						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
+						<span class="price" data-bind="visible:price()>0, text:'@ ${0}'.format(Number(price()).format(2))"></span>
 					</a>
+					<div class="row actions-pane" data-bind="visible:$root.currentItem().id()==id()">
+						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showItem"><span class="glyphicon glyphicon-pencil"></span> Quantity/Price</button>
+						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showProduct"><span class="glyphicon glyphicon-pencil"></span> Product info</button>
+						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.removeItem"><span class="glyphicon glyphicon-trash"></span> Delete item</button>
+					</div>
+				</div>
 			<!-- /ko -->
 		</div>
 	</div>
