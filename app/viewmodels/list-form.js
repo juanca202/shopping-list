@@ -7,6 +7,7 @@ define(function (require) {
 		ko = require('knockout'),
 		list = require('models/list'),
 		product = require('models/product'),
+		purchase = require('models/purchase'),
 		dialog = require('plugins/dialog'),
 		message = require('factor/message'),
 		mobile = require('mobile'),
@@ -145,6 +146,14 @@ define(function (require) {
 							ko.mapping.fromJS(response.items, self.items);
 						}
 					});
+			};
+			self.savePurchase = function() {
+				purchase.save(ko.mapping.toJS(self.list()), ko.mapping.toJS(self.items()))
+					.done(function(response){
+						if(response.success) {
+							self.unmarkAll();
+						}
+					});	
 			};
 			self.scan = function() {
 				try {

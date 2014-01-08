@@ -10,7 +10,7 @@ requirejs.config({
         'bootstrap': '../libraries/bootstrap/js/bootstrap',
         'jquery': '../libraries/jquery/jquery-2.0.3',
 		'mobile': '../libraries/jquery/jquery.mobile.custom.min',
-		'twitter/typeahead': '../libraries/twitter/typeahead.min',
+		'moment': '../libraries/moment/moment.min',
 		'fastclick': '../libraries/ftlabs/fastclick',
 		'factor': '../libraries/factor'
     },

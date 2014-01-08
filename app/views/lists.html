@@ -27,15 +27,15 @@
 		<h4>Last purchases</h4>
 		<div class="list-group" data-bind="foreach:lastPurchases">
 			<a class="list-group-item">
-				<small class="text-muted pull-right" data-bind="text:date"></small>
-				<div class="list-group-item-heading" data-bind="text:list"></div>
-				<p class="list-group-item-text" data-bind="text:'${0}'.format(Number(amount).formatMoney())"></p>
+				<small class="text-muted pull-right" data-bind="text:moment(timestamp).startOf('hour').fromNow()"></small>
+				<span data-bind="text:list.name"></span>
+				- <span data-bind="text:'${0}'.format(Number(total).format())"></span>
 			</a>
 		</div>
 	</div>
 	
 	<div data-bind="visible:lastPurchases().length==0">
-		<h4>Purchases</h4>
+		<h4>Last purchases</h4>
 		<div style="font-size:17px; opacity:.5;">No purchases saved yet</div>
 	</div>
 </div>

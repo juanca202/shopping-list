@@ -49,7 +49,7 @@
 			get: function(id){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
-					tx.executeSql('SELECT p.id, p.cid, p.code, p.name, p.picture, c.color AS category_color FROM product p LEFT JOIN product_category c ON p.cid = c.id WHERE p.id = ?', [id], function(tx, r){
+					tx.executeSql('SELECT p.id, p.cid, p.code, p.name, p.picture, c.id AS category_id, c.color AS category_color FROM product p LEFT JOIN product_category c ON p.cid = c.id WHERE p.id = ?', [id], function(tx, r){
 						deferred.resolve({success:true, product:utils.parseRecord(r.rows.item(0))});
 					}, function(tx, e) {
 						system.log(e);
@@ -61,7 +61,7 @@
 			getAll: function(){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
-					tx.executeSql('SELECT p.id, p.cid, p.code, p.name, p.picture, c.color AS category_color FROM product p LEFT JOIN product_category c ON p.cid = c.id', [], function(tx, r){
+					tx.executeSql('SELECT p.id, p.cid, p.code, p.name, p.picture, c.id AS category_id, c.color AS category_color FROM product p LEFT JOIN product_category c ON p.cid = c.id', [], function(tx, r){
 						var rows = r.rows,
 							products = [];
 						for (var i = 0; i < rows.length; i++) {
@@ -109,7 +109,7 @@
 			search: function(query, limit){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
-					tx.executeSql('SELECT p.id, p.cid, p.code, p.name, p.picture, c.color AS category_color FROM product p LEFT JOIN product_category c ON p.cid = c.id WHERE p.name LIKE ? OR p.name LIKE ? OR p.code = ? LIMIT ?', [query+'%', '% '+query+'%', query, limit], function(tx, r){
+					tx.executeSql('SELECT p.id, p.cid, p.code, p.name, p.picture, c.id AS category_id, c.color AS category_color FROM product p LEFT JOIN product_category c ON p.cid = c.id WHERE p.name LIKE ? OR p.name LIKE ? OR p.code = ? LIMIT ?', [query+'%', '% '+query+'%', query, limit], function(tx, r){
 						var rows = r.rows,
 							products = [];
 						for (var i = 0; i < rows.length; i++) {

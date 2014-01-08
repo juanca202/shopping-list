@@ -6,15 +6,25 @@ define(function (require) {
 		ko = require('knockout'),
 		list = require('models/list'),
 		product = require('models/product'),
+		purchase = require('models/purchase'),
 		message = require('factor/message'),
+		moment = require('moment'),
 		viewModel = function() {
 			var self = this;
 			self.activate = function () {
-				$.when(list.initialize(), product.initialize()).done(function() {
+				$.when(list.initialize(), product.initialize(), purchase.initialize()).done(function() {
 					list.getAll()
 						.done(function(response){
 							if (response.success) {
 								self.lists(response.lists);
+							}else{
+								app.showMessage(response.message);
+							}
+						});
+					purchase.getAll()
+						.done(function(response){
+							if (response.success) {
+								self.lastPurchases(response.purchases);
 							}else{
 								app.showMessage(response.message);
 							}
