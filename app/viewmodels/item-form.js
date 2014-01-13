@@ -22,20 +22,20 @@ define(function (require) {
 				list.items.get(id)
 					.done(function(response){
 						if (response.success) {
-							self.item(response.item);
+							ko.mapping.fromJS(response.item, self.item);
 						}
 					});
 			};
 			self.cancel = function(){
-				location.href = '#lists/{0}'.format(self.item().lid);
+				location.href = '#lists/{0}'.format(self.item.lid());
 			};
-			self.item = ko.observable();
+			self.item = ko.mapping.fromJS({quantity:'', unit:'', price:''});
 			self.save = function(form){
-				list.items.save(ko.mapping.toJS(self.item()))
+				list.items.save(ko.mapping.toJS(self.item))
 					.done(function(response){
 						if (response.success){
-							if (self.item().lid) {
-								location.href = '#lists/{0}'.format(self.item().lid);
+							if (self.item.lid()) {
+								location.href = '#lists/{0}'.format(self.item.lid());
 							}
 						}
 					});

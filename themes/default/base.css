@@ -19,3 +19,6 @@ body { padding-top: 51px; }
 .form-control {border-radius: 0; border-right: 0; border-left: 0; border-top: 0px; outline: none; box-shadow:none !important; -webkit-box-shadow:none !important;}
 .btn-right {border: 0; position: absolute; top: 0; right: 0; border-radius: 0;}
 select {-webkit-appearance: textfield;}
+
+.navbar-fixed-top .title {margin-right: 50px; margin-left: 50px; position: absolute; left: 0; right: 0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;}
+.navbar-fixed-top .btn {border-radius: 0; padding-top: 14px; padding-bottom: 14px; display:block; text-align:center; width:50px;}

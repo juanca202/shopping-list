@@ -34,7 +34,7 @@
 			save: function(product){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
-					var params = product.id? [product.name, product.cid, product.code, product.picture, product.id] : [product.name, product.cid, product.code, product.picture],
+					var params = product.id? [product.name, product.category.id, product.code, product.picture, product.id] : [product.name, product.cid, product.code, product.picture],
 						query = product.id? 'UPDATE product SET name = ?, cid = ?, code = ?, picture = ? WHERE id = ?' : 'INSERT INTO product(name, cid, code, picture) VALUES (?, ?, ?, ?)';
 					tx.executeSql(query, params, function(tx, r){
 						var id = product.id? product.id : r.insertId;
@@ -49,7 +49,7 @@
 			get: function(id){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
-					tx.executeSql('SELECT p.id, p.cid, p.code, p.name, p.picture, c.id AS category_id, c.color AS category_color FROM product p LEFT JOIN product_category c ON p.cid = c.id WHERE p.id = ?', [id], function(tx, r){
+					tx.executeSql('SELECT p.id, p.code, p.name, p.picture, c.id AS category_id, c.color AS category_color FROM product p LEFT JOIN product_category c ON p.cid = c.id WHERE p.id = ?', [id], function(tx, r){
 						deferred.resolve({success:true, product:utils.parseRecord(r.rows.item(0))});
 					}, function(tx, e) {
 						system.log(e);

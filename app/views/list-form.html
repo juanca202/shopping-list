@@ -16,29 +16,30 @@
 		#list-form .list-group-item a:hover {text-decoration:none; background-color: #F5F5F5;}
 		#list-form .list-group-item .checkbox,
 		#list-form .list-group-item .actions-pane {border-left:2px solid rgba(255,255,255,0);}
-		#list-form .list-group-item .actions-pane {margin: -10px -15px; margin-top:10px;}
-		#list-form .list-group-item .actions-pane button {border-radius:0; background-color: #F8F8F8; font-size:11px;}
+		#list-form .list-group-item .actions-pane {margin: -10px -15px; margin-top:10px; border-top:1px dashed #ddd;}
+		#list-form .list-group-item .actions-pane button {border-radius:0; background-color: #FFF; font-size:11px;}
 		#list-form .list-group-item .actions-pane button .glyphicon {margin-bottom: 5px; margin-left: auto; margin-right: auto; display: block;}
 		#list-form .slide-up {margin: 0; border: 0; padding: 0px 15px; height: 0px; opacity:0;}
 	</style>
-	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-		<div class="pull-right" style="margin-right:10px; margin-top:8px;">
-		  <div class="btn-group">
-			  <a href="#" class="btn btn-default dropdown-toggle" style="background:transparent; border-color:transparent;" data-toggle="dropdown"><img src="themes/default/images/options.png" style="width:16px; height:16px;" /></a>
-			<ul class="dropdown-menu pull-right">
-			  <li><a href="#" data-bind="click:rename">Rename</a></li>
-			  <li><a href="#" data-bind="click:rename">Save a copy</a></li>
-			  <li><a href="#" data-bind="click:remove">Delete</a></li>
-			  <li class="divider"></li>
-			  <li><a href="#" data-bind="click:markAll">Mark all</a></li>
-			  <li><a href="#" data-bind="click:unmarkAll">Unmark all</a></li>
-			  <li class="divider"></li>
-			  <li><a href="#">Share</a></li>
-			</ul>
-		  </div>
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-bind="with:list">
+		<div class="pull-left">
+			<a href="#" class="btn"><span class="glyphicon glyphicon-chevron-left"></span></a>
 		</div>
-		<div class="navbar-left" data-bind="with:list">
-			<a href="#" class="btn navbar-btn" data-bind="text:'‹ {0}'.format(name)"></a>
+		<div class="navbar-text text-center title" data-bind="text:name"></div>
+		<div class="pull-right">
+			<div class="btn-group pull-right">
+				<a href="#" class="btn dropdown-toggle" style="background:transparent; border-color:transparent;" data-toggle="dropdown"><span style="line-height: 0px; font-size: 27px; font-weight: bold;">...</span></a>
+				<ul class="dropdown-menu pull-right">
+					<li><a href="#" data-bind="click:$root.rename">Rename</a></li>
+					<li><a href="#">Save a copy</a></li>
+					<li><a href="#" data-bind="click:$root.remove">Delete</a></li>
+					<li class="divider"></li>
+					<li><a href="#" data-bind="click:$root.markAll">Mark all</a></li>
+					<li><a href="#" data-bind="click:$root.unmarkAll">Unmark all</a></li>
+					<li class="divider"></li>
+					<li><a href="#">Share</a></li>
+				</ul>
+			</div>
 		</div>
 	</nav>
     <div style="position:relative;">

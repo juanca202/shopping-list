@@ -1,9 +1,9 @@
 ﻿<div style="margin-top: 20px;">
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-		<div class="pull-right" style="margin-right:10px;">
-			<a href="#" data-bind="click:create" class="btn btn-primary navbar-btn">Create list</a>
+		<div class="navbar-text text-center title">Shopping lists</div>
+		<div class="pull-right">
+			<a href="#" data-bind="click:create" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></a>
 		</div>
-		<h4 id="logo-header" class="navbar-text" style="margin-left:9px;"></h4>
 	</nav>
 	
 	<div data-bind="visible:lists().length>0">
@@ -27,9 +27,9 @@
 		<h4>Last purchases</h4>
 		<div class="list-group" data-bind="foreach:lastPurchases">
 			<a class="list-group-item">
-				<small class="text-muted pull-right" data-bind="text:moment(timestamp).startOf('hour').fromNow()"></small>
-				<span data-bind="text:list.name"></span>
-				- <span data-bind="text:'${0}'.format(Number(total).format())"></span>
+				<span class="pull-right" data-bind="text:'${0}'.format(Number(total).format())"></span>
+				<div data-bind="text:list.name"></div>
+				<small class="text-muted" data-bind="text:moment(timestamp).startOf('hour').fromNow()"></small>
 			</a>
 		</div>
 	</div>

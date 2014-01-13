@@ -21,11 +21,11 @@ define(function (require) {
 				if (mode=='update') {
 					product.get(id).done(function(response){
 						if (response.success) {
-							self.product(response.product);
+							ko.mapping.fromJS(response.product, self.product);
 						}
 					});
 				}else{
-					self.product($.extend({name:'', code:'', cid:''}, params));
+					ko.mapping.fromJS($.extend({name:'', code:'', category:{id:''}, picture:'undefined'}, params), self.product);
 				}
 				product.getCategories().done(function(response){
 					if (response.success) {
@@ -36,7 +36,7 @@ define(function (require) {
 			self.attachPicture = function(){
 				navigator.camera.getPicture(function(imageURI) {
 					alert(imageURI);
-					self.product().picture = imageURI;
+					self.product.picture(imageURI);
 				}, function(message) {
 					//alert('Failed because: ' + message);
 				}, { 
@@ -49,10 +49,10 @@ define(function (require) {
 			self.back = function(){
 				location.href = '#lists/{0}'.format(lid);
 			};
-			self.product = ko.observable();
+			self.product = ko.mapping.fromJS({name:'', code:'', category:{id:''}, picture:'undefined'});
 			self.productCategories = ko.observableArray();
 			self.save = function(form){
-				product.save(ko.mapping.toJS(self.product()))
+				product.save(ko.mapping.toJS(self.product))
 					.done(function(response){
 						if (response.success) {
 							self.back();
@@ -64,7 +64,7 @@ define(function (require) {
 					var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 					scanner.scan(function (result) {
 						alert(result.text+' '+result.format);
-						self.product().code = result.text;		
+						self.product.code(result.text);		
 					}, function (error) {
 						//alert("Scanning failed: " + error);
 					});
