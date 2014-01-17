@@ -13,6 +13,18 @@ define(function (require) {
 			var self = this;
 			self.activate = function () {
 				$.when(list.initialize(), product.initialize(), purchase.initialize()).done(function() {
+					list.items.getAll({lid:1}) //Shopping cart
+						.done(function(response){
+							if (response.success) {
+								var itemsCount = 0;
+								$.each(response.items, function(){
+									if (!this.checked) {
+										itemsCount++;
+									}
+								});
+								self.cart.itemsCount(itemsCount);
+							}
+						});
 					list.getAll()
 						.done(function(response){
 							if (response.success) {
@@ -21,7 +33,7 @@ define(function (require) {
 								app.showMessage(response.message);
 							}
 						});
-					purchase.getAll()
+					purchase.getAll({limit:5})
 						.done(function(response){
 							if (response.success) {
 								self.lastPurchases(response.purchases);
@@ -30,7 +42,9 @@ define(function (require) {
 							}
 						});
 				});
-				//TODO: get last purchases
+			};
+			self.cart = {
+				itemsCount: ko.observable()
 			};
 			self.lists = ko.observableArray();
 			self.lastPurchases = ko.observableArray();

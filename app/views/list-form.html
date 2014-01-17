@@ -30,9 +30,12 @@
 			<div class="btn-group pull-right">
 				<a href="#" class="btn dropdown-toggle" style="background:transparent; border-color:transparent;" data-toggle="dropdown"><span style="line-height: 0px; font-size: 27px; font-weight: bold;">...</span></a>
 				<ul class="dropdown-menu pull-right">
-					<li><a href="#" data-bind="click:$root.rename">Rename</a></li>
-					<li><a href="#">Save a copy</a></li>
-					<li><a href="#" data-bind="click:$root.remove">Delete</a></li>
+					<!-- ko if:id()!=1 -->
+						<li><a href="#" data-bind="click:$root.rename">Rename</a></li>
+						<li><a href="#" data-bind="click:$root.remove">Delete</a></li>
+						<li class="divider"></li>
+					<!-- /ko -->
+					<li><a href="#" data-bind="click:$root.clearAll">Clear all</a></li>
 					<li class="divider"></li>
 					<li><a href="#" data-bind="click:$root.markAll">Mark all</a></li>
 					<li><a href="#" data-bind="click:$root.unmarkAll">Unmark all</a></li>
@@ -44,7 +47,7 @@
 	</nav>
     <div style="position:relative;">
 		<div class="form-group" style="position:relative; margin: -15px; margin-bottom: 15px; margin-top:0;">
-			<input type="search" class="form-control" placeholder="Add a product to list" data-bind="value:query, valueUpdate: 'afterkeydown'" />
+			<input type="search" class="form-control" placeholder="Add a product to list" data-bind="value:query, valueUpdate: 'afterkeydown', hasFocus: items().length==0" />
 			<button class="btn btn-default btn-right" type="button" style="padding: 10px 12px;" data-bind="click:scan"><span class="glyphicon glyphicon-barcode"></span></button>
 		</div>
 		
@@ -63,14 +66,14 @@
 			<!-- ko foreach:items -->
 				<div class="list-group-item" data-bind="css:{'slide-up':checked()}">
 					<a href="#" class="actions pull-right" data-bind="click:$root.setCurrentItem"><span class="glyphicon glyphicon-info-sign"></span></a>
-					<a href="#" class="checkbox" data-bind="click:$root.toggleItemCheck, style:{'border-left-color':product.category.color? product.category.color : 'inherit'}">
+					<a href="#" class="checkbox" data-bind="click:$root.list.id()==1? $root.toggleItemCheck : $root.addToCart, style:{'border-left-color':product.category.color? product.category.color : 'inherit'}">
 						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
-						<span style="opacity:.5;" data-bind="visible:price()>0, text:'@ ${0}'.format(Number(price()).format(2))"></span>
+						<span style="opacity:.5;" data-bind="visible:price()>0, text:'@ ${0}'.format(Number((quantity()? quantity() : 1)*price()).format(2))"></span>
 					</a>
 					<div class="row actions-pane" data-bind="visible:$root.currentItem().id()==id(), style:{'border-left-color':product.category.color? product.category.color : 'inherit'}">
 						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showItem"><span class="glyphicon glyphicon-pencil"></span> Quantity/Price</button>
-						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showProduct"><span class="glyphicon glyphicon-pencil"></span> Product info</button>
-						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.removeItem"><span class="glyphicon glyphicon-trash"></span> Delete item</button>
+						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showProduct"><span class="glyphicon glyphicon-pencil"></span> Product</button>
+						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.removeItem"><span class="glyphicon glyphicon-trash"></span> Delete</button>
 					</div>
 				</div>		
 			<!-- /ko -->
@@ -81,20 +84,21 @@
 					<a href="#" class="actions pull-right" data-bind="click:$root.setCurrentItem"><span class="glyphicon glyphicon-info-sign"></span></a>
 					<a href="#" class="checkbox" data-bind="click:$root.toggleItemCheck">
 						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
-						<span class="price" data-bind="visible:price()>0, text:'@ ${0}'.format(Number(price()).format(2))"></span>
+						<span class="price" data-bind="visible:price()>0, text:'@ ${0}'.format(Number((quantity()? quantity() : 1)*price()).format(2))"></span>
 					</a>
 					<div class="row actions-pane" data-bind="visible:$root.currentItem().id()==id()">
 						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showItem"><span class="glyphicon glyphicon-pencil"></span> Quantity/Price</button>
-						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showProduct"><span class="glyphicon glyphicon-pencil"></span> Product info</button>
-						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.removeItem"><span class="glyphicon glyphicon-trash"></span> Delete item</button>
+						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showProduct"><span class="glyphicon glyphicon-pencil"></span> Product</button>
+						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.removeItem"><span class="glyphicon glyphicon-trash"></span> Delete</button>
 					</div>
 				</div>
 			<!-- /ko -->
 		</div>
+		
 	</div>
 	<nav class="navbar navbar-default navbar-fixed-bottom" data-bind="visible:totalPrice().remaining>0 || totalPrice().checked>0">
 		<div class="pull-right" style="margin-right:10px; margin-top:8px;" data-bind="visible:totalPrice().checked>0">
-			<button class="btn btn-primary" data-bind="click:savePurchase">Save purchase</button>
+			<button class="btn btn-primary" data-bind="click:checkout">Checkout</button>
 		</div>
 		<div style="margin-left:10px; margin-top:8px; font-size:13px;">
 			<div data-bind="visible:totalPrice().remaining>0">

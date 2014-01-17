@@ -9,9 +9,9 @@ define(function (require) {
         router: router,
         activate: function () {
             router.map([
-                { route: '', moduleId: 'viewmodels/lists' },
+                { route: '', moduleId: 'viewmodels/home' },
 				{ route: 'lists/:lid', moduleId: 'viewmodels/list-form' },
-				{ route: 'lists/:lid/purchase', moduleId: 'viewmodels/list-purchase' },
+				{ route: 'purchases/:puid', moduleId: 'viewmodels/list-purchase' },
 				{ route: 'list_items/:iid', moduleId: 'viewmodels/item-form' },
 				{ route: 'products/:pid', moduleId: 'viewmodels/product-form' }
 			]);

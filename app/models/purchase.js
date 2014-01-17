@@ -88,10 +88,11 @@ define(function (require) {
 				});
 				return deferred.promise();
 			},
-			getAll: function(){
-				var deferred = $.Deferred();
+			getAll: function(filters){
+				var deferred = $.Deferred(),
+					limits = filters && filters.limit? 'LIMIT {0}'.format(filters.limit) : '';
 				app.storage.transaction(function(tx) {
-					tx.executeSql('SELECT p.id, p.lat, p.lng, p.currency, p.total, p.timestamp, l.id AS list_id, l.name AS list_name FROM purchase p LEFT JOIN list l ON p.lid = l.id', [], function(tx, r){
+					tx.executeSql('SELECT p.id, p.lat, p.lng, p.currency, p.total, p.timestamp, l.id AS list_id, l.name AS list_name FROM purchase p LEFT JOIN list l ON p.lid = l.id ORDER BY timestamp DESC '+limits, [], function(tx, r){
 						var rows = r.rows,
 							purchases = [];
 						for (var i = 0; i < rows.length; i++) {

@@ -12,7 +12,8 @@ requirejs.config({
 		'mobile': '../libraries/jquery/jquery.mobile.custom.min',
 		'moment': '../libraries/moment/moment.min',
 		'fastclick': '../libraries/ftlabs/fastclick',
-		'factor': '../libraries/factor'
+		'factor': '../libraries/factor',
+		'translate': '../libraries/localeplanet/translate'
     },
     shim: {
         'bootstrap': {
@@ -41,6 +42,7 @@ define(function (require) {
 		
 	require('knockouch');
 	require('factor/extend');
+	require('translate');
 	
 	//>>excludeStart("build", true);
     system.debug(true);

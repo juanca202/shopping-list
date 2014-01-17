@@ -30,10 +30,10 @@ define(function (require) {
 				if (mode == 'create') {
 					self.reset();
 				}else{
-					$.when(list.get(id), list.items.getAll(id))
+					$.when(list.get(id), list.items.getAll({lid:id}))
 						.done(function(listResponse, itemsResponse){
 							if (listResponse.success && itemsResponse.success) {
-								self.list(listResponse.list);
+								ko.mapping.fromJS(listResponse.list, self.list);
 								ko.mapping.fromJS(itemsResponse.items, {}, self.items);
 							}
 						});
@@ -54,6 +54,27 @@ define(function (require) {
 				self.products([]);
 				self.query('');
 			};
+			self.addToCart = function(item) {
+				item.id = null;
+				list.items.save(1, [ko.mapping.toJS(item)]);
+			};
+			self.cart = ko.observable();
+			self.clearAll = function() {
+				list.items.clear(self.list.id())
+					.done(function(response){
+						if (response.success) {
+							self.items.removeAll();
+						}
+					});
+			};
+			self.checkout = function() {
+				purchase.save(ko.mapping.toJS(self.list), ko.mapping.toJS(self.items()))
+					.done(function(response){
+						if(response.success) {
+							self.clearAll();
+						}
+					});	
+			};
 			self.createProduct = function(name){
 				var productData = {name:name};
 				product.save(productData).done(function(response){
@@ -66,7 +87,8 @@ define(function (require) {
 			};
 			self.currentItem = ko.observable({id:ko.observable(-1)});
 			self.items = ko.observableArray();
-			self.list = ko.observable();
+			self.list = ko.mapping.fromJS({name:''});
+			
 			self.markAll = function() {
 				$.each(self.items(), function(){
 					var item = this;
@@ -107,7 +129,7 @@ define(function (require) {
 				}
 			});
 			self.refreshItems = function() {
-				list.items.getAll(_id)
+				list.items.getAll({lid:_id})
 					.done(function(response){
 						if (response.success) {
 							ko.mapping.fromJS(response.items, self.items);
@@ -115,7 +137,20 @@ define(function (require) {
 					});
 			};
 			self.remove = function() {
-				
+				message.confirm(_('Are you sure you want to remove this list?'))
+					.done(function(success){
+						if (success) {
+							$.when(list.items.clear(self.list.id()), list.remove(self.list.id()))
+								.done(function(itemsResponse, listResponse){
+									if (itemsResponse.success) {
+										self.items.removeAll();
+									}
+									if (listResponse.success) {
+										location.href = '#';
+									}
+								});
+						}
+					});
 			};
 			self.removeItem = function(item) {
 				list.items.remove(item.id()).done(function(response){
@@ -125,11 +160,11 @@ define(function (require) {
 				});
 			};
 			self.rename = function() {
-				message.prompt('Enter list name', self.list().name).done(function(name){
+				message.prompt('Enter list name', self.list.name()).done(function(name){
 					if (name) {
-						list.save({id:self.list().id, name:name}).done(function(response){
+						list.save({id:self.list.id(), name:name}).done(function(response){
 							if (response.success) {
-								//TODO
+								self.list.name(name);
 							}
 						});
 					}
@@ -140,20 +175,12 @@ define(function (require) {
 				self.items([]);
 			};
 			self.saveItems = function() {			
-				list.items.save(self.list().id, ko.mapping.toJS(self.items()))
+				list.items.save(self.list.id(), ko.mapping.toJS(self.items()))
 					.done(function(response){
 						if (response.success) {
 							ko.mapping.fromJS(response.items, self.items);
 						}
 					});
-			};
-			self.savePurchase = function() {
-				purchase.save(ko.mapping.toJS(self.list()), ko.mapping.toJS(self.items()))
-					.done(function(response){
-						if(response.success) {
-							self.unmarkAll();
-						}
-					});	
 			};
 			self.scan = function() {
 				try {
@@ -173,7 +200,7 @@ define(function (require) {
 											}	
 										});
 										if (!exists) {
-											location.href = '#products/create?lid={0}&code={1}'.format(self.list().id, product.code);
+											location.href = '#products/create?lid={0}&code={1}'.format(self.list.id(), product.code);
 											//self.addItem(product);
 										}
 									}else{
@@ -211,7 +238,7 @@ define(function (require) {
 				location.href = '#list_items/{0}'.format(item.id());
 			};
 			self.showProduct = function(item){
-				location.href = '#products/{0}?lid={1}'.format(item.product.id(), self.list().id);
+				location.href = '#products/{0}?lid={1}'.format(item.product.id(), self.list.id());
 			};
 			self.toggleItemCheck = function(item){
 				if (self.currentItem().id()==item.id()) {
