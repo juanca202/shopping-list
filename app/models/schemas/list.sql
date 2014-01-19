@@ -16,5 +16,5 @@ CREATE TABLE IF NOT EXISTS `list_item` (
 );
 
 -- CREATE UNIQUE INDEX list_idx ON list(name);
--- CREATE UNIQUE INDEX list_item_idx ON list_item(lid, pid);
+CREATE UNIQUE INDEX list_item_idx ON list_item(lid, pid);
 INSERT INTO list(id, name) VALUES (1, 'My shopping cart');

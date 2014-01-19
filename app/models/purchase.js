@@ -31,6 +31,37 @@ define(function (require) {
 					system.log(e.message);
 				}
 			},
+			get: function(id){
+				var deferred = $.Deferred();
+				app.storage.transaction(function(tx) {
+					tx.executeSql('SELECT * FROM purchase WHERE id = ?', [id], function(tx, r){
+						deferred.resolve({success:true, purchase:r.rows.item(0)});
+					}, function(tx, e) {
+						system.log(e);
+						deferred.reject("Transaction Error: " + e.message);
+					});
+				});
+				return deferred.promise();
+			},
+			getAll: function(filters){
+				var deferred = $.Deferred(),
+					limits = filters && filters.limit? 'LIMIT {0}'.format(filters.limit) : '';
+				app.storage.transaction(function(tx) {
+					tx.executeSql('SELECT * FROM purchase ORDER BY timestamp DESC '+limits, [], function(tx, r){
+						var rows = r.rows,
+							purchases = [];
+						for (var i = 0; i < rows.length; i++) {
+							var row = rows.item(i);
+							purchases.push(utils.parseRecord(row));
+						}
+						deferred.resolve({success:true, purchases:purchases});
+					}, function(tx, e) {
+						system.log(e);
+						deferred.reject("Transaction Error: " + e.message);
+					});
+				});
+				return deferred.promise();
+			},
 			save: function(list, items){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
@@ -67,39 +98,8 @@ define(function (require) {
 			remove: function(id){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
-					tx.executeSql('DELETE FROM list WHERE id = ?', [id], function(tx, r){
-						deferred.resolve(r.rows.item(0));
-					}, function(tx, e) {
-						system.log(e);
-						deferred.reject("Transaction Error: " + e.message);
-					});
-				});
-				return deferred.promise();
-			},
-			get: function(id){
-				var deferred = $.Deferred();
-				app.storage.transaction(function(tx) {
-					tx.executeSql('SELECT * FROM list WHERE id = ?', [id], function(tx, r){
-						deferred.resolve({success:true, list:r.rows.item(0)});
-					}, function(tx, e) {
-						system.log(e);
-						deferred.reject("Transaction Error: " + e.message);
-					});
-				});
-				return deferred.promise();
-			},
-			getAll: function(filters){
-				var deferred = $.Deferred(),
-					limits = filters && filters.limit? 'LIMIT {0}'.format(filters.limit) : '';
-				app.storage.transaction(function(tx) {
-					tx.executeSql('SELECT p.id, p.lat, p.lng, p.currency, p.total, p.timestamp, l.id AS list_id, l.name AS list_name FROM purchase p LEFT JOIN list l ON p.lid = l.id ORDER BY timestamp DESC '+limits, [], function(tx, r){
-						var rows = r.rows,
-							purchases = [];
-						for (var i = 0; i < rows.length; i++) {
-							var row = rows.item(i);
-							purchases.push(utils.parseRecord(row));
-						}
-						deferred.resolve({success:true, purchases:purchases});
+					tx.executeSql('DELETE FROM purchase WHERE id = ?', [id], function(tx, r){
+						deferred.resolve({success:r.rowsAffected==1});
 					}, function(tx, e) {
 						system.log(e);
 						deferred.reject("Transaction Error: " + e.message);
@@ -108,6 +108,39 @@ define(function (require) {
 				return deferred.promise();
 			},
 			items: {
+				clear: function(puid){
+					var deferred = $.Deferred();
+					app.storage.transaction(function(tx) {
+						tx.executeSql('DELETE FROM purchase_item WHERE puid = ?', [puid], function(tx, r){
+							deferred.resolve({success:r.rowsAffected>0});
+						}, function(tx, e) {
+							system.log(e);
+							deferred.reject("Transaction Error: " + e.message);
+						});
+					});
+					return deferred.promise();
+				},
+				getAll: function(filters){
+					var deferred = $.Deferred();
+					app.storage.transaction(function(tx) {
+						tx.executeSql('SELECT i.id, i.quantity, i.unit, i.price, p.id AS product_id, p.code AS product_code, p.name AS product_name, p.picture AS product_picture, c.color AS product_category_color FROM purchase_item i, product p LEFT JOIN product_category c ON p.cid = c.id WHERE i.pid = p.id AND i.puid = ? ORDER BY p.cid', [filters.puid], function(tx, r){
+							var rows = r.rows,
+								items = [];
+							for (var i = 0; i < rows.length; i++) {
+								var row = rows.item(i);
+								items.push(utils.parseRecord(row));
+							}
+							deferred.resolve({success:true, items:items});
+						}, function(tx, e) {
+							system.log(e);
+							deferred.reject("Transaction Error: " + e.message);
+						});
+					}, function(e){
+						system.log(e);
+						deferred.reject("Transaction Error: " + e.message);
+					});
+					return deferred.promise();
+				},
 				save: function(puid, items){
 					var deferred = $.Deferred();
 					
@@ -132,27 +165,6 @@ define(function (require) {
 						deferred.resolve({success:true, items:items});
 					});
 					
-					return deferred.promise();
-				},
-				getAll: function(lid){
-					var deferred = $.Deferred();
-					app.storage.transaction(function(tx) {
-						tx.executeSql('SELECT i.id, i.quantity, i.unit, i.price, i.checked, p.id AS product_id, p.code AS product_code, p.name AS product_name, p.picture AS product_picture, c.color AS product_category_color FROM list_item i, product p LEFT JOIN product_category c ON p.cid = c.id WHERE i.pid = p.id AND i.lid = ? ORDER BY p.cid', [lid], function(tx, r){
-							var rows = r.rows,
-								items = [];
-							for (var i = 0; i < rows.length; i++) {
-								var row = rows.item(i);
-								items.push(utils.parseRecord(row));
-							}
-							deferred.resolve({success:true, items:items});
-						}, function(tx, e) {
-							system.log(e);
-							deferred.reject("Transaction Error: " + e.message);
-						});
-					}, function(e){
-						system.log(e);
-						deferred.reject("Transaction Error: " + e.message);
-					});
 					return deferred.promise();
 				}
 			}

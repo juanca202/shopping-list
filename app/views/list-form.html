@@ -35,12 +35,14 @@
 						<li><a href="#" data-bind="click:$root.remove">Delete</a></li>
 						<li class="divider"></li>
 					<!-- /ko -->
-					<li><a href="#" data-bind="click:$root.clearAll">Clear all</a></li>
-					<li class="divider"></li>
-					<li><a href="#" data-bind="click:$root.markAll">Mark all</a></li>
-					<li><a href="#" data-bind="click:$root.unmarkAll">Unmark all</a></li>
-					<li class="divider"></li>
-					<li><a href="#">Share</a></li>
+					<!-- ko if:id()==1 -->
+						<li data-bind="css:{disabled:$root.items().length==0}"><a href="#" data-bind="click:$root.clearAll">Clear all</a></li>
+						<li class="divider"></li>
+						<li data-bind="css:{disabled:$root.items().length==0}"><a href="#" data-bind="click:$root.markAll">Mark all</a></li>
+						<li data-bind="css:{disabled:$root.items().length==0}"><a href="#" data-bind="click:$root.unmarkAll">Unmark all</a></li>
+						<li class="divider"></li>
+					<!-- /ko -->
+					<li data-bind="css:{disabled:$root.items().length==0}"><a href="#" data-bind="click:$root.share">Share to email</a></li>
 				</ul>
 			</div>
 		</div>
@@ -53,7 +55,7 @@
 		
 		<div id="autocomplete" class="list-group" data-bind="css:{open:queryParts().name.length>0 || products().length>0}">
 			<!-- ko foreach:products -->
-				<a href="#" class="list-group-item" data-bind="css:{exist:typeof exist=='boolean'}, click:$root.selectProduct"><span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="opacity:.5"></span><span data-bind="text:name"></span><span style="opacity:.5" data-bind="visible:$root.queryParts().name==code, text:' - {0}'.format(code)"></span></a>
+				<a href="#" class="list-group-item" data-bind="click:$root.addItem"><span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="opacity:.5"></span><span data-bind="text:name"></span><span style="opacity:.5" data-bind="visible:$root.queryParts().name==code, text:' - {0}'.format(code)"></span></a>
 			<!-- /ko -->
 			<!-- ko if:queryParts().name.length>0 && products().length==0 -->
 				<a href="#" class="list-group-item" data-bind="click:$root.createProduct.bind($data, $root.queryParts().name)"><span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="opacity:.5"></span><span data-bind="text:$root.queryParts().name"></span></a>
@@ -65,8 +67,11 @@
 		<div class="list-group">
 			<!-- ko foreach:items -->
 				<div class="list-group-item" data-bind="css:{'slide-up':checked()}">
-					<a href="#" class="actions pull-right" data-bind="click:$root.setCurrentItem"><span class="glyphicon glyphicon-info-sign"></span></a>
-					<a href="#" class="checkbox" data-bind="click:$root.list.id()==1? $root.toggleItemCheck : $root.addToCart, style:{'border-left-color':product.category.color? product.category.color : 'inherit'}">
+					<div class="actions pull-right">
+						<span class="glyphicon glyphicon-shopping-cart" style="margin-right:10px;" data-bind="visible:cart.id() && $root.list.id()!=1"></span>
+						<a href="#" data-bind="click:$root.setCurrentItem" style="display:inline-block;"><span class="glyphicon glyphicon-info-sign"></span></a>
+					</div>
+					<a href="#" class="checkbox" data-bind="click:$root.list.id()==1? $root.toggleItemCheck : $root.toggleItemAtCart, style:{'border-left-color':product.category.color? product.category.color : 'inherit'}">
 						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
 						<span style="opacity:.5;" data-bind="visible:price()>0, text:'@ ${0}'.format(Number((quantity()? quantity() : 1)*price()).format(2))"></span>
 					</a>

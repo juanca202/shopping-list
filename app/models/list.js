@@ -31,33 +31,6 @@ define(function (require) {
 					system.log(e.message);
 				}
 			},
-			save: function(list){
-				var deferred = $.Deferred();
-				app.storage.transaction(function(tx) {
-					var params = list.id? [list.name, list.id] : [list.name],
-						query = list.id? 'UPDATE list SET name = ? WHERE id = ?' : 'INSERT INTO list(name) VALUES (?)';
-					tx.executeSql(query, params, function(tx, r){
-						var id = list.id? list.id : r.insertId;
-						deferred.resolve({success:r.rowsAffected==1, id:id});
-					}, function(tx, e) {
-						system.log(e);
-						deferred.reject("Transaction Error: " + e.message);
-					});
-				});
-				return deferred.promise();
-			},
-			remove: function(id){
-				var deferred = $.Deferred();
-				app.storage.transaction(function(tx) {
-					tx.executeSql('DELETE FROM list WHERE id = ?', [id], function(tx, r){
-						deferred.resolve({success:r.rowsAffected==1, id:id});
-					}, function(tx, e) {
-						system.log(e);
-						deferred.reject("Transaction Error: " + e.message);
-					});
-				});
-				return deferred.promise();
-			},
 			get: function(id){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
@@ -88,12 +61,39 @@ define(function (require) {
 				});
 				return deferred.promise();
 			},
+			remove: function(id){
+				var deferred = $.Deferred();
+				app.storage.transaction(function(tx) {
+					tx.executeSql('DELETE FROM list WHERE id = ?', [id], function(tx, r){
+						deferred.resolve({success:r.rowsAffected==1, id:id});
+					}, function(tx, e) {
+						system.log(e);
+						deferred.reject("Transaction Error: " + e.message);
+					});
+				});
+				return deferred.promise();
+			},
+			save: function(list){
+				var deferred = $.Deferred();
+				app.storage.transaction(function(tx) {
+					var params = list.id? [list.name, list.id] : [list.name],
+						query = list.id? 'UPDATE list SET name = ? WHERE id = ?' : 'INSERT INTO list(name) VALUES (?)';
+					tx.executeSql(query, params, function(tx, r){
+						var id = list.id? list.id : r.insertId;
+						deferred.resolve({success:r.rowsAffected==1, id:id});
+					}, function(tx, e) {
+						system.log(e);
+						deferred.reject("Transaction Error: " + e.message);
+					});
+				});
+				return deferred.promise();
+			},
 			items: {
 				clear: function(lid){
 					var deferred = $.Deferred();
 					app.storage.transaction(function(tx) {
 						tx.executeSql('DELETE FROM list_item WHERE lid = ?', [lid], function(tx, r){
-							deferred.resolve({success:r.rowsAffected>1});
+							deferred.resolve({success:r.rowsAffected>0});
 						}, function(tx, e) {
 							system.log(e);
 							deferred.reject("Transaction Error: " + e.message);
@@ -117,7 +117,7 @@ define(function (require) {
 				getAll: function(filters){
 					var deferred = $.Deferred();
 					app.storage.transaction(function(tx) {
-						tx.executeSql('SELECT i.id, i.quantity, i.unit, i.price, i.checked, p.id AS product_id, p.code AS product_code, p.name AS product_name, p.picture AS product_picture, c.id AS product_category_id, c.color AS product_category_color FROM list_item i, product p LEFT JOIN product_category c ON p.cid = c.id WHERE i.pid = p.id AND i.lid = ? ORDER BY p.cid', [filters.lid], function(tx, r){
+						tx.executeSql('SELECT i.id, i.quantity, i.unit, i.price, i.checked, p.id AS product_id, p.code AS product_code, p.name AS product_name, p.picture AS product_picture, c.id AS product_category_id, c.color AS product_category_color, case when cr.lid = 1 then cr.id end AS cart_id FROM list_item i LEFT JOIN list_item cr ON cr.pid = i.pid AND cr.lid = 1, product p LEFT JOIN product_category c ON p.cid = c.id WHERE i.pid = p.id AND i.lid = ? ORDER BY p.cid', [filters.lid], function(tx, r){
 							var rows = r.rows,
 								items = [];
 							for (var i = 0; i < rows.length; i++) {
@@ -151,7 +151,7 @@ define(function (require) {
 					var deferred = $.Deferred(),
 						_arguments = arguments;
 					
-					if (typeof _arguments[0]=='number') { //Multiple rows affect params: lid, items
+					if (typeof _arguments[0]=='number') { //Multiple rows affect params: lid, items[]
 						var lid = _arguments[0],
 							items = _arguments[1];
 						app.storage.transaction(function(tx) {						

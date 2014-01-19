@@ -1,0 +1,35 @@
+<form id="purchase" style="padding-bottom:70px; margin-top:15px;">
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-bind="with:purchase">
+		<div class="pull-left">
+			<a href="#" class="btn"><span class="glyphicon glyphicon-chevron-left"></span></a>
+		</div>
+		<div class="navbar-text text-center title" data-bind="text:moment(timestamp).startOf('minute').fromNow()"></div>
+		<div class="pull-right">
+			<div class="btn-group pull-right">
+				<a href="#" class="btn dropdown-toggle" style="background:transparent; border-color:transparent;" data-toggle="dropdown"><span style="line-height: 0px; font-size: 27px; font-weight: bold;">...</span></a>
+				<ul class="dropdown-menu pull-right">
+					<li><a href="#" data-bind="click:$root.remove">Delete</a></li>
+					<li class="divider"></li>
+					<li data-bind="css:{disabled:$root.items().length==0}"><a href="#" data-bind="click:$root.share">Share to email</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <div>		
+		<div class="list-group">
+			<!-- ko foreach:items -->
+				<div class="list-group-item">
+					<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
+					<span style="opacity:.5;" data-bind="visible:price()>0, text:'@ ${0}'.format(Number((quantity()? quantity() : 1)*price()).format(2))"></span>
+				</div>		
+			<!-- /ko -->
+		</div>
+	</div>
+	<nav class="navbar navbar-default navbar-fixed-bottom" data-bind="visible:totalPrice().remaining>0 || totalPrice().checked>0">
+		<div style="margin-left:10px; margin-top:8px; font-size:13px;">
+			<div data-bind="visible:totalPrice()>0">
+				Purchased: <strong data-bind="text:'${0}'.format(Number(totalPrice()).format(2))"></strong>
+			</div>
+		</div>
+	</nav>
+</form>

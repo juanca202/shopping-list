@@ -11,7 +11,7 @@ define(function (require) {
             router.map([
                 { route: '', moduleId: 'viewmodels/home' },
 				{ route: 'lists/:lid', moduleId: 'viewmodels/list-form' },
-				{ route: 'purchases/:puid', moduleId: 'viewmodels/list-purchase' },
+				{ route: 'purchases/:puid', moduleId: 'viewmodels/purchase' },
 				{ route: 'list_items/:iid', moduleId: 'viewmodels/item-form' },
 				{ route: 'products/:pid', moduleId: 'viewmodels/product-form' }
 			]);

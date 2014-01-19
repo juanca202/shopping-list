@@ -1,14 +1,29 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: 2014-01-13 13:32-0500\n"
-"PO-Revision-Date: 2014-01-13 13:34-0500\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"Project-Id-Version: Shopping cart v1.0.0\n"
+"POT-Creation-Date: 2014-01-19 01:52-0500\n"
+"PO-Revision-Date: 2014-01-19 01:53-0500\n"
+"Last-Translator: Juan Carlos Altamirano <juanca.altamirano@gmail.com>\n"
+"Language-Team: Factor <info@factor.ec>\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.6.3\n"
-"X-Poedit-Basepath: .\n"
+"X-Poedit-Basepath: ../\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: es\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: app/views\n"
+"X-Poedit-SearchPath-1: app/viewmodels\n"
+
+#: app/viewmodels/list-form.js:147
+msgid "Are you sure you want to remove this list?"
+msgstr "Estas seguro que deseas eliminar esta lista?"
+
+#: app/viewmodels/list-form.js:235 app/viewmodels/purchase.js:49
+msgid "Shopping list shared"
+msgstr "Lista de compras compartida"
+
+#: app/viewmodels/purchase.js:31
+msgid "Are you sure you want to remove this purchase?"
+msgstr "Estas seguro que deseas eliminar esta compra?"

@@ -44,11 +44,17 @@ define(function (require) {
 	require('factor/extend');
 	require('translate');
 	
+	/*
+	$.getJSON('locale/es.json', function(response){
+		_.setTranslation(response);
+	});
+	*/
+	
 	//>>excludeStart("build", true);
     system.debug(true);
     //>>excludeEnd("build");
 
-    app.title = 'Shopping List';
+    app.title = _('Shopping List');
 
     app.configurePlugins({
         router:true,

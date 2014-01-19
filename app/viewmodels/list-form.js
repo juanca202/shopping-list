@@ -40,30 +40,37 @@ define(function (require) {
 				}
 			};
 			self.addItem = function(product) {
-				self.items.push(ko.mapping.fromJS({
+				list.items.save(self.list.id(), [{
 					id:null, 
 					quantity:self.queryParts().quantity, 
-					unit:product.unit, 
+					unit:null, 
 					product:product, 
 					price:null, 
 					checked:false
-				}));
-				self.saveItems();
-				self.refreshItems();
-				self.currentItem({id:ko.observable(-1)});
-				self.products([]);
-				self.query('');
+				}]).done(function(response){
+					if (response.success) {
+						self.refreshItems();
+						self.currentItem({id:ko.observable(-1)});
+						self.products([]);
+						self.query('');
+					}
+				});
 			};
-			self.addToCart = function(item) {
-				item.id = null;
-				list.items.save(1, [ko.mapping.toJS(item)]);
+			self.toggleItemAtCart = function(item) {
+				var request = !item.cart.id()? list.items.save(1, [$.extend(ko.mapping.toJS(item), {id:null})]) : list.items.remove(item.cart.id());
+				request
+					.done(function(response){
+						if (response.success) {
+							self.refreshItems();
+						}
+					});
 			};
 			self.cart = ko.observable();
 			self.clearAll = function() {
 				list.items.clear(self.list.id())
 					.done(function(response){
 						if (response.success) {
-							self.items.removeAll();
+							location.href = '#';
 						}
 					});
 			};
@@ -215,24 +222,26 @@ define(function (require) {
 					system.log(e.message);
 				}
 			};
-			self.selectProduct = function(product) {
-				var exists = false; 
-				$.each(self.items(), function(){
-					if (this.product.id()==product.id) {
-						exists = true;
-						return;
-					}	
-				});
-				if (!exists) {
-					self.addItem(product);
-				}
-			};
 			self.setCurrentItem = function(item) {
 				if (self.currentItem().id()!=item.id()) {
 					self.currentItem(item);
 				}else{
 					self.currentItem({id:ko.observable(-1)});
 				}
+			};
+			self.share = function() {
+				message.prompt('Enter an email recipient').done(function(email){
+					if (email) {
+						var subject = _('Shopping list shared'),
+							message = [];
+						$.each(self.items(), function(){
+							message.push(this.quantity()>0? 
+								'{0} {1} {2} {3}'.format(this.quantity(), this.unit() && this.unit()!='undefined'? this.unit() : '', this.product.name(), (price()>0? '@ $'+Number((quantity()? quantity() : 1)*price()).format(2) : '')) : this.product.name()
+							);
+						});
+						location.href = 'mailto:{0}?subject={1}&body={2}'.format(email, subject, message.join('%0D%0A'));
+					}
+				});
 			};
 			self.showItem = function(item){
 				location.href = '#list_items/{0}'.format(item.id());
