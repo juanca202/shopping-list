@@ -1,19 +1,19 @@
 ﻿<div style="margin-top: 20px;">
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-		<div class="navbar-text text-center title" data-bind="text:_('Shopping cart')"></div>
+		<div class="navbar-text text-center title" data-bind="text:_('goShopping')"></div>
 	</nav>
 	
 	<div class="list-group">
 		<a href="#lists/1" class="list-group-item">
 			<span class="badge pull-right" data-bind="text:cart.itemsCount, visible:cart.itemsCount()>0"></span>
 			<span class="glyphicon glyphicon-shopping-cart"></span>
-			<span data-bind="text:_('My Shopping cart')"></span>
+			<span data-bind="text:_('My shopping cart')"></span>
 		</a>
 	</div>
 	
 	<div data-bind="visible:lists().length>0">
 		<a href="#" data-bind="click:create" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-plus"></span> Create</a>
-		<h4 data-bind="text:_('Lists')"></h4>
+		<h4 data-bind="text:_('My shopping lists')"></h4>
 		<div class="list-group" data-bind="foreach:lists">
 			<a href="#" class="list-group-item" data-bind="event:{click:$root.update}">
 				<span data-bind="text:name"></span>
@@ -23,7 +23,7 @@
 	
 	<div data-bind="visible:lists().length==0">
 		<h4 data-bind="text:_('Lists')"></h4>
-		<div style="font-size:17px; opacity:.5;" data-bind="text:_('No list created yet')"></div>
+		<div style="font-size:17px; color:#999999;" data-bind="text:_('No list created yet')"></div>
 		<a href="#" class="btn btn-primary" style="margin: 10px 0;" data-bind="click:create, text:_('Create list')"></a>
 	</div>
 	
@@ -31,7 +31,7 @@
 		<!--
 		<a href="#" data-bind="text:_('View all')" class="btn btn-default btn-xs pull-right"></a>
 		-->
-		<h4 data-bind="text:_('Last purchases')"></h4>
+		<h4 data-bind="text:_('My last purchases')"></h4>
 		<div class="list-group" data-bind="foreach:lastPurchases">
 			<a class="list-group-item" data-bind="attr:{href:'#purchases/{0}'.format(id)}">
 				<span class="pull-right" data-bind="text:'${0}'.format(Number(total).format())"></span>
@@ -41,7 +41,7 @@
 	</div>
 	
 	<div data-bind="visible:lastPurchases().length==0">
-		<h4>Last purchases</h4>
-		<div style="font-size:17px; opacity:.5;" data-bind="text:_('No purchases saved yet')"></div>
+		<h4 data-bind="text:_('My last purchases')"></h4>
+		<div style="font-size:17px; color:#999999;" data-bind="text:_('No purchases saved yet')"></div>
 	</div>
 </div>

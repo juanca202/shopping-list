@@ -62,7 +62,7 @@
 			<!-- /ko -->
 		</div>
 		
-		<div data-bind="visible:items().length==0" style="font-size:17px; opacity:.5; text-align:center; padding:50px;">No products added yet</div>
+		<div data-bind="visible:items().length==0" style="font-size:17px; color:#999999; text-align:center; padding:50px;">No products added yet</div>
 		
 		<div class="list-group">
 			<!-- ko foreach:items -->
@@ -73,7 +73,7 @@
 					</div>
 					<a href="#" class="checkbox" data-bind="click:$root.list.id()==1? $root.toggleItemCheck : $root.toggleItemAtCart, style:{'border-left-color':product.category.color? product.category.color : 'inherit'}">
 						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
-						<span style="opacity:.5;" data-bind="visible:price()>0, text:'@ ${0}'.format(Number((quantity()? quantity() : 1)*price()).format(2))"></span>
+						<span style="color:#a1c5e5;" data-bind="visible:price()>0, text:'@ ${0}'.format(Number((quantity()? quantity() : 1)*price()).format(2))"></span>
 					</a>
 					<div class="row actions-pane" data-bind="visible:$root.currentItem().id()==id(), style:{'border-left-color':product.category.color? product.category.color : 'inherit'}">
 						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showItem"><span class="glyphicon glyphicon-pencil"></span> Quantity/Price</button>
