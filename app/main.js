@@ -38,7 +38,10 @@ define(function (require) {
 		viewLocator = require('durandal/viewLocator'),
 		mobile = require('mobile'),
 		bootstrap = require('bootstrap'),
-		ko = require('knockout');
+		ko = require('knockout'),
+		list = require('models/list'),
+		product = require('models/product'),
+		purchase = require('models/purchase');
 		
 	require('knockouch');
 	require('factor/extend');
@@ -68,7 +71,12 @@ define(function (require) {
         viewLocator.useConvention();
 
         //Show the app by setting the root view model for our application with a transition.
-        app.setRoot('viewmodels/shell', 'entrance');
+		$.when(	list.initialize(), 
+				product.initialize(), 
+				purchase.initialize())
+			.done(function(){
+				app.setRoot('viewmodels/shell', 'entrance');
+			});
 		//app.adapteToDevice();
     });
 	

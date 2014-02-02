@@ -1,4 +1,4 @@
-body { padding-top: 51px; }
+body { padding-top: 51px; background:#F8F8F8; }
 #logo-header {background:url(images/logo-header.png) no-repeat; background-size:32px;}
 
 .item-checked,
@@ -20,5 +20,15 @@ body { padding-top: 51px; }
 .btn-right {border: 0; position: absolute; top: 0; right: 0; border-radius: 0;}
 select {-webkit-appearance: textfield;}
 
-.navbar-fixed-top .title {margin-right: 50px; margin-left: 50px; position: absolute; left: 0; right: 0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;}
+.navbar-fixed-top .title {margin-right: 50px; margin-left: 50px; margin-top:0; margin-bottom:0; position: absolute; left: 0; right: 0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; line-height: 51px; font-size: 17px;}
 .navbar-fixed-top .btn {border-radius: 0; padding-top: 14px; padding-bottom: 14px; display:block; text-align:center; width:50px;}
+
+.navbar-fixed-bottom .nav-pills>li>a {border-radius:0; margin-bottom:0; min-height: 49px; line-height: 49px; padding: 0;}
+.navbar-fixed-bottom .nav-justified>li {display: table-cell; width: 1%;}
+.navbar-fixed-bottom  .glyphicon {top: 7px; font-size: 22px;}
+
+.navbar-fixed-top,
+.navbar-fixed-bottom {background:#FFF;}
+
+.no-data {font-size:17px; color:#999; text-align:center; padding:50px;}
+.no-data .glyphicon {font-size:40px;}

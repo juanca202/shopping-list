@@ -1,4 +1,4 @@
-define(function (require) {
+﻿define(function (require) {
 	'use strict';
 	
 	var $ = require('jquery'),
@@ -22,15 +22,15 @@ define(function (require) {
 			
 			//Public vars
 			self.activate = function (id, params) {
-				_id = id;
-				mode = id == 'create'? 'create' : 'update';
+				_id = id || 1;
+				mode = _id == 'create'? 'create' : 'update';
 				self.currentItem({id:ko.observable(-1)}); //Limpia el item actual si hay alguno seleccionado
 				self.products([]);
 				self.query('');
 				if (mode == 'create') {
 					self.reset();
 				}else{
-					$.when(list.get(id), list.items.getAll({lid:id}))
+					$.when(list.get(_id), list.items.getAll({lid:_id}))
 						.done(function(listResponse, itemsResponse){
 							if (listResponse.success && itemsResponse.success) {
 								ko.mapping.fromJS(listResponse.list, self.list);
@@ -56,21 +56,16 @@ define(function (require) {
 					}
 				});
 			};
-			self.toggleItemAtCart = function(item) {
-				var request = !item.cart.id()? list.items.save(1, [$.extend(ko.mapping.toJS(item), {id:null})]) : list.items.remove(item.cart.id());
-				request
-					.done(function(response){
-						if (response.success) {
-							self.refreshItems();
-						}
-					});
-			};
 			self.cart = ko.observable();
 			self.clearAll = function() {
 				list.items.clear(self.list.id())
 					.done(function(response){
 						if (response.success) {
-							location.href = '#';
+							if (self.list.id()!=1) {
+								location.href = '#/lists';
+							}else{
+								location.href = '#/purchases';
+							}
 						}
 					});
 			};
@@ -248,6 +243,15 @@ define(function (require) {
 			};
 			self.showProduct = function(item){
 				location.href = '#products/{0}?lid={1}'.format(item.product.id(), self.list.id());
+			};
+			self.toggleItemAtCart = function(item) {
+				var request = !item.cart.id()? list.items.save(1, [$.extend(ko.mapping.toJS(item), {id:null})]) : list.items.remove(item.cart.id());
+				request
+					.done(function(response){
+						if (response.success) {
+							self.refreshItems();
+						}
+					});
 			};
 			self.toggleItemCheck = function(item){
 				if (self.currentItem().id()==item.id()) {

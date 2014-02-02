@@ -26,8 +26,15 @@ define(function (require) {
 						}
 					});
 			};
+			self.back = function(){
+				if (self.item.lid()!=1) {
+					location.href = '#lists/{0}'.format(self.item.lid());
+				}else{
+					location.href = '#';
+				}
+			};
 			self.cancel = function(){
-				location.href = '#lists/{0}'.format(self.item.lid());
+				self.back()
 			};
 			self.item = ko.mapping.fromJS({quantity:'', unit:'', price:''});
 			self.save = function(form){
@@ -35,7 +42,7 @@ define(function (require) {
 					.done(function(response){
 						if (response.success){
 							if (self.item.lid()) {
-								location.href = '#lists/{0}'.format(self.item.lid());
+								self.back();
 							}
 						}
 					});

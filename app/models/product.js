@@ -31,21 +31,6 @@
 					system.log(e.message);
 				}
 			},
-			save: function(product){
-				var deferred = $.Deferred();
-				app.storage.transaction(function(tx) {
-					var params = product.id? [product.name, product.category.id, product.code, product.picture, product.id] : [product.name, product.cid, product.code, product.picture],
-						query = product.id? 'UPDATE product SET name = ?, cid = ?, code = ?, picture = ? WHERE id = ?' : 'INSERT INTO product(name, cid, code, picture) VALUES (?, ?, ?, ?)';
-					tx.executeSql(query, params, function(tx, r){
-						var id = product.id? product.id : r.insertId;
-						deferred.resolve({success:r.rowsAffected==1, id:id});
-					}, function(tx, e) {
-						system.log(e);
-						deferred.reject("Transaction Error: " + e.message);
-					});
-				});
-				return deferred.promise();
-			},
 			get: function(id){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
@@ -99,6 +84,31 @@
 				app.storage.transaction(function(tx) {
 					tx.executeSql('DELETE FROM product WHERE id = ?', [id], function(tx, r){
 						deferred.resolve(r.rows.item(0));
+					}, function(tx, e) {
+						system.log(e);
+						deferred.reject("Transaction Error: " + e.message);
+					});
+				});
+				return deferred.promise();
+			},
+			save: function(product){
+				var deferred = $.Deferred(),
+					defaults = {
+						id:'',
+						name:'',
+						category:{
+							id: ''
+						},
+						code:'',
+						picture:''
+					};
+				$.extend(defaults, product);
+				app.storage.transaction(function(tx) {
+					var params = defaults.id? [defaults.name, defaults.category.id, defaults.code, defaults.picture, defaults.id] : [defaults.name, defaults.category.id, defaults.code, defaults.picture],
+						query = defaults.id? 'UPDATE product SET name = ?, cid = ?, code = ?, picture = ? WHERE id = ?' : 'INSERT INTO product(name, cid, code, picture) VALUES (?, ?, ?, ?)';
+					tx.executeSql(query, params, function(tx, r){
+						var id = defaults.id? defaults.id : r.insertId;
+						deferred.resolve({success:r.rowsAffected==1, id:id});
 					}, function(tx, e) {
 						system.log(e);
 						deferred.reject("Transaction Error: " + e.message);

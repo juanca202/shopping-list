@@ -47,7 +47,11 @@ define(function (require) {
 				});
 			};
 			self.back = function(){
-				location.href = '#lists/{0}'.format(lid);
+				if (lid!=1) {
+					location.href = '#lists/{0}'.format(lid);
+				}else{
+					location.href = '#';
+				}
 			};
 			self.product = ko.mapping.fromJS({name:'', code:'', category:{id:''}, picture:'undefined'});
 			self.productCategories = ko.observableArray();

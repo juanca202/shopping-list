@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `product` (
+﻿CREATE TABLE IF NOT EXISTS `product` (
   `id` INTEGER PRIMARY KEY,
   `cid` INTEGER NOT NULL,
   `code` varchar(80) NULL,

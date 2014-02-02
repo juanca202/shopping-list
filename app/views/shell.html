@@ -1,3 +1,10 @@
 <div>
     <div class="container page-host" data-bind="router: { transition:'entrance', cacheViews:true }"></div>
+	<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+		<ul class="nav nav-pills nav-justified" data-bind="foreach: router.navigationModel">
+			<li data-bind="css: { active: isActive }">
+				<a data-bind="attr: { href: hash }"><span data-bind="attr:{class:css}"></span></a>
+			</li>
+		</ul>
+	</nav>
 </div>

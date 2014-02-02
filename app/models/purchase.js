@@ -78,7 +78,7 @@ define(function (require) {
 						}						
 					});
 					
-					tx.executeSql(query, [list.id, null, null, null, null, 'USD', total, (new Date()).getTime()], function(tx, r){
+					tx.executeSql(query, [list.id, '', '', '', '', 'USD', total, (new Date()).getTime()], function(tx, r){
 						var puid = r.insertId;
 						//deferred.resolve({success:r.rowsAffected==1, id:id});
 						model.items.save(puid, checkedItems)

@@ -1,16 +1,13 @@
 ﻿<form id="list-form" style="padding-bottom:70px;" data-bind="submit:saveItems">
 	<style>
-		#list-form .exist {opacity:.4;}
 		#list-form .checkbox {padding-left:0; margin:0; padding-top: 10px; padding-bottom: 10px;}
 		#list-form .checkbox .price {color:#A9A9A9;}
 		#list-form [type="search"] {padding: 20px 12px;}
-		/*#list-form #autocomplete {display:none;}*/
 		#list-form #autocomplete .list-group-item:first-child {border-top:0; border-radius:0;}
 		#list-form #autocomplete.open {margin-top: -15px; /*display:block;*/}
 		#list-form .list-group.checked .checkbox {text-decoration: line-through;}
 		#list-form .list-group.checked .checkbox,
 		#list-form .list-group.checked .actions {color:#999;}
-		#list-form .list-group-item {-webkit-transition: opacity .5s; overflow:hidden; opacity:1;}
 		#list-form .list-group-item {-webkit-transition: opacity .5s; overflow:hidden; opacity:1;}
 		#list-form .list-group-item a {display:block; margin: -10px -15px; padding: 10px 15px;}
 		#list-form .list-group-item a:hover {text-decoration:none; background-color: #F5F5F5;}
@@ -20,10 +17,11 @@
 		#list-form .list-group-item .actions-pane button {border-radius:0; background-color: #FFF; font-size:11px;}
 		#list-form .list-group-item .actions-pane button .glyphicon {margin-bottom: 5px; margin-left: auto; margin-right: auto; display: block;}
 		#list-form .slide-up {margin: 0; border: 0; padding: 0px 15px; height: 0px; opacity:0;}
+		#list-form .navbar-fixed-bottom {background: transparent; bottom: 51px; border: 0;}
 	</style>
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-bind="with:list">
-		<div class="pull-left">
-			<a href="#" class="btn"><span class="glyphicon glyphicon-chevron-left"></span></a>
+		<div class="pull-left" data-bind="visible:id()>1">
+			<a href="#/lists" class="btn"><span class="glyphicon glyphicon-chevron-left"></span></a>
 		</div>
 		<div class="navbar-text text-center title" data-bind="text:name"></div>
 		<div class="pull-right">
@@ -55,14 +53,17 @@
 		
 		<div id="autocomplete" class="list-group" data-bind="css:{open:queryParts().name.length>0 || products().length>0}">
 			<!-- ko foreach:products -->
-				<a href="#" class="list-group-item" data-bind="click:$root.addItem"><span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="opacity:.5"></span><span data-bind="text:name"></span><span style="opacity:.5" data-bind="visible:$root.queryParts().name==code, text:' - {0}'.format(code)"></span></a>
+				<a href="#" class="list-group-item" data-bind="click:$root.addItem"><span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="color:#999;"></span><span data-bind="text:name"></span><span style="color:#999;" data-bind="visible:$root.queryParts().name==code, text:' - {0}'.format(code)"></span></a>
 			<!-- /ko -->
 			<!-- ko if:queryParts().name.length>0 && products().length==0 -->
-				<a href="#" class="list-group-item" data-bind="click:$root.createProduct.bind($data, $root.queryParts().name)"><span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="opacity:.5"></span><span data-bind="text:$root.queryParts().name"></span></a>
+				<a href="#" class="list-group-item" data-bind="click:$root.createProduct.bind($data, $root.queryParts().name)"><span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="color:#999;"></span><span data-bind="text:$root.queryParts().name"></span></a>
 			<!-- /ko -->
 		</div>
 		
-		<div data-bind="visible:items().length==0" style="font-size:17px; color:#999999; text-align:center; padding:50px;">No products added yet</div>
+		<div data-bind="visible:items().length==0" class="no-data">
+			<span class="glyphicon" data-bind="css:{'glyphicon-shopping-cart':list.id()==1, 'glyphicon-list-alt':list.id()!=1}"></span><br />
+			You have not added products yet
+		</div>
 		
 		<div class="list-group">
 			<!-- ko foreach:items -->

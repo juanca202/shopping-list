@@ -1,4 +1,4 @@
-define(function (require) {
+﻿define(function (require) {
 	'use strict';
 	
 	var $ = require('jquery'),
@@ -37,7 +37,7 @@ define(function (require) {
 										self.items.removeAll();
 									}
 									if (purchaseResponse.success) {
-										location.href = '#';
+										location.href = '#/purchases';
 									}
 								});
 						}
