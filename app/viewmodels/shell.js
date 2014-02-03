@@ -15,7 +15,8 @@ define(function (require) {
 				{ route: 'purchases', title:'History', css:'glyphicon glyphicon-time', nav:true, moduleId: 'viewmodels/purchases' },
 				{ route: 'purchases/:puid', moduleId: 'viewmodels/purchase' },
 				{ route: 'list_items/:iid', moduleId: 'viewmodels/item-form' },
-				{ route: 'products/:pid', moduleId: 'viewmodels/product-form' }
+				{ route: 'products/:pid', moduleId: 'viewmodels/product-form' },
+				{ route: 'help', title:'Help', css:'glyphicon glyphicon-question-sign', nav:true, moduleId: 'viewmodels/help' }
 			]).buildNavigationModel();
 			//Update anaytics whenever the router navigates
 			router.on('router:navigation:complete', function(instance, instruction) {
