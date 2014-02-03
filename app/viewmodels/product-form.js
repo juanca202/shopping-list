@@ -35,7 +35,7 @@ define(function (require) {
 			};
 			self.attachPicture = function(){
 				navigator.camera.getPicture(function(imageURI) {
-					alert(imageURI);
+					//alert(imageURI);
 					self.product.picture(imageURI);
 				}, function(message) {
 					//alert('Failed because: ' + message);
@@ -67,7 +67,7 @@ define(function (require) {
 				try {
 					var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 					scanner.scan(function (result) {
-						alert(result.text+' '+result.format);
+						//alert(result.text+' '+result.format);
 						self.product.code(result.text);		
 					}, function (error) {
 						//alert("Scanning failed: " + error);

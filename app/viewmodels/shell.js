@@ -3,20 +3,21 @@ define(function (require) {
 	
 	var router = require('plugins/router'),
 		app = require('durandal/app'),
-		fastclick = require('fastclick');	 
+		fastclick = require('fastclick'),
+		ko = require('knockout');	 
 	 
     return {
         router: router,
         activate: function () {
             router.map([
-                { route: '', title:'Shopping Cart', css:'glyphicon glyphicon-shopping-cart', nav:true, moduleId: 'viewmodels/list-form' },
-				{ route: 'lists', title:'Lists', css:'glyphicon glyphicon-list-alt', nav:true, moduleId: 'viewmodels/lists' },
+                { route: '', title:'Shopping Cart', css:'glyphicon glyphicon-shopping-cart', count:ko.observable(), nav:true, moduleId: 'viewmodels/list-form' },
+				{ route: 'lists', title:'Lists', css:'glyphicon glyphicon-list-alt', count:ko.observable(), nav:true, moduleId: 'viewmodels/lists' },
 				{ route: 'lists/:lid', moduleId: 'viewmodels/list-form' },
-				{ route: 'purchases', title:'History', css:'glyphicon glyphicon-time', nav:true, moduleId: 'viewmodels/purchases' },
+				{ route: 'purchases', title:'History', css:'glyphicon glyphicon-time', count:ko.observable(), nav:true, moduleId: 'viewmodels/purchases' },
 				{ route: 'purchases/:puid', moduleId: 'viewmodels/purchase' },
-				{ route: 'list_items/:iid', moduleId: 'viewmodels/item-form' },
+				{ route: 'list-items/:iid', moduleId: 'viewmodels/item-form' },
 				{ route: 'products/:pid', moduleId: 'viewmodels/product-form' },
-				{ route: 'help', title:'Help', css:'glyphicon glyphicon-question-sign', nav:true, moduleId: 'viewmodels/help' }
+				{ route: 'settings', title:'Settings', css:'glyphicon glyphicon-cog', count:ko.observable(), nav:true, moduleId: 'viewmodels/settings' }
 			]).buildNavigationModel();
 			//Update anaytics whenever the router navigates
 			router.on('router:navigation:complete', function(instance, instruction) {

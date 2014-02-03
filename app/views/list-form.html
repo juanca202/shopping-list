@@ -18,6 +18,10 @@
 		#list-form .list-group-item .actions-pane button .glyphicon {margin-bottom: 5px; margin-left: auto; margin-right: auto; display: block;}
 		#list-form .slide-up {margin: 0; border: 0; padding: 0px 15px; height: 0px; opacity:0;}
 		#list-form .navbar-fixed-bottom {background: #F8F8F8; bottom: 51px; border: 0;}
+		#list-form .search-input {margin-top:15px;}
+		@media (max-width: 767px) {
+			#list-form .search-input {position:relative; margin: -15px; margin-bottom: 15px; margin-top:0;}
+		}
 	</style>
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-bind="with:list">
 		<div class="pull-left" data-bind="visible:id()>1">
@@ -46,7 +50,7 @@
 		</div>
 	</nav>
     <div style="position:relative;">
-		<div class="form-group" style="position:relative; margin: -15px; margin-bottom: 15px; margin-top:0;">
+		<div class="search-input form-group">
 			<input type="search" class="form-control" placeholder="Add a product to list" data-bind="value:query, valueUpdate: 'afterkeydown', hasFocus: items().length==0" />
 			<button class="btn btn-default btn-right" type="button" style="padding: 10px 12px;" data-bind="click:scan"><span class="glyphicon glyphicon-barcode"></span></button>
 		</div>

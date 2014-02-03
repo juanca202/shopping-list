@@ -10,13 +10,13 @@
 	</nav>
     <div data-bind="with:item">
 		<div class="form-group">
-			<input type="number" class="form-control" min="1" name="quantity" placeholder="Quantity" data-bind="value:quantity" />
+			<input type="number" class="form-control" min="0" step="any" name="quantity" placeholder="Quantity" data-bind="value:quantity" />
 		</div>
 		<div class="form-group">
 			<select name="cid" class="form-control" data-bind="value:unit, options:$root.units, optionsCaption:'Select a unit...'"></select>
 		</div>
 		<div class="form-group">
-			<input type="number" class="form-control" min="0.01" step="0.01" name="price" placeholder="Price" data-bind="value:price" />
+			<input type="text" pattern="^-?(?:[0-9]+|[0-9]*\.[0-9]+)$" class="form-control" name="price" placeholder="Price" data-bind="value:price" />
 		</div>
 	</div>
 </form>

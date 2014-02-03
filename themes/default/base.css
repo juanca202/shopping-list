@@ -1,4 +1,4 @@
-/*@font-face {
+@font-face {
   font-family: 'Nunito';
   font-style: normal;
   font-weight: 400;
@@ -9,7 +9,7 @@
   font-style: normal;
   font-weight: 700;
   src: local('Nunito-Bold'), url(fonts/nunito/v5/TttUCfJ272GBgSKaOaD7Kj8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
-}*/
+}
 
 body { padding-top: 51px; background:#F8F8F8; font-family: 'Nunito', sans-serif; }
 #logo-header {background:url(images/logo-header.png) no-repeat; background-size:32px;}

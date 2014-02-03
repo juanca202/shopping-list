@@ -11,6 +11,7 @@
 		dialog = require('plugins/dialog'),
 		message = require('factor/message'),
 		mobile = require('mobile'),
+		shell = require('viewmodels/shell'),
 		ViewModel = function(){
 			var self = this,
 				//Private vars
@@ -35,6 +36,7 @@
 							if (listResponse.success && itemsResponse.success) {
 								ko.mapping.fromJS(listResponse.list, self.list);
 								ko.mapping.fromJS(itemsResponse.items, {}, self.items);
+								self.refreshCartCount();
 							}
 						});
 				}
@@ -57,14 +59,19 @@
 				});
 			};
 			self.cart = ko.observable();
-			self.clearAll = function() {
+			self.clearAll = function(redirect) {
 				list.items.clear(self.list.id())
 					.done(function(response){
 						if (response.success) {
-							if (self.list.id()!=1) {
+							if (typeof redirect == 'string'){
+								location.href = '#/'+redirect;
+								if (self.list.id()==1) {
+									self.refreshCartCount();
+								}
+							}else if (self.list.id()!=1) {
 								location.href = '#/lists';
 							}else{
-								location.href = '#/purchases';
+								self.refreshItems();
 							}
 						}
 					});
@@ -73,7 +80,7 @@
 				purchase.save(ko.mapping.toJS(self.list), ko.mapping.toJS(self.items()))
 					.done(function(response){
 						if(response.success) {
-							self.clearAll();
+							self.clearAll('purchases');
 						}
 					});	
 			};
@@ -135,8 +142,30 @@
 					.done(function(response){
 						if (response.success) {
 							ko.mapping.fromJS(response.items, self.items);
+							self.refreshCartCount();
 						}
 					});
+			};
+			self.refreshCartCount = function(){
+				var count = 0;
+				if (self.list.id()==1) {
+					$.each(self.items(), function(){
+						if (!this.checked()) {
+							count++;
+						}
+					});
+					shell.router.navigationModel()[0].count(count);
+				}else{
+					list.items.getAll({lid:1})
+						.done(function(response){
+							$.each(response.items, function(){
+								if (!this.checked) {
+									count++;
+								}
+							});
+							shell.router.navigationModel()[0].count(count);
+						});
+				}
 			};
 			self.remove = function() {
 				message.confirm(_('Are you sure you want to remove this list?'))
@@ -148,7 +177,12 @@
 										self.items.removeAll();
 									}
 									if (listResponse.success) {
-										location.href = '#';
+										if (self.list.id()!=1) {
+											location.href = '#/lists';
+										}else{
+											self.refreshCartCount();
+											location.href = '#';
+										}
 									}
 								});
 						}
@@ -158,6 +192,7 @@
 				list.items.remove(item.id()).done(function(response){
 					if (response.success) {
 						self.items.remove(item);
+						self.refreshCartCount();
 					}
 				});
 			};
@@ -180,7 +215,7 @@
 				list.items.save(self.list.id(), ko.mapping.toJS(self.items()))
 					.done(function(response){
 						if (response.success) {
-							ko.mapping.fromJS(response.items, self.items);
+							self.refreshItems();
 						}
 					});
 			};
@@ -188,7 +223,7 @@
 				try {
 					var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 					scanner.scan(function (result) {
-						alert(result.text+' '+result.format);
+						//alert(result.text+' '+result.format);
 						product.search(result.text, 5)
 							.done(function(response){
 								if (response.success) {
@@ -239,7 +274,7 @@
 				});
 			};
 			self.showItem = function(item){
-				location.href = '#list_items/{0}'.format(item.id());
+				location.href = '#list-items/{0}'.format(item.id());
 			};
 			self.showProduct = function(item){
 				location.href = '#products/{0}?lid={1}'.format(item.product.id(), self.list.id());
