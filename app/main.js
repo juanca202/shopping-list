@@ -36,7 +36,6 @@ define(function (require) {
 		system = require('durandal/system'),
 		app = require('durandal/app'),
 		viewLocator = require('durandal/viewLocator'),
-		mobile = require('mobile'),
 		bootstrap = require('bootstrap'),
 		ko = require('knockout'),
 		list = require('models/list'),
@@ -46,6 +45,8 @@ define(function (require) {
 	require('knockouch');
 	require('factor/extend');
 	require('translate');
+	
+	app.storage = openDatabase("sl", "1.0", "Shopping List", 5 * 1024 * 1024); // 5MB
 	
 	/*
 	$.getJSON('locale/es.json', function(response){
@@ -79,6 +80,4 @@ define(function (require) {
 			});
 		//app.adapteToDevice();
     });
-	
-	app.storage = openDatabase("sl", "1.0", "Shopping List", 5 * 1024 * 1024); // 5MB
 });

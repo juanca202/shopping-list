@@ -96,7 +96,7 @@
 			};
 			self.currentItem = ko.observable({id:ko.observable(-1)});
 			self.items = ko.observableArray();
-			self.list = ko.mapping.fromJS({name:''});
+			self.list = ko.mapping.fromJS({id:null, name:''});
 			
 			self.markAll = function() {
 				$.each(self.items(), function(){

@@ -12,13 +12,13 @@
 }
 
 body { padding-top: 51px; background:#F8F8F8; font-family: 'Nunito', sans-serif; }
-#logo-header {background:url(images/logo-header.png) no-repeat; background-size:32px;}
 
 .item-checked,
 .list-group-item.item-checked:hover {text-decoration: line-through;}
 .list-group-item {border-radius:0 !important;}
 .item-checked .image {opacity:.5; -webkit-filter: grayscale(100%);}
 
+/*
 .menu {}
 .menu .menu-item {
 	padding: 15px;
@@ -28,11 +28,12 @@ body { padding-top: 51px; background:#F8F8F8; font-family: 'Nunito', sans-serif;
 .menu .menu-item:last-child {
 	border:0;
 }
+*/
 
-.form-control {border-radius: 0; border-right: 0; border-left: 0; border-top: 0px; outline: none; box-shadow:none !important; -webkit-box-shadow:none !important;}
-.btn-right {border: 0; position: absolute; top: 0; right: 0; border-radius: 0;}
+.form-control {border-radius: 0; border-right: 0; border-left: 0; border-top: 0px; outline: none; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) !important; -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) !important;}
 input[type="search"] {-webkit-appearance: none; -webkit-border-radius:0px;}
 select {-webkit-appearance: textfield;}
+.btn-right {border: 0; position: absolute; top: 0; right: 0; border-radius: 0;}
 
 .navbar-fixed-top .title {margin-right: 50px; margin-left: 50px; margin-top:0; margin-bottom:0; position: absolute; left: 0; right: 0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; line-height: 51px; font-size: 18px;}
 .navbar-fixed-top .btn {border-radius: 0; padding-top: 14px; padding-bottom: 14px; display:block; text-align:center; width:50px;}
@@ -40,6 +41,8 @@ select {-webkit-appearance: textfield;}
 .navbar-fixed-bottom .nav-pills>li>a {border-radius:0; margin-bottom:0; min-height: 49px; line-height: 49px; padding: 0;}
 .navbar-fixed-bottom .nav-justified>li {display: table-cell; width: 1%;}
 .navbar-fixed-bottom  .glyphicon {top: 7px; font-size: 22px;}
+.navbar-fixed-bottom :not(.active) .badge {background: #D9534F;}
+.navbar-fixed-bottom .active .badge {border: 1px solid #428BCA;}
 
 .nav-tabs.nav-justified {display: table;}
 
