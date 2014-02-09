@@ -4,6 +4,7 @@
 	var system = require('durandal/system'),
 		app = require('durandal/app'),
 		ko = require('knockout'),
+		shell = require('viewmodels/shell'),
 		purchase = require('models/purchase'),
 		message = require('factor/message'),
 		moment = require('moment'),
@@ -18,8 +19,10 @@
 							app.showMessage(response.message);
 						}
 					});
+				shell.navGlobal(true); 
 			};
 			self.purchases = ko.observableArray();
+			self.router = require('plugins/router');
 		};
     return viewModel;
 });

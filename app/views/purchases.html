@@ -4,7 +4,7 @@
 	</nav>
 	
 	<div data-bind="visible:purchases().length>0">
-		<div class="list-group" data-bind="foreach:purchases">
+		<div class="list-group selection-list" data-bind="foreach:purchases">
 			<a class="list-group-item" data-bind="attr:{href:'#purchases/{0}'.format(id)}">
 				<span class="pull-right" data-bind="text:'${0}'.format(Number(total).format())"></span>
 				<div data-bind="text:moment(timestamp).startOf('minute').fromNow()"></div>

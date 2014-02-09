@@ -7,6 +7,7 @@
 		list = require('models/list'),
 		message = require('factor/message'),
 		moment = require('moment'),
+		shell = require('viewmodels/shell'),
 		viewModel = function() {
 			var self = this;
 			self.activate = function () {
@@ -18,6 +19,7 @@
 							app.showMessage(response.message);
 						}
 					});
+				shell.navGlobal(true); 
 			};
 			self.lists = ko.observableArray();
 			self.create = function() {
@@ -31,6 +33,7 @@
 					}
 				});
 			};
+			self.router = require('plugins/router');
 			self.update = function(item){
 				location.href = '#lists/{0}'.format(item.id);
 			};

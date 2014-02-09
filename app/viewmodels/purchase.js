@@ -5,6 +5,7 @@
 		system = require('durandal/system'),
 		app = require('durandal/app'),
 		ko = require('knockout'),
+		shell = require('viewmodels/shell'),
 		purchase = require('models/purchase'),
 		message = require('factor/message'),
 		moment = require('moment'),
@@ -24,9 +25,10 @@
 							ko.mapping.fromJS(itemsResponse.items, {}, self.items);
 						}
 					});
+				shell.navGlobal(false); 
 			};
 			self.items = ko.observableArray();
-			self.purchase = ko.mapping.fromJS({name:''});
+			self.purchase = ko.mapping.fromJS({timestamp:''});
 			self.remove = function() {
 				message.confirm(_('Are you sure you want to remove this purchase?'))
 					.done(function(success){

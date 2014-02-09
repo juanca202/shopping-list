@@ -1,26 +1,27 @@
 ﻿<form id="list-form" style="padding-bottom:85px;" data-bind="submit:saveItems">
 	<style>
-		#list-form .checkbox {padding-left:0; margin:0; padding-top: 10px; padding-bottom: 10px;}
-		#list-form .checkbox .price {color:#A9A9A9;}
-		#list-form [type="search"] {padding: 20px 12px;}
-		#list-form #autocomplete .list-group-item:first-child {border-top:0; border-radius:0;}
-		#list-form #autocomplete.open {margin-top: -15px; /*display:block;*/}
+		#list-form .search-input {margin-top:15px;}
+		#list-form .search-input [type="search"] {padding: 20px 12px;}
+		#list-form #products-list .list-group-item:first-child {border-top:0;}
+		#list-form #products-list.open {margin-top: -15px;}
+		#list-form .list-group {box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);}
 		#list-form .list-group.checked .checkbox {text-decoration: line-through;}
-		#list-form .list-group.checked .checkbox,
-		#list-form .list-group.checked .actions {color:#999;}
-		#list-form .list-group-item {-webkit-transition: opacity .5s; overflow:hidden; opacity:1;}
+		#list-form .list-group.checked a {color:#999;}
+		#list-form .list-group-item {border-radius:0;}
 		#list-form .list-group-item a {display:block; margin: -10px -15px; padding: 10px 15px;}
 		#list-form .list-group-item a:hover {text-decoration:none; background-color: #F5F5F5;}
-		#list-form .list-group-item .checkbox,
-		#list-form .list-group-item .actions-pane {border-left:2px solid rgba(255,255,255,0);}
+		#list-form .list-group-item .checkbox .price {color:#A9A9A9;}
 		#list-form .list-group-item .actions-pane {margin: -10px -15px; margin-top:10px;}
 		#list-form .list-group-item .actions-pane button {border-radius:0; background-color: #FFF; font-size:11px;}
 		#list-form .list-group-item .actions-pane button .glyphicon {margin-bottom: 5px; margin-left: auto; margin-right: auto; display: block;}
-		#list-form .slide-up {margin: 0; border: 0; padding: 0px 15px; height: 0px; opacity:0;}
-		#list-form .navbar-fixed-bottom {background: #F8F8F8; bottom: 51px; border: 0;}
-		#list-form .search-input {margin-top:15px;}
+		#list-form .list-group-item .checkbox,
+		#list-form .list-group-item .actions-pane {border-left:2px solid rgba(255,255,255,0);}
+		#list-form #summary {background: #F8F8F8; bottom: 50px; border: 0;}
+		
 		@media (max-width: 767px) {
 			#list-form .search-input {position:relative; margin: -15px; margin-bottom: 15px; margin-top:0;}
+			#list-form .remaining {margin-left: 10px; margin-top: 8px; margin-bottom: 0; font-size:12px;}
+			#list-form .purchased {margin-left: 10px; margin-top: 0; margin-bottom: 5px; font-size:12px;}
 		}
 	</style>
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-bind="with:list">
@@ -52,10 +53,10 @@
     <div style="position:relative;">
 		<div class="search-input form-group">
 			<input type="search" class="form-control" placeholder="Add a product to list" data-bind="value:query, valueUpdate: 'afterkeydown', hasFocus: items().length==0" />
-			<button class="btn btn-default btn-right" type="button" style="padding: 10px 12px;" data-bind="click:scan"><span class="glyphicon glyphicon-barcode"></span></button>
+			<button class="btn btn-default btn-right" type="button" style="padding: 10px 12px;" data-bind="click:scan"><span class="glyphicon glyphicon-barcode"></span> <span class="hidden-xs hidden-sm">Scan barcode</span></button>
 		</div>
 		
-		<div id="autocomplete" class="list-group" data-bind="css:{open:queryParts().name.length>0 || products().length>0}">
+		<div id="products-list" class="list-group" data-bind="css:{open:queryParts().name.length>0 || products().length>0}">
 			<!-- ko foreach:products -->
 				<a href="#" class="list-group-item" data-bind="click:$root.addItem"><span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="color:#999;"></span><span data-bind="text:name"></span><span style="color:#999;" data-bind="visible:$root.queryParts().name==code, text:' - {0}'.format(code)"></span></a>
 			<!-- /ko -->
@@ -71,7 +72,7 @@
 		
 		<div class="list-group">
 			<!-- ko foreach:items -->
-				<div class="list-group-item" data-bind="css:{'slide-up':checked()}">
+				<div class="list-group-item" data-bind="css:{'hidden':checked()}">
 					<div class="actions pull-right">
 						<span class="glyphicon glyphicon-shopping-cart" style="margin-right:10px;" data-bind="visible:cart.id() && $root.list.id()!=1"></span>
 						<a href="#" data-bind="click:$root.setCurrentItem" style="display:inline-block;"><span class="glyphicon glyphicon-info-sign"></span></a>
@@ -90,7 +91,7 @@
 		</div>
 		<div class="list-group checked" style="margin-top:20px;">
 			<!-- ko foreach:items -->
-				<div class="list-group-item" data-bind="css:{'slide-up':!checked()}">
+				<div class="list-group-item" data-bind="css:{'hidden':!checked()}">
 					<a href="#" class="actions pull-right" data-bind="click:$root.setCurrentItem"><span class="glyphicon glyphicon-info-sign"></span></a>
 					<a href="#" class="checkbox" data-bind="click:$root.toggleItemCheck">
 						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
@@ -106,17 +107,15 @@
 		</div>
 		
 	</div>
-	<nav class="navbar navbar-default navbar-fixed-bottom" data-bind="visible:totalPrice().remaining>0 || totalPrice().checked>0">
+	<nav id="summary" class="navbar navbar-default navbar-fixed-bottom" data-bind="visible:totalPrice().remaining>0 || totalPrice().checked>0">
 		<div class="pull-right" style="margin-right:10px; margin-top:8px;" data-bind="visible:totalPrice().checked>0">
 			<button class="btn btn-primary" data-bind="click:checkout">Checkout</button>
 		</div>
-		<div style="margin-left:10px; margin-top:8px; font-size:13px;">
-			<div data-bind="visible:totalPrice().remaining>0">
-				Remaining: <strong data-bind="text:'${0}'.format(Number(totalPrice().remaining).format(2))"></strong> 
-			</div>
-			<div data-bind="visible:totalPrice().checked>0">
-				Purchased: <strong data-bind="text:'${0}'.format(Number(totalPrice().checked).format(2))"></strong>
-			</div>
+		<div class="remaining navbar-text" data-bind="visible:totalPrice().remaining>0">
+			Remaining: <strong data-bind="text:'${0}'.format(Number(totalPrice().remaining).format(2))"></strong> 
 		</div>
-	</nav>
+		<div class="purchased navbar-text" data-bind="visible:totalPrice().checked>0">
+			Purchased: <strong data-bind="text:'${0}'.format(Number(totalPrice().checked).format(2))"></strong>
+		</div>
+	</nav>	
 </form>

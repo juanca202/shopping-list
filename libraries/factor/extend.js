@@ -1,6 +1,8 @@
 define(function (require) {
 	'use strict';
 	
+	var $ = require('jquery');
+	
 	String.prototype.format = function() {
 		var s = this,
 			i = arguments.length;

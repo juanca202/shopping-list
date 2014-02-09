@@ -4,17 +4,17 @@ define(function (require) {
 	var router = require('plugins/router'),
 		app = require('durandal/app'),
 		fastclick = require('fastclick'),
-		ko = require('knockout');	 
+		ko = require('knockout'),
+		$ = require('jquery');	 
 	 
     return {
-        router: router,
         activate: function () {
             router.map([
                 { route: '', title:'Shopping Cart', css:'glyphicon glyphicon-shopping-cart', count:ko.observable(), nav:true, moduleId: 'viewmodels/list-form' },
 				{ route: 'lists', title:'Lists', css:'glyphicon glyphicon-list-alt', count:ko.observable(), nav:true, moduleId: 'viewmodels/lists' },
 				{ route: 'lists/:lid', moduleId: 'viewmodels/list-form' },
-				{ route: 'purchases', title:'History', css:'glyphicon glyphicon-time', count:ko.observable(), nav:true, moduleId: 'viewmodels/purchases' },
-				{ route: 'purchases/:puid', moduleId: 'viewmodels/purchase' },
+				{ route: 'purchases', title:'Purchase history', css:'glyphicon glyphicon-time', count:ko.observable(), nav:true, moduleId: 'viewmodels/purchases' },
+				{ route: 'purchases/:puid', title:'Purchase', moduleId: 'viewmodels/purchase' },
 				{ route: 'list-items/:iid', moduleId: 'viewmodels/item-form' },
 				{ route: 'products/:pid', moduleId: 'viewmodels/product-form' },
 				{ route: 'settings', title:'Settings', css:'glyphicon glyphicon-cog', count:ko.observable(), nav:true, moduleId: 'viewmodels/settings' }
@@ -27,6 +27,19 @@ define(function (require) {
 			fastclick.attach(document.body);
             
             return router.activate();
-        }
+        },
+		attached: function(){
+			/*
+			$(document)
+				.on('focusin', ':input', function(e){
+					$('body').removeClass('focusout').addClass('focusin');
+				})
+				.on('focusout', ':input', function(e){
+					$('body').removeClass('focusin').addClass('focusout');
+				});
+			*/
+		},
+		navGlobal:ko.observable(false),
+		router: router
     };
 });

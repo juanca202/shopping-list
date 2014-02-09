@@ -5,6 +5,7 @@ define(function (require) {
 		ko = require('knockout'),
 		list = require('models/list'),
 		settings = require('models/settings'),
+		shell = require('viewmodels/shell'),
 		ViewModel = function(){
 			var self = this;
 				//Private vars
@@ -25,6 +26,7 @@ define(function (require) {
 							ko.mapping.fromJS(response.item, self.item);
 						}
 					});
+				shell.navGlobal(false);
 			};
 			self.back = function(){
 				if (self.item.lid()!=1) {

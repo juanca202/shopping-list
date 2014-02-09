@@ -40,6 +40,7 @@
 							}
 						});
 				}
+				shell.navGlobal(_id==1); 
 			};
 			self.addItem = function(product) {
 				list.items.save(self.list.id(), [{
@@ -211,6 +212,7 @@
 				self.list(null);
 				self.items([]);
 			};
+			self.router = require('plugins/router');
 			self.saveItems = function() {			
 				list.items.save(self.list.id(), ko.mapping.toJS(self.items()))
 					.done(function(response){

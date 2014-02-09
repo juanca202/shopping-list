@@ -1,0 +1,7 @@
+<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+	<ul class="nav nav-pills nav-justified" data-bind="foreach: router.navigationModel">
+		<li data-bind="css: { active: isActive }">
+			<a data-bind="attr: { href: hash }"><span data-bind="attr:{class:css}"></span><span class="badge" style="position: absolute; top: 5px; margin-left: -10px;" data-bind="text:count()<10? count() : '+9', visible:count()>0"></span> <span class="hidden-xs hidden-sm" data-bind="text:title"></span></a>
+		</li>
+	</ul>
+</nav>

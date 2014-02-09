@@ -5,6 +5,7 @@ define(function (require) {
 		ko = require('knockout'),
 		system = require('durandal/system'),
 		product = require('models/product'),
+		shell = require('viewmodels/shell'),
 		viewModel = function(){
 			var self = this,
 				//Private vars
@@ -32,6 +33,7 @@ define(function (require) {
 						self.productCategories(response.categories);
 					}
 				});
+				shell.navGlobal(false);
 			};
 			self.attachPicture = function(){
 				navigator.camera.getPicture(function(imageURI) {
