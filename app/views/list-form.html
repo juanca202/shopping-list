@@ -22,8 +22,8 @@
 		
 		@media (max-width: 767px) {
 			#list-form .search-input {position:relative; margin: -15px; margin-bottom: 15px; margin-top:0;}
-			#list-form .remaining {margin-left: 10px; margin-top: 8px; margin-bottom: 0; font-size:12px;}
-			#list-form .purchased {margin-left: 10px; margin-top: 0; margin-bottom: 5px; font-size:12px;}
+			#list-form .summary-values {margin-left: 10px; margin-top: 8px; margin-bottom: 5px; font-size:12px;}
+			#list-form .summary-values > div {margin:0;}
 		}
 	</style>
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-bind="with:list">
@@ -94,7 +94,9 @@
 		<div class="list-group checked">
 			<!-- ko foreach:items -->
 				<div class="list-group-item" data-bind="css:{'hidden':!checked()}">
-					<a href="#" class="actions pull-right" data-bind="click:$root.setCurrentItem"><span class="glyphicon glyphicon-info-sign"></span></a>
+					<div class="actions pull-right">
+						<a href="#" data-bind="click:$root.setCurrentItem"><span class="glyphicon glyphicon-info-sign"></span></a>
+					</div>
 					<a href="#" class="checkbox" data-bind="click:$root.toggleItemCheck">
 						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
 						<span class="price" data-bind="visible:price()>0, text:'@ ${0}'.format(Number((quantity()? quantity() : 1)*price()).format(2))"></span>
@@ -113,11 +115,13 @@
 		<div class="pull-right" style="margin-right:10px; margin-top:8px;" data-bind="visible:totalPrice().checked>0">
 			<button class="btn btn-primary" data-bind="click:checkout">Checkout</button>
 		</div>
-		<div class="remaining navbar-text" data-bind="visible:totalPrice().remaining>0">
-			Remaining: <strong data-bind="text:'${0}'.format(Number(totalPrice().remaining).format(2))"></strong> 
-		</div>
-		<div class="purchased navbar-text" data-bind="visible:totalPrice().checked>0">
-			Purchased: <strong data-bind="text:'${0}'.format(Number(totalPrice().checked).format(2))"></strong>
+		<div data-bind="css:{'summary-values':totalPrice().remaining>0 && totalPrice().checked>0}" style="margin-left:10px;">
+			<div class="remaining navbar-text" data-bind="visible:totalPrice().remaining>0">
+				Remaining: <strong data-bind="text:'${0}'.format(Number(totalPrice().remaining).format(2))"></strong> 
+			</div>
+			<div class="purchased navbar-text" data-bind="visible:totalPrice().checked>0">
+				Purchased: <strong data-bind="text:'${0}'.format(Number(totalPrice().checked).format(2))"></strong>
+			</div>
 		</div>
 	</nav>	
 </form>
