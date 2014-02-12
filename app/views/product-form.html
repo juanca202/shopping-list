@@ -18,11 +18,11 @@
 			<button class="btn btn-default btn-right" type="button" data-bind="click:$root.scan"><span class="glyphicon glyphicon-barcode"></span></button>
 		</div>
 		<div class="form-group">
-			<select name="cid" class="form-control" data-bind="options:$root.productCategories, optionsValue:'id', optionsText:'name', optionsCaption:'Select a category...', value:category.id"></select>
+			<select name="cid" class="form-control" data-bind="options:$root.productCategories, optionsValue:'id', optionsText:'name', optionsCaption:'Select a category...'"></select>
 		</div>
 		
 		<!-- ko if:picture()!='undefined' -->
-			<img data-bind="attr:{src:picture}" style="width:100%;" />
+			<div style="padding-bottom:30px;"><img data-bind="attr:{src:picture}" style="width:100%;" /></div>
 		<!-- /ko -->
 	</div>		
 </form>

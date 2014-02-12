@@ -8,12 +8,14 @@
 		#list-form .list-group.checked .checkbox {text-decoration: line-through;}
 		#list-form .list-group.checked a {color:#999;}
 		#list-form .list-group-item {border-radius:0;}
-		#list-form .list-group-item a {display:block; margin: -10px -15px; padding: 10px 15px;}
 		#list-form .list-group-item a:hover {text-decoration:none; background-color: #F5F5F5;}
 		#list-form .list-group-item .checkbox .price {color:#A9A9A9;}
+		#list-form .list-group-item .actions {margin: -10px -15px;}
+		#list-form .list-group-item .actions a {padding: 10px 13px; float:right;}
 		#list-form .list-group-item .actions-pane {margin: -10px -15px; margin-top:10px;}
 		#list-form .list-group-item .actions-pane button {border-radius:0; background-color: #FFF; font-size:11px;}
 		#list-form .list-group-item .actions-pane button .glyphicon {margin-bottom: 5px; margin-left: auto; margin-right: auto; display: block;}
+		#list-form .list-group-item .checkbox {display:block; margin: -10px -15px; padding: 10px 15px;}
 		#list-form .list-group-item .checkbox,
 		#list-form .list-group-item .actions-pane {border-left:2px solid rgba(255,255,255,0);}
 		#list-form #summary {background: #F8F8F8; bottom: 50px; border: 0;}
@@ -70,12 +72,12 @@
 			You have not added products yet
 		</div>
 		
-		<div class="list-group">
+		<div class="list-group" style="margin-bottom:20px;">
 			<!-- ko foreach:items -->
 				<div class="list-group-item" data-bind="css:{'hidden':checked()}">
 					<div class="actions pull-right">
-						<span class="glyphicon glyphicon-shopping-cart" style="margin-right:10px;" data-bind="visible:cart.id() && $root.list.id()!=1"></span>
-						<a href="#" data-bind="click:$root.setCurrentItem" style="display:inline-block;"><span class="glyphicon glyphicon-info-sign"></span></a>
+						<a href="#" data-bind="click:$root.setCurrentItem"><span class="glyphicon glyphicon-info-sign"></span></a>
+						<a href="#/lists/1" data-bind="visible:cart.id() && $root.list.id()!=1"><span class="glyphicon glyphicon-shopping-cart"></span></a>
 					</div>
 					<a href="#" class="checkbox" data-bind="click:$root.list.id()==1? $root.toggleItemCheck : $root.toggleItemAtCart, style:{'border-left-color':product.category.color? product.category.color : 'inherit'}">
 						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
@@ -89,7 +91,7 @@
 				</div>		
 			<!-- /ko -->
 		</div>
-		<div class="list-group checked" style="margin-top:20px;">
+		<div class="list-group checked">
 			<!-- ko foreach:items -->
 				<div class="list-group-item" data-bind="css:{'hidden':!checked()}">
 					<a href="#" class="actions pull-right" data-bind="click:$root.setCurrentItem"><span class="glyphicon glyphicon-info-sign"></span></a>

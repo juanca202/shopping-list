@@ -2,12 +2,16 @@ define(function (require) {
 	'use strict';
 	
 	return {
-		prompt: function(message, defaultText) {
+		prompt: function(message, defaultText, title) {
 			var deferred = $.Deferred();
 			if (typeof Cordova !== "undefined") {
 				navigator.notification.prompt(message, function(r){
-					deferred.resolve(r.input1);
-				}, null, null, defaultText)
+					if (index==1) {
+						deferred.resolve(r.input1);
+					}else{
+						deferred.reject();
+					}
+				}, title, [_('Ok'),_('Cancel')], defaultText)
 			}else{
 				deferred.resolve(prompt(message, defaultText));
 			}
@@ -16,9 +20,13 @@ define(function (require) {
 		confirm: function(message, title) {
 			var deferred = $.Deferred();
 			if (typeof Cordova !== "undefined") {
-				navigator.notification.confirm(message, function(r){
-					deferred.resolve(true);
-				}, title);
+				navigator.notification.confirm(message, function(index){
+					if (index==1) {
+						deferred.resolve(true);
+					}else{
+						deferred.reject();
+					}
+				}, title, [_('Ok'),_('Cancel')]);
 			}else{
 				deferred.resolve(confirm(message));
 			}

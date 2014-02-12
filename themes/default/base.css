@@ -13,7 +13,7 @@
 
 body { padding-top: 51px; background:#F8F8F8; font-family: 'Nunito', sans-serif; }
 
-.form-control {border-radius: 0; border-right: 0; border-left: 0; border-top: 0px; outline: none; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) !important; -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) !important;}
+.form-control {border-radius: 0; border-right: 0; border-left: 0; border-top: 0px; outline: none; box-shadow: 0 0 5px #E2E2E2 !important; -webkit-box-shadow: 0 0 5px #E2E2E2 !important;}
 input[type="search"] {-webkit-appearance: none; -webkit-border-radius:0px;}
 select {-webkit-appearance: textfield;}
 .btn-right {border: 0; position: absolute; top: 0; right: 0; border-radius: 0;}
