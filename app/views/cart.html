@@ -34,9 +34,11 @@
 		<div class="pull-right">
 			<div class="btn-group pull-right">
 				<a href="#" class="btn dropdown-toggle" style="background:transparent; border-color:transparent;" data-toggle="dropdown"><span style="line-height: 0px; font-size: 27px; font-weight: bold;">...</span></a>
-				<ul class="dropdown-menu pull-right">
-					<li><a href="#" data-bind="click:$root.rename">Rename</a></li>
-					<li><a href="#" data-bind="click:$root.remove">Delete</a></li>
+				<ul class="dropdown-menu pull-right">					
+					<li data-bind="css:{disabled:$root.items().length==0}"><a href="#" data-bind="click:$root.clearAll">Clear all</a></li>
+					<li class="divider"></li>
+					<li data-bind="css:{disabled:$root.items().length==0}"><a href="#" data-bind="click:$root.markAll">Mark all</a></li>
+					<li data-bind="css:{disabled:$root.items().length==0}"><a href="#" data-bind="click:$root.unmarkAll">Unmark all</a></li>
 					<!-- <li class="divider"></li> -->
 					<!-- <li data-bind="css:{disabled:$root.items().length==0}"><a href="#" data-bind="click:$root.share">Share to email</a></li> -->
 				</ul>
@@ -82,6 +84,25 @@
 				</div>		
 			<!-- /ko -->
 		</div>
+		<div class="list-group checked">
+			<!-- ko foreach:items -->
+				<div class="list-group-item" data-bind="css:{'hidden':!checked()}">
+					<div class="actions pull-right">
+						<a href="#" data-bind="click:$root.setCurrentItem"><span class="glyphicon glyphicon-info-sign"></span></a>
+					</div>
+					<a href="#" class="checkbox" data-bind="click:$root.toggleItemCheck">
+						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
+						<span class="price" data-bind="visible:price()>0, text:'@ ${0}'.format(Number((quantity()? quantity() : 1)*price()).format(2))"></span>
+					</a>
+					<div class="row actions-pane" data-bind="visible:$root.currentItem().id()==id()">
+						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showItem"><span class="glyphicon glyphicon-pencil"></span> Quantity/Price</button>
+						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showProduct"><span class="glyphicon glyphicon-pencil"></span> Product</button>
+						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.removeItem"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+					</div>
+				</div>
+			<!-- /ko -->
+		</div>
+		
 	</div>
 	<nav id="summary" class="navbar navbar-default navbar-fixed-bottom" data-bind="visible:totalPrice().remaining>0 || totalPrice().checked>0">
 		<div class="pull-right" style="margin-right:10px; margin-top:8px;" data-bind="visible:totalPrice().checked>0">

@@ -18,7 +18,8 @@
 			<button class="btn btn-default btn-right" type="button" data-bind="click:$root.scan"><span class="glyphicon glyphicon-barcode"></span></button>
 		</div>
 		<div class="form-group">
-			<select name="cid" data-bind="options:$root.productCategories, optionsValue:'id', optionsText:'name', optionsCaption:'Select a category...'"></select>
+			<!-- <select name="cid" data-bind="options:$root.productCategories, optionsValue:'id', optionsText:'name', optionsCaption:'Select a category...'"></select> -->
+			<select name="cid" class="form-control"><option value="">Select a category...</option><option value="1">Vegetables</option><option value="2">Fruits</option><option value="3">Refrigerated</option><option value="4">Frozen</option><option value="5">Condiments</option><option value="6">Groceries</option><option value="7">Canned foods</option><option value="8">Dairy</option><option value="9">Meat</option><option value="10">Seefood</option><option value="11">Beverages</option><option value="12">Snacks</option><option value="13">Baby stuffs</option><option value="14">Pets</option><option value="15">Personal care</option><option value="16">Medicine</option><option value="17">Cleaning stuff</option><option value="18">Office supplies</option></select>
 		</div>
 		
 		<!-- ko if:picture()!='undefined' -->
