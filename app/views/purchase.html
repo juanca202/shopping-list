@@ -2,6 +2,8 @@
 	<style>
 		#purchase .list-group {box-shadow: 0 1px 1px #E2E2E2;}
 		#purchase .list-group-item {border-radius:0;}
+		#purchase .list-group-item .checkbox {display:block; margin: -10px -15px; padding: 10px 15px;}
+		#purchase .list-group-item a:hover {text-decoration:none; background-color: #F5F5F5;}
 	</style>
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-bind="with:purchase">
 		<div class="pull-left">
@@ -25,8 +27,13 @@
 		<div class="list-group">
 			<!-- ko foreach:items -->
 				<div class="list-group-item">
-					<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
-					<span style="color:#999;" data-bind="visible:price()>0, text:'@ ${0}'.format(Number((quantity()? quantity() : 1)*price()).format(2))"></span>
+					<div class="actions pull-right">
+						<a href="#" data-bind="visible:cart.id()"><span class="glyphicon glyphicon-shopping-cart"></span></a>
+					</div>
+					<a href="#" class="checkbox" data-bind="click:$root.toggleItemAtCart">
+						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
+						<span style="color:#a1c5e5;" data-bind="visible:price()>0, text:' ${0}'.format(Number((quantity()? quantity() : 1)*price()).format(2))"></span>
+					</a>
 				</div>		
 			<!-- /ko -->
 		</div>

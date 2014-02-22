@@ -7,8 +7,10 @@
 		ko = require('knockout'),
 		shell = require('viewmodels/shell'),
 		purchase = require('models/purchase'),
+		list = require('models/list'),
 		message = require('factor/message'),
 		moment = require('moment'),
+		shell = require('viewmodels/shell'),
 		ViewModel = function(){
 			var self = this,
 				//Private vars
@@ -18,6 +20,7 @@
 			
 			//Public vars
 			self.activate = function (id, params) {
+				_id = id;
 				$.when(purchase.get(id), purchase.items.getAll({puid:id}))
 					.done(function(purchaseResponse, itemsResponse){
 						if (purchaseResponse.success && itemsResponse.success) {
@@ -29,6 +32,15 @@
 			};
 			self.items = ko.observableArray();
 			self.purchase = ko.mapping.fromJS({timestamp:''});
+			self.refreshItems = function(){
+				purchase.items.getAll({puid:_id})
+					.done(function(response){
+						if (response.success) {
+							ko.mapping.fromJS(response.items, self.items);
+							shell.refreshCartCount();
+						}
+					});
+			};
 			self.remove = function() {
 				message.confirm(_('Are you sure you want to remove this purchase?'))
 					.done(function(success){
@@ -58,6 +70,15 @@
 						location.href = 'mailto:{0}?subject={1}&body={2}'.format(email, subject, message.join('%0D%0A'));
 					}
 				});
+			};
+			self.toggleItemAtCart = function(item) {
+				var request = !item.cart.id()? list.items.save(1, [$.extend(ko.mapping.toJS(item), {id:null})]) : list.items.remove(item.cart.id());
+				request
+					.done(function(response){
+						if (response.success) {
+							self.refreshItems();
+						}
+					});
 			};
 			self.totalPrice = ko.computed(function(){
 				var total = 0;

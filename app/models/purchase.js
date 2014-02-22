@@ -123,7 +123,7 @@ define(function (require) {
 				getAll: function(filters){
 					var deferred = $.Deferred();
 					app.storage.transaction(function(tx) {
-						tx.executeSql('SELECT i.id, i.quantity, i.unit, i.price, p.id AS product_id, p.code AS product_code, p.name AS product_name, p.picture AS product_picture, c.color AS product_category_color FROM purchase_item i, product p LEFT JOIN product_category c ON p.cid = c.id WHERE i.pid = p.id AND i.puid = ? ORDER BY p.cid', [filters.puid], function(tx, r){
+						tx.executeSql('SELECT i.id, i.quantity, i.unit, i.price, p.id AS product_id, p.code AS product_code, p.name AS product_name, p.picture AS product_picture, c.color AS product_category_color, case when cr.lid = 1 then cr.id end AS cart_id FROM purchase_item i LEFT JOIN list_item cr ON cr.pid = i.pid AND cr.lid = 1, product p LEFT JOIN product_category c ON p.cid = c.id WHERE i.pid = p.id AND i.puid = ? ORDER BY p.cid', [filters.puid], function(tx, r){
 							var rows = r.rows,
 								items = [];
 							for (var i = 0; i < rows.length; i++) {
