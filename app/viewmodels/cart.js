@@ -230,7 +230,9 @@
 							product.search(result.text, 5)
 								.done(function(response){
 									if (response.success) {
-										if (response.products.length==1) {
+										if (response.products.length==0){
+											location.href = '#products/create?lid={0}&code={1}'.format(self.list.id(), result.text);
+										}else if (response.products.length==1) {
 											var exists = false,
 												product = response.products[0]; 
 											$.each(self.items(), function(){
@@ -240,8 +242,6 @@
 												}	
 											});
 											if (!exists) {
-												location.href = '#products/create?lid={0}&code={1}'.format(self.list.id(), product.code);
-											}else{
 												self.addItem(product);
 											}
 										}else{
