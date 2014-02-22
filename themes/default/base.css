@@ -23,13 +23,14 @@ select.form-control  {-webkit-appearance: textfield;}
 .navbar-fixed-top .btn {border-radius: 0; padding-top: 14px; padding-bottom: 14px; display:block; text-align:center; min-width:50px;}
 
 /* NAVBAR BOTTOM */
+.navbar-fixed-bottom {transition: bottom .4s; -webkit-transition: bottom .4s;}
 .navbar-fixed-bottom .nav-pills>li>a {border-radius:0; margin-bottom:0; min-height: 49px; line-height: 49px; padding: 0;}
 .navbar-fixed-bottom .nav-justified {display: table;}
 .navbar-fixed-bottom .nav-justified>li {display: table-cell; width:25%; }
 .navbar-fixed-bottom  .glyphicon {top: 7px; font-size: 22px;}
 .navbar-fixed-bottom :not(.active) .badge {background: #D9534F;}
 .navbar-fixed-bottom .active .badge {border: 1px solid #428BCA;}
-.focusin .navbar-fixed-bottom {display:none;}
+.navbar-fixed-bottom.hidden {bottom:-60px; display: block!important; visibility: visible!important;}
 
 .navbar-fixed-top,
 .navbar-fixed-bottom {background:#FFF;}

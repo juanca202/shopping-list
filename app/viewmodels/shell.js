@@ -10,7 +10,7 @@ define(function (require) {
     return {
         activate: function () {
             router.map([
-                { route: '', title:'Shopping Cart', css:'glyphicon glyphicon-shopping-cart', count:ko.observable(), nav:true, moduleId: 'viewmodels/cart' },
+                { route: '', title:'Shopping cart', css:'glyphicon glyphicon-shopping-cart', count:ko.observable(), nav:true, moduleId: 'viewmodels/cart' },
 				{ route: 'lists', title:'Lists', css:'glyphicon glyphicon-list-alt', count:ko.observable(), nav:true, moduleId: 'viewmodels/lists' },
 				{ route: 'lists/:lid', moduleId: 'viewmodels/list-form' },
 				{ route: 'purchases', title:'Purchase history', css:'glyphicon glyphicon-time', count:ko.observable(), nav:true, moduleId: 'viewmodels/purchases' },

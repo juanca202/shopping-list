@@ -4,7 +4,7 @@
 		#list-form .search-input [type="search"] {padding: 20px 12px;}
 		#list-form #products-list .list-group-item:first-child {border-top:0;}
 		#list-form #products-list.open {margin-top: -15px;}
-		#list-form .list-group {box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);}
+		#list-form .list-group {box-shadow: 0 1px 1px #E2E2E2;}
 		#list-form .list-group.checked .checkbox {text-decoration: line-through;}
 		#list-form .list-group.checked a {color:#999;}
 		#list-form .list-group-item {border-radius:0;}
@@ -18,7 +18,7 @@
 		#list-form .list-group-item .checkbox {display:block; margin: -10px -15px; padding: 10px 15px;}
 		#list-form .list-group-item .checkbox,
 		#list-form .list-group-item .actions-pane {border-left:2px solid rgba(255,255,255,0);}
-		#list-form #summary {background: #F8F8F8; bottom: 50px; border: 0;}
+		#list-form #summary {background: #F8F8F8; border: 0;}
 		
 		@media (max-width: 767px) {
 			#list-form .search-input {position:relative; margin: -15px; margin-bottom: 15px; margin-top:0;}
@@ -51,26 +51,32 @@
 		
 		<div id="products-list" class="list-group" data-bind="css:{open:queryParts().name.length>0 || products().length>0}">
 			<!-- ko foreach:products -->
-				<a href="#" class="list-group-item" data-bind="click:$root.addItem"><span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="color:#999;"></span><span data-bind="text:name"></span><span style="color:#999;" data-bind="visible:$root.queryParts().name==code, text:' - {0}'.format(code)"></span></a>
+				<a href="#" class="list-group-item" data-bind="click:$root.addItem">
+					<span class="pull-right glyphicon glyphicon-plus-sign" style="color:#5CB85C;"></span>
+					<span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="color:#999;"></span><span data-bind="text:name"></span><span style="color:#999;" data-bind="visible:$root.queryParts().name==code, text:' - {0}'.format(code)"></span>
+				</a>
 			<!-- /ko -->
 			<!-- ko if:queryParts().name.length>0 && products().length==0 -->
-				<a href="#" class="list-group-item" data-bind="click:$root.createProduct.bind($data, $root.queryParts().name)"><span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="color:#999;"></span><span data-bind="text:$root.queryParts().name"></span></a>
+				<a href="#" class="list-group-item" data-bind="click:$root.createProduct.bind($data, $root.queryParts().name)">
+					<span class="pull-right glyphicon glyphicon-plus-sign" style="color:#5CB85C;"></span>
+					<span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="color:#999;"></span><span data-bind="text:$root.queryParts().name"></span>
+				</a>
 			<!-- /ko -->
 		</div>
 		
 		<div data-bind="visible:items().length==0" class="no-data">
-			<span class="glyphicon" data-bind="css:{'glyphicon-shopping-cart':list.id()==1, 'glyphicon-list-alt':list.id()!=1}"></span><br />
+			<span class="glyphicon" data-bind="css:{'glyphicon-list-alt':list.id()!=1}"></span><br />
 			You have not added products yet
 		</div>
 		
 		<div class="list-group" style="margin-bottom:20px;">
 			<!-- ko foreach:items -->
-				<div class="list-group-item" data-bind="css:{'hidden':checked()}">
+				<div class="list-group-item">
 					<div class="actions pull-right">
 						<a href="#" data-bind="click:$root.setCurrentItem"><span class="glyphicon glyphicon-info-sign"></span></a>
-						<a href="#" data-bind="visible:cart.id() && $root.list.id()!=1"><span class="glyphicon glyphicon-shopping-cart"></span></a>
+						<a href="#" data-bind="visible:cart.id()"><span class="glyphicon glyphicon-shopping-cart"></span></a>
 					</div>
-					<a href="#" class="checkbox" data-bind="click:$root.list.id()==1? $root.toggleItemCheck : $root.toggleItemAtCart, style:{'border-left-color':product.category.color? product.category.color : 'inherit'}">
+					<a href="#" class="checkbox" data-bind="click:$root.toggleItemAtCart, style:{'border-left-color':product.category.color? product.category.color : 'inherit'}">
 						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
 						<span style="color:#a1c5e5;" data-bind="visible:price()>0, text:'@ ${0}'.format(Number((quantity()? quantity() : 1)*price()).format(2))"></span>
 					</a>
@@ -83,16 +89,10 @@
 			<!-- /ko -->
 		</div>
 	</div>
-	<nav id="summary" class="navbar navbar-default navbar-fixed-bottom" data-bind="visible:totalPrice().remaining>0 || totalPrice().checked>0">
-		<div class="pull-right" style="margin-right:10px; margin-top:8px;" data-bind="visible:totalPrice().checked>0">
-			<button class="btn btn-primary" data-bind="click:checkout">Checkout</button>
-		</div>
-		<div data-bind="css:{'summary-values':totalPrice().remaining>0 && totalPrice().checked>0}" style="margin-left:10px;">
+	<nav id="summary" class="navbar navbar-default navbar-fixed-bottom" data-bind="visible:totalPrice().remaining>0">
+		<div data-bind="css:{'summary-values':totalPrice().remaining>0}" style="margin-left:10px;">
 			<div class="remaining navbar-text" data-bind="visible:totalPrice().remaining>0">
-				Remaining: <strong data-bind="text:'${0}'.format(Number(totalPrice().remaining).format(2))"></strong> 
-			</div>
-			<div class="purchased navbar-text" data-bind="visible:totalPrice().checked>0">
-				Purchased: <strong data-bind="text:'${0}'.format(Number(totalPrice().checked).format(2))"></strong>
+				Total: <strong data-bind="text:'${0}'.format(Number(totalPrice().remaining).format(2))"></strong> 
 			</div>
 		</div>
 	</nav>	

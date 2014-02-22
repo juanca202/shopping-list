@@ -10,15 +10,10 @@
 	</nav>
     <div data-bind="with:item">
 		<div class="form-group">
-			<div class="row">
-				<div class="col-xs-6">
-					<input type="number" class="form-control" min="0" step="any" name="quantity" placeholder="Quantity" data-bind="value:quantity" />
-				</div>
-				<div class="col-xs-6">
-					<!-- <select name="unit" class="form-control" data-bind="value:unit, options:$root.units, optionsCaption:'Select a unit...'"></select> -->
-					<select name="unit"><option value="">Select a unit...</option><option value="kg.">kg.</option><option value="gr.">gr.</option><option value="lb.">lb.</option><option value="oz.">oz.</option><option value="piece">piece</option><option value="bag">bag</option><option value="bottle">bottle</option><option value="box">box</option><option value="case">case</option><option value="pack">pack</option><option value="jar">jar</option><option value="can">can</option><option value="cup">cup</option><option value="gallon">gallon</option></select>
-				</div>
-			</div>
+			<input type="number" class="form-control" min="0" step="any" name="quantity" placeholder="Quantity" data-bind="value:quantity" />
+		</div>
+		<div class="form-group">
+			<select name="unit" class="form-control" data-bind="value:unit, options:$root.units, optionsCaption:'Select a unit...'"></select>
 		</div>
 		<div class="form-group">
 			<input type="text" pattern="^-?(?:[0-9]+|[0-9]*\.[0-9]+)$" class="form-control" name="price" placeholder="Price" data-bind="value:price" />

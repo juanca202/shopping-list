@@ -6,7 +6,7 @@ define(function (require) {
 			var deferred = $.Deferred();
 			if (typeof Cordova !== "undefined") {
 				navigator.notification.prompt(message, function(r){
-					if (r.buttonIndex==1) {
+					if (index==1) {
 						deferred.resolve(r.input1);
 					}else{
 						deferred.reject();
