@@ -125,7 +125,7 @@
 					query = $.trim(value);
 					self.queryParts({quantity:null, name:query});
 				}
-				if(query!=='') {
+				if(query!='') {
 					queryTimeout = setTimeout(function(){
 						product.search(query, 5)
 							.done(function(response){
@@ -241,8 +241,9 @@
 											});
 											if (!exists) {
 												location.href = '#products/create?lid={0}&code={1}'.format(self.list.id(), product.code);
-												//self.addItem(product);
-											}
+											}else{
+												self.addItem(product);
+											
 										}else{
 											self.products(response.products);
 										}

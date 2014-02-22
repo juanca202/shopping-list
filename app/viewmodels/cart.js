@@ -125,7 +125,7 @@
 					query = $.trim(value);
 					self.queryParts({quantity:null, name:query});
 				}
-				if(query!=='') {
+				if(query!='') {
 					queryTimeout = setTimeout(function(){
 						product.search(query, 5)
 							.done(function(response){
@@ -226,27 +226,30 @@
 					var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 					scanner.scan(function (result) {
 						//alert(result.text+' '+result.format);
-						product.search(result.text, 5)
-							.done(function(response){
-								if (response.success) {
-									if (response.products.length==1) {
-										var exists = false,
-											product = response.products[0]; 
-										$.each(self.items(), function(){
-											if (this.product.id()==product.id) {
-												exists = true;
-												return;
-											}	
-										});
-										if (!exists) {
-											location.href = '#products/create?lid={0}&code={1}'.format(self.list.id(), product.code);
-											//self.addItem(product);
+						if ($.trim(result.text)!='') {
+							product.search(result.text, 5)
+								.done(function(response){
+									if (response.success) {
+										if (response.products.length==1) {
+											var exists = false,
+												product = response.products[0]; 
+											$.each(self.items(), function(){
+												if (this.product.id()==product.id) {
+													exists = true;
+													return;
+												}	
+											});
+											if (!exists) {
+												location.href = '#products/create?lid={0}&code={1}'.format(self.list.id(), product.code);
+											}else{
+												self.addItem(product);
+											
+										}else{
+											self.products(response.products);
 										}
-									}else{
-										self.products(response.products);
 									}
-								}
-							});	
+								});	
+							}
 					}, function (error) {
 						//alert("Scanning failed: " + error);
 					});

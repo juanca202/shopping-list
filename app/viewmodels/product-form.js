@@ -70,7 +70,9 @@ define(function (require) {
 					var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 					scanner.scan(function (result) {
 						//alert(result.text+' '+result.format);
-						self.product.code(result.text);		
+						if ($.trim(result.text)!='') {
+							self.product.code(result.text);
+						}
 					}, function (error) {
 						//alert("Scanning failed: " + error);
 					});
@@ -78,7 +80,6 @@ define(function (require) {
 					alert(e.message);
 				}
 			};
-		};
-	
+		};	
     return viewModel;
 });
