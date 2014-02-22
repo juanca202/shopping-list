@@ -243,7 +243,7 @@
 												location.href = '#products/create?lid={0}&code={1}'.format(self.list.id(), product.code);
 											}else{
 												self.addItem(product);
-											
+											}
 										}else{
 											self.products(response.products);
 										}
