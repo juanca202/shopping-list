@@ -54,7 +54,7 @@ define(function (require) {
 	});
 	*/
 	
-	$.on('deviceready', function(){
+	$(document).on('deviceready', function(){
 		//alert('PhoneGap device ready');
 		window.plugins.gaPlugin.init(function(result){
 			alert('gaPlugin init: '+result);
