@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Shopping List</title>
+		<title></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<link href="libraries/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 		<link href="themes/default/base.css" rel="stylesheet" media="screen">
@@ -11,23 +11,12 @@
     <body>
         <div id="applicationHost">
             <div class="splash">
-				<!-- <span class="glyphicon glyphicon-shopping-cart" style="top: 50%; margin-top: -40px; left: 50%; margin-left: -40px; font-size: 80px; position: absolute; color: #428BCA;"></span> -->
 				<div style="background:url(themes/default/images/logo.png) no-repeat; width:199px; height:107px; position:absolute; top:50%; left:50%; margin-top:-53px; margin-left:-70px"></div>
 			</div>
         </div>
 		<script src="cordova.js"></script>
 		<script src="GAPlugin.js"></script>
 		<script src="barcodescanner.js"></script>
-		<script>
-			document.addEventListener("deviceready", function(){
-				//alert('PhoneGap device ready');
-				window.plugins.gaPlugin.init(function(result){
-					//alert('gaPlugin init: '+result);
-				}, function(error){
-					//alert('gaPlugin fail: '+error);
-				}, "UA-309340-46", 10);
-			});
-		</script>
 		<script src="libraries/require/require.js" data-main="app/main"></script>
     </body>
 </html>
