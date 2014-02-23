@@ -10,7 +10,6 @@
 		purchase = require('models/purchase'),
 		dialog = require('plugins/dialog'),
 		message = require('factor/message'),
-		mobile = require('mobile'),
 		shell = require('viewmodels/shell'),
 		ViewModel = function(){
 			var self = this,
