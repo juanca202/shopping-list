@@ -8,8 +8,7 @@ requirejs.config({
 		'knockout.mapping': '../libraries/knockout/knockout.mapping-latest',
 		'knockouch': '../libraries/knockout/knockouch',
         'bootstrap': '../libraries/bootstrap/js/bootstrap',
-        'jquery': '../libraries/jquery/jquery-2.0.3',
-		'mobile': '../libraries/jquery/jquery.mobile.custom.min',
+        'jquery': '../libraries/jquery/jquery-2.1.0',
 		'moment': '../libraries/moment/moment.min',
 		'fastclick': '../libraries/ftlabs/fastclick',
 		'factor': '../libraries/factor',
@@ -55,7 +54,7 @@ define(function (require) {
 	*/
 	
 	$(document).on('deviceready', function(){
-		//alert('PhoneGap device ready');
+		alert('PhoneGap device ready');
 		window.plugins.gaPlugin.init(function(result){
 			alert('gaPlugin init: '+result);
 		}, function(error){
@@ -70,7 +69,7 @@ define(function (require) {
     app.title = _('Shopping List');
 
     app.configurePlugins({
-        router:true,
+        router: true,
         dialog: true,
         widget: true
     });
@@ -87,6 +86,5 @@ define(function (require) {
 			.done(function(){
 				app.setRoot('viewmodels/shell', 'entrance');
 			});
-		//app.adapteToDevice();
     });
 });
