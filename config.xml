@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
     <widget xmlns = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "ec.factor.msl"
+        id        = "ec.factor.gosh"
         versionCode="10" 
         version   = "1.0.0">
 
-   <name>Shopping List</name>
+   <name>GOSHopping</name>
 
     <description>
-        An example for phonegap build docs. 
+        Manage your shopping, do shopping list. 
     </description>
 
     <author href="http://factor.ec" email="info@factor.ec">
@@ -25,4 +25,6 @@
 	
 	<gap:plugin name="com.adobe.plugins.gaplugin" />
 	<gap:plugin name="com.phonegap.plugins.barcodescanner" />
+	
+	<icon src="icon.png" />
 </widget>
