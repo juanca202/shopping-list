@@ -23,8 +23,8 @@ define(function (require) {
 				]).buildNavigationModel();
 				//Update anaytics whenever the router navigates
 				router.on('router:navigation:complete', function(instance, instruction) {
-					if (typeof gaPlugin!='undefined') {
-						gaPlugin.trackPage(function(result){
+					if (window.plugins && typeof window.plugins.gaPlugin!='undefined') {
+						window.plugins.gaPlugin.trackPage(function(result){
 							alert('gaPlugin: '+result);
 							console.log('gaPlugin: '+result);
 						}, function(error){
