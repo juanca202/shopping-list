@@ -37,7 +37,6 @@ define(function (require) {
 			};
 			self.attachPicture = function(){
 				navigator.camera.getPicture(function(imageURI) {
-					//alert(imageURI);
 					self.product.picture(imageURI);
 				}, function(message) {
 					//alert('Failed because: ' + message);
