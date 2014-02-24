@@ -25,12 +25,12 @@ define(function (require) {
 				router.on('router:navigation:complete', function(instance, instruction) {
 					if (window.plugins && typeof window.plugins.gaPlugin!='undefined') {
 						window.plugins.gaPlugin.trackPage(function(result){
-							alert('gaPlugin: '+result);
+							//alert('gaPlugin: '+result);
 							console.log('gaPlugin: '+result);
 						}, function(error){
-							alert('gaPlugin: '+error);
+							//alert('gaPlugin: '+error);
 							console.log('gaPlugin: '+error);
-						}, instruction.fragment);
+						}, $.trim(instruction.fragment)!=''? instruction.fragment : 'home');
 					}
 				});
 				//Elimina los 300ms al hacer click en un boton

@@ -21,10 +21,10 @@
 			document.addEventListener('deviceready', function(){
 				alert('PhoneGap device ready');
 				window.plugins.gaPlugin.init(function(result){
-					alert('gaPlugin init: '+result);
+					//alert('gaPlugin init: '+result);
 					console.log('gaPlugin: '+result);
 				}, function(error){
-					alert('gaPlugin fail: '+error);
+					//alert('gaPlugin fail: '+error);
 					console.log('gaPlugin: '+error);
 				}, 'UA-309340-46', 10);
 			});
