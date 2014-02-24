@@ -23,7 +23,15 @@ define(function (require) {
 				]).buildNavigationModel();
 				//Update anaytics whenever the router navigates
 				router.on('router:navigation:complete', function(instance, instruction) {
-					if (typeof gaPlugin!='undefined') gaPlugin.trackPage(function(){}, function(){}, instruction.fragment);
+					if (typeof gaPlugin!='undefined') {
+						gaPlugin.trackPage(function(result){
+							alert('gaPlugin: '+result);
+							console.log('gaPlugin: '+result);
+						}, function(error){
+							alert('gaPlugin: '+error);
+							console.log('gaPlugin: '+error);
+						}, instruction.fragment);
+					}
 				});
 				//Elimina los 300ms al hacer click en un boton
 				fastclick.attach(document.body);
