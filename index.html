@@ -17,6 +17,16 @@
 		<script src="cordova.js"></script>
 		<script src="GAPlugin.js"></script>
 		<script src="barcodescanner.js"></script>
+		<script>
+			document.addEventListener('deviceready', function(){
+				alert('PhoneGap device ready');
+				window.plugins.gaPlugin.init(function(result){
+					alert('gaPlugin init: '+result);
+				}, function(error){
+					alert('gaPlugin fail: '+error);
+				}, "UA-309340-46", 10);
+			});
+		</script>
 		<script src="libraries/require/require.js" data-main="app/main"></script>
     </body>
 </html>

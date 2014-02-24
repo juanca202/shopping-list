@@ -53,15 +53,6 @@ define(function (require) {
 	});
 	*/
 	
-	$(document).on('deviceready', function(){
-		alert('PhoneGap device ready');
-		window.plugins.gaPlugin.init(function(result){
-			alert('gaPlugin init: '+result);
-		}, function(error){
-			alert('gaPlugin fail: '+error);
-		}, "UA-309340-46", 10);
-	});
-	
 	//>>excludeStart("build", true);
     system.debug(true);
     //>>excludeEnd("build");
