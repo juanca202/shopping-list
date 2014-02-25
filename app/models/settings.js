@@ -18,6 +18,10 @@ define(function (require) {
 						break;
 				}
 				return deferred.promise();
+			},
+			current: {
+				currency:'USD',
+				language:'English'
 			}
 		};
 	

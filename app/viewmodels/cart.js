@@ -10,6 +10,7 @@
 		purchase = require('models/purchase'),
 		dialog = require('plugins/dialog'),
 		message = require('factor/message'),
+		settings = require('models/settings'),
 		shell = require('viewmodels/shell'),
 		ViewModel = function(){
 			var self = this,
@@ -64,7 +65,7 @@
 					.done(function(response){
 						if (response.success) {
 							if (typeof redirect == 'string'){
-								location.href = '#/'+redirect;
+								location.href = redirect;
 								if (self.list.id()==1) {
 									self.refreshCartCount();
 								}
@@ -80,7 +81,16 @@
 				purchase.save(ko.mapping.toJS(self.list), ko.mapping.toJS(self.items()))
 					.done(function(response){
 						if(response.success) {
-							self.clearAll('purchases');
+							if (window.plugins && typeof window.plugins.gaPlugin!='undefined') {
+								window.plugins.gaPlugin.trackEvent(function(result){
+									//alert('gaPlugin: '+result);
+									console.log('gaPlugin: '+result);
+								}, function(error){
+									//alert('gaPlugin: '+error);
+									console.log('gaPlugin: '+error);
+								}, "Cart", "checkout", settings.current.currency, self.totalPrice.checked);
+							}
+							self.clearAll('#/purchases');
 						}
 					});	
 			};

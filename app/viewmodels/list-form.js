@@ -76,14 +76,6 @@
 						}
 					});
 			};
-			self.checkout = function() {
-				purchase.save(ko.mapping.toJS(self.list), ko.mapping.toJS(self.items()))
-					.done(function(response){
-						if(response.success) {
-							self.clearAll('purchases');
-						}
-					});	
-			};
 			self.createProduct = function(name){
 				var productData = {name:name};
 				product.save(productData).done(function(response){
@@ -271,13 +263,6 @@
 						}
 					});
 			};
-			self.toggleItemCheck = function(item){
-				if (self.currentItem().id()==item.id()) {
-					self.currentItem({id:ko.observable(-1)});
-				}
-				item.checked(!item.checked());
-				self.saveItems();
-			};
 			self.totalPrice = ko.computed(function(){
 				var remaining = 0, 
 					checked = 0;
@@ -302,12 +287,6 @@
 					item.checked(false);
 				});
 				self.saveItems();
-			};
-			self.addTransition = function(elem) { 
-				if (elem.nodeType === 1) $(elem).hide().slideDown('fast') ;
-			};
-			self.removeTransition = function(elem) { 
-				if (elem.nodeType === 1) $(elem).slideUp('fast', function() { $(elem).remove(); });
 			};
 		},
 		viewModel = new ViewModel();
