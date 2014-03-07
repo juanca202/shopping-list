@@ -2,9 +2,6 @@
 	<style>
 		#cart .search-input {margin-top:15px;}
 		#cart .search-input [type="search"] {padding: 20px 12px;}
-		#cart #products-list .list-group-item {border-left:0; border-right:0;}
-		#cart #products-list .list-group-item:first-child {border-top:0;}
-		#cart #products-list.open {margin-top: -15px; margin-left:-15px; margin-right:-15px;}
 		#cart .list-group {box-shadow: 0 1px 1px #E2E2E2;}
 		#cart .list-group.checked .checkbox {text-decoration: line-through;}
 		#cart .list-group.checked a {color:#999;}
@@ -49,10 +46,10 @@
     <div style="position:relative;">
 		<div class="search-input form-group">
 			<input type="search" class="form-control" data-bind="attr:{placeholder:_('Add a product to list')}, value:query, valueUpdate: 'afterkeydown', hasFocus: items().length==0" />
-			<button class="btn btn-default btn-right" type="button" style="padding: 10px 12px;" data-bind="click:scan"><span class="glyphicon glyphicon-barcode"></span> <span class="hidden-xs hidden-sm" data-bind="text:_('Scan barcode')"></span></button>
+			<button class="btn btn-default btn-right" type="button" style="padding: 10px 12px;" data-bind="click:scan"><span class="glyphicon glyphicon-barcode"></span> <span class="hidden-xs" data-bind="text:_('Scan barcode')"></span></button>
 		</div>
 		
-		<div id="products-list" class="list-group" data-bind="css:{open:queryParts().name.length>0 || products().length>0}">
+		<div class="list-group autocomplete" data-bind="css:{open:queryParts().name.length>0 || products().length>0}">
 			<!-- ko foreach:products -->
 				<a href="#" class="list-group-item" data-bind="click:$root.addItem">
 					<span class="pull-right glyphicon glyphicon-plus-sign" style="color:#5CB85C;"></span>

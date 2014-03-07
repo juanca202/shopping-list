@@ -54,21 +54,13 @@ define(function (require) {
 	settings.setVariable('language', settings.getVariable('language') || {"name":"English", "code":"en"});
 	
 	//Language
-	$.getJSON('locale/{0}.json'.format(settings.getVariable('language').code), function(response){
-		_.setTranslation(response);
-	});
-	//window._ = function(msgid) { return msgid; };
-	/*
-	$.ajax({
-		url:'locale/{0}.json'.format(localStorage['language']),
-		async:false, 
-		dataType:'text'
-	}).done(function(response){
-		var gt = new Gettext({"domain": "gosh", "locale_data" : response});
-		window._ = function(msgid) { return gt.gettext(msgid); };
-	});
-	*/
-	
+	var languagePath = 'locale/{0}.json'.format(settings.getVariable('language').code);
+	if (languagePath!='locale/en.json') {
+		$.getJSON(languagePath, function(response){
+			_.setTranslation(response);
+		});
+	}	
+		
 	//>>excludeStart("build", true);
     system.debug(true);
     //>>excludeEnd("build");

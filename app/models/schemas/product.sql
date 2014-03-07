@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `product_category` (
   `color` varchar(7) NULL
 );
 
--- CREATE UNIQUE INDEX product_idx ON product(name, color);
+CREATE UNIQUE INDEX product_idx ON product(name);
 
 INSERT INTO product_category(name, color) VALUES ('Vegetables', '#66FF33'); 
 INSERT INTO product_category(name, color) VALUES ('Fruits', '#CCFF33'); 
