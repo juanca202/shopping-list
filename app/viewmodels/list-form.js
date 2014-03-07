@@ -10,6 +10,7 @@
 		purchase = require('models/purchase'),
 		dialog = require('plugins/dialog'),
 		message = require('factor/message'),
+		settings = require('models/settings'),
 		shell = require('viewmodels/shell'),
 		ViewModel = function(){
 			var self = this,
@@ -24,6 +25,7 @@
 			self.activate = function (id, params) {
 				_id = id || 1;
 				mode = _id == 'create'? 'create' : 'update';
+				self.currency(settings.getVariable('currency'));
 				self.currentItem({id:ko.observable(-1)}); //Limpia el item actual si hay alguno seleccionado
 				self.products([]);
 				self.query('');
@@ -64,7 +66,7 @@
 					.done(function(response){
 						if (response.success) {
 							if (typeof redirect == 'string'){
-								location.href = '#/'+redirect;
+								location.href = redirect;
 								if (self.list.id()==1) {
 									shell.refreshCartCount();
 								}
@@ -234,6 +236,7 @@
 					self.currentItem({id:ko.observable(-1)});
 				}
 			};
+			self.currency = ko.observable();	
 			self.share = function() {
 				message.prompt('Enter an email recipient').done(function(email){
 					if (email) {

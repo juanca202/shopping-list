@@ -1,4 +1,4 @@
-define(function (require) {
+﻿define(function (require) {
 	'use strict';
 	
 	var $ = require('jquery'),
@@ -12,16 +12,23 @@ define(function (require) {
 		model = {
 			getOptions: function(key){
 				var deferred = $.Deferred();
-				switch (key){
-					case 'units':
-						deferred.resolve({success:true, values:['kg.', 'gr.', 'lb.', 'oz.', 'piece', 'bag', 'bottle', 'box', 'case', 'pack', 'jar', 'can', 'cup', 'gallon']});
-						break;
-				}
+				$.ajax({
+					url:'app/models/options/{0}.json'.format(key),
+					dataType:'json'
+				})
+					.done(function(response){
+						deferred.resolve({success:true, data:response});
+					})
+					.fail(function(request, message, exception){
+						deferred.reject({success:false, message:message});
+					});
 				return deferred.promise();
 			},
-			current: {
-				currency:'USD',
-				language:'English'
+			getVariable: function(key){
+				return JSON.parse(localStorage['settings.{0}'.format(key)] || 'false');
+			},
+			setVariable: function(key, value){
+				localStorage['settings.{0}'.format(key)] = JSON.stringify(value);
 			}
 		};
 	

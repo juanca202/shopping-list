@@ -14,10 +14,10 @@
 			<div class="btn-group pull-right">
 				<a href="#" class="btn dropdown-toggle" style="background:transparent; border-color:transparent;" data-toggle="dropdown"><span style="line-height: 0px; font-size: 27px; font-weight: bold;">...</span></a>
 				<ul class="dropdown-menu pull-right">
-					<li><a href="#" data-bind="click:$root.remove">Delete</a></li>
+					<li><a href="#" data-bind="click:$root.remove, text:_('Delete')"></a></a></li>
 					<!--
 					<li class="divider"></li>
-					<li data-bind="css:{disabled:$root.items().length==0}"><a href="#" data-bind="click:$root.share">Share to email</a></li>
+					<li data-bind="css:{disabled:$root.items().length==0}"><a href="#" data-bind="click:$root.share, text:_('Share to email')"></a></li>
 					-->
 				</ul>
 			</div>
@@ -41,7 +41,7 @@
 	<nav class="navbar navbar-default navbar-fixed-bottom" data-bind="visible:totalPrice().remaining>0 || totalPrice().checked>0">
 		<div style="margin-left:10px; margin-top:8px; font-size:13px;">
 			<div data-bind="visible:totalPrice()>0">
-				Purchased: <strong data-bind="text:'${0}'.format(Number(totalPrice()).format(2))"></strong>
+				<span data-bind="text:_('Purchased')"></span>: <strong data-bind="text:'${0}'.format(Number(totalPrice()).format(2))"></strong>
 			</div>
 		</div>
 	</nav>

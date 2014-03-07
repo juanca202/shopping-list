@@ -25,6 +25,7 @@
 			self.activate = function (id, params) {
 				_id = id || 1;
 				mode = _id == 'create'? 'create' : 'update';
+				self.currency(settings.getVariable('currency'));
 				self.currentItem({id:ko.observable(-1)}); //Limpia el item actual si hay alguno seleccionado
 				self.products([]);
 				self.query('');
@@ -36,7 +37,7 @@
 							if (listResponse.success && itemsResponse.success) {
 								ko.mapping.fromJS(listResponse.list, self.list);
 								ko.mapping.fromJS(itemsResponse.items, {}, self.items);
-								self.refreshCartCount();
+								shell.refreshCartCount();
 							}
 						});
 				}
@@ -67,7 +68,7 @@
 							if (typeof redirect == 'string'){
 								location.href = redirect;
 								if (self.list.id()==1) {
-									self.refreshCartCount();
+									shell.refreshCartCount();
 								}
 							}else if (self.list.id()!=1) {
 								location.href = '#/lists';
@@ -152,30 +153,9 @@
 					.done(function(response){
 						if (response.success) {
 							ko.mapping.fromJS(response.items, self.items);
-							self.refreshCartCount();
+							shell.refreshCartCount();
 						}
 					});
-			};
-			self.refreshCartCount = function(){
-				var count = 0;
-				if (self.list.id()==1) {
-					$.each(self.items(), function(){
-						if (!this.checked()) {
-							count++;
-						}
-					});
-					shell.router.navigationModel()[0].count(count);
-				}else{
-					list.items.getAll({lid:1})
-						.done(function(response){
-							$.each(response.items, function(){
-								if (!this.checked) {
-									count++;
-								}
-							});
-							shell.router.navigationModel()[0].count(count);
-						});
-				}
 			};
 			self.remove = function() {
 				message.confirm(_('Are you sure you want to remove this list?'))
@@ -190,7 +170,7 @@
 										if (self.list.id()!=1) {
 											location.href = '#/lists';
 										}else{
-											self.refreshCartCount();
+											shell.refreshCartCount();
 											location.href = '#';
 										}
 									}
@@ -202,7 +182,7 @@
 				list.items.remove(item.id()).done(function(response){
 					if (response.success) {
 						self.items.remove(item);
-						self.refreshCartCount();
+						shell.refreshCartCount();
 					}
 				});
 			};
@@ -273,6 +253,7 @@
 					self.currentItem({id:ko.observable(-1)});
 				}
 			};
+			self.currency = ko.observable();	
 			self.share = function() {
 				message.prompt('Enter an email recipient').done(function(email){
 					if (email) {

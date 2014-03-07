@@ -23,7 +23,7 @@
 			};
 			self.lists = ko.observableArray();
 			self.create = function() {
-				message.prompt('Enter list name').done(function(name){
+				message.prompt(_('Enter a name')).done(function(name){
 					if (name) {
 						list.save({name:name}).done(function(response){
 							if (response.success) {

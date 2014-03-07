@@ -1,0 +1,18 @@
+﻿<div id="settings" style="margin-top: 20px;">
+	<style>
+		.list-group-item-text {color:#999;}
+	</style>
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<div class="pull-left">
+			<a href="#/settings" class="btn"><span class="glyphicon glyphicon-chevron-left"></span></a>
+		</div>
+		<div class="navbar-text text-center title" data-bind="text:title"></div>
+	</nav>
+	
+	<div class="list-group selection-list" data-bind="foreach:options">
+		<a href="#" class="list-group-item" data-bind="click:$root.setOption">
+			<span class="pull-right glyphicon glyphicon-ok" data-bind="visible:JSON.stringify($data)==JSON.stringify($root.current())"></span>
+			<span data-bind="text:$root.format($data)"></span>
+		</a>
+	</div>
+</div>

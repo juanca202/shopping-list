@@ -61,6 +61,11 @@
 				});
 				return deferred.promise();
 			},
+			findCode: function(code) {
+				return $.ajax({
+					'url': 'http://api.upcdatabase.org/json/390a2db4d791727e23af1b94949fcf7e'+code
+				});
+			},
 			getCategories: function(){
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {

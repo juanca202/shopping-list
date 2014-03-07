@@ -14,10 +14,10 @@ define(function (require) {
 			
 			//Public vars
 			self.activate = function (id) {
-				settings.getOptions('units')
+				settings.getOptions('mass-measurement-unit')
 					.done(function(response){
 						if (response.success) {
-							self.units(response.values);
+							self.units(response.data);
 						}
 					});
 				list.items.get(id)

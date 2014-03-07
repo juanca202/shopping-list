@@ -1,6 +1,7 @@
 ﻿CREATE TABLE IF NOT EXISTS `list` (
   `id` INTEGER PRIMARY KEY,
   `gid` INTEGER NULL,
+  `currency` varchar(3) NOT NULL,
   `name` varchar(255) NOT NULL
 );
 

@@ -12,14 +12,15 @@ define(function (require) {
 			
 			self.activate = function () {
 				router.map([
-					{ route: '', title:'Shopping cart', css:'glyphicon glyphicon-shopping-cart', count:ko.observable(), nav:true, moduleId: 'viewmodels/cart' },
-					{ route: 'lists', title:'Lists', css:'glyphicon glyphicon-list-alt', count:ko.observable(), nav:true, moduleId: 'viewmodels/lists' },
+					{ route: '', title:_('Shopping cart'), css:'glyphicon glyphicon-shopping-cart', count:ko.observable(), nav:true, moduleId: 'viewmodels/cart' },
+					{ route: 'lists', title:_('Lists'), css:'glyphicon glyphicon-list-alt', count:ko.observable(), nav:true, moduleId: 'viewmodels/lists' },
 					{ route: 'lists/:lid', moduleId: 'viewmodels/list-form' },
-					{ route: 'purchases', title:'Purchase history', css:'glyphicon glyphicon-time', count:ko.observable(), nav:true, moduleId: 'viewmodels/purchases' },
-					{ route: 'purchases/:puid', title:'Purchase', moduleId: 'viewmodels/purchase' },
+					{ route: 'purchases', title:_('Purchase history'), css:'glyphicon glyphicon-time', count:ko.observable(), nav:true, moduleId: 'viewmodels/purchases' },
+					{ route: 'purchases/:puid', title:_('Purchase'), moduleId: 'viewmodels/purchase' },
 					{ route: 'list-items/:iid', moduleId: 'viewmodels/item-form' },
 					{ route: 'products/:pid', moduleId: 'viewmodels/product-form' },
-					{ route: 'settings', title:'Settings', css:'glyphicon glyphicon-cog', count:ko.observable(), nav:true, moduleId: 'viewmodels/settings' }
+					{ route: 'settings', title:_('Settings'), css:'glyphicon glyphicon-cog', count:ko.observable(), nav:true, moduleId: 'viewmodels/settings' },
+					{ route: 'settings/:key/options', moduleId: 'viewmodels/settings-options' }
 				]).buildNavigationModel();
 				//Update anaytics whenever the router navigates
 				router.on('router:navigation:complete', function(instance, instruction) {

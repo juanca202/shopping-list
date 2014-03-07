@@ -39,17 +39,33 @@ define(function (require) {
 		ko = require('knockout'),
 		list = require('models/list'),
 		product = require('models/product'),
-		purchase = require('models/purchase');
+		purchase = require('models/purchase'),
+		settings = require('models/settings');
 		
 	require('knockouch');
 	require('factor/extend');
 	require('translate');
 	
+	//Storage
 	app.storage = openDatabase("sl", "1.0", "Shopping List", 5 * 1024 * 1024); // 5MB
 	
-	/*
-	$.getJSON('locale/es.json', function(response){
+	//Settings
+	settings.setVariable('currency', settings.getVariable('currency') || {"name":"United States Dollar", "code":"USD", "symbol":"$"});
+	settings.setVariable('language', settings.getVariable('language') || {"name":"English", "code":"en"});
+	
+	//Language
+	$.getJSON('locale/{0}.json'.format(settings.getVariable('language').code), function(response){
 		_.setTranslation(response);
+	});
+	//window._ = function(msgid) { return msgid; };
+	/*
+	$.ajax({
+		url:'locale/{0}.json'.format(localStorage['language']),
+		async:false, 
+		dataType:'text'
+	}).done(function(response){
+		var gt = new Gettext({"domain": "gosh", "locale_data" : response});
+		window._ = function(msgid) { return gt.gettext(msgid); };
 	});
 	*/
 	
@@ -57,7 +73,7 @@ define(function (require) {
     system.debug(true);
     //>>excludeEnd("build");
 
-    app.title = _('Shopping List');
+    app.title = _('Gosh');
 
     app.configurePlugins({
         router: true,

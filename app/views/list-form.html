@@ -2,8 +2,9 @@
 	<style>
 		#list-form .search-input {margin-top:15px;}
 		#list-form .search-input [type="search"] {padding: 20px 12px;}
+		#list-form #products-list .list-group-item {border-left:0; border-right:0;}
 		#list-form #products-list .list-group-item:first-child {border-top:0;}
-		#list-form #products-list.open {margin-top: -15px;}
+		#list-form #products-list.open {margin-top: -15px; margin-left:-15px; margin-right:-15px;}
 		#list-form .list-group {box-shadow: 0 1px 1px #E2E2E2;}
 		#list-form .list-group.checked .checkbox {text-decoration: line-through;}
 		#list-form .list-group.checked a {color:#999;}
@@ -35,18 +36,18 @@
 			<div class="btn-group pull-right">
 				<a href="#" class="btn dropdown-toggle" style="background:transparent; border-color:transparent;" data-toggle="dropdown"><span style="line-height: 0px; font-size: 27px; font-weight: bold;">...</span></a>
 				<ul class="dropdown-menu pull-right">
-					<li><a href="#" data-bind="click:$root.rename">Rename</a></li>
-					<li><a href="#" data-bind="click:$root.remove">Delete</a></li>
+					<li><a href="#" data-bind="click:$root.rename, text:_('Rename')"></a></li>
+					<li><a href="#" data-bind="click:$root.remove, text:_('Delete')"></a></li>
 					<!-- <li class="divider"></li> -->
-					<!-- <li data-bind="css:{disabled:$root.items().length==0}"><a href="#" data-bind="click:$root.share">Share to email</a></li> -->
+					<!-- <li data-bind="css:{disabled:$root.items().length==0}"><a href="#" data-bind="click:$root.share, text:_('Share to email')"></a></li> -->
 				</ul>
 			</div>
 		</div>
 	</nav>
     <div style="position:relative;">
 		<div class="search-input form-group">
-			<input type="search" class="form-control" placeholder="Add a product to list" data-bind="value:query, valueUpdate: 'afterkeydown', hasFocus: items().length==0" />
-			<button class="btn btn-default btn-right" type="button" style="padding: 10px 12px;" data-bind="click:scan"><span class="glyphicon glyphicon-barcode"></span> <span class="hidden-xs hidden-sm">Scan barcode</span></button>
+			<input type="search" class="form-control" data-bind="attr:{placeholder:_('Add a product to list')}, value:query, valueUpdate: 'afterkeydown', hasFocus: items().length==0" />
+			<button class="btn btn-default btn-right" type="button" style="padding: 10px 12px;" data-bind="click:scan"><span class="glyphicon glyphicon-barcode"></span> <span class="hidden-xs hidden-sm" data-bind="text:_('Scan barcode')"></span></button>
 		</div>
 		
 		<div id="products-list" class="list-group" data-bind="css:{open:queryParts().name.length>0 || products().length>0}">
@@ -66,7 +67,7 @@
 		
 		<div data-bind="visible:items().length==0" class="no-data">
 			<span class="glyphicon" data-bind="css:{'glyphicon-list-alt':list.id()!=1}"></span><br />
-			You have not added products yet
+			<span data-bind="text:_('You have not added products yet')"></span>
 		</div>
 		
 		<div class="list-group" style="margin-bottom:20px;">
@@ -78,12 +79,12 @@
 					</div>
 					<a href="#" class="checkbox" data-bind="click:$root.toggleItemAtCart, style:{'border-left-color':product.category.color? product.category.color : 'inherit'}">
 						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
-						<span style="color:#a1c5e5;" data-bind="visible:price()>0, text:' ${0}'.format(Number((quantity()? quantity() : 1)*price()).format(2))"></span>
+						<span style="color:#a1c5e5;" data-bind="visible:price()>0, text:' {0}{1}'.format($root.currency().symbol, Number((quantity()? quantity() : 1)*price()).format(2))"></span>
 					</a>
 					<div class="row actions-pane" data-bind="visible:$root.currentItem().id()==id(), style:{'border-left-color':product.category.color? product.category.color : 'inherit'}">
-						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showItem"><span class="glyphicon glyphicon-pencil"></span> Quantity/Price</button>
-						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showProduct"><span class="glyphicon glyphicon-pencil"></span> Product</button>
-						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.removeItem"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showItem"><span class="glyphicon glyphicon-pencil"></span> <span data-bind="text:_('Quantity/Price')"></span></button>
+						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.showProduct"><span class="glyphicon glyphicon-pencil"></span> <span data-bind="text:_('Product')"></span></button>
+						<button class="col-xs-4 btn btn-sm" data-bind="click:$root.removeItem"><span class="glyphicon glyphicon-trash"></span> <span data-bind="text:_('Delete')"></span></button>
 					</div>
 				</div>		
 			<!-- /ko -->
@@ -92,7 +93,7 @@
 	<nav id="summary" class="navbar navbar-default navbar-fixed-bottom" data-bind="visible:totalPrice().remaining>0">
 		<div data-bind="css:{'summary-values':totalPrice().remaining>0}" style="margin-left:10px;">
 			<div class="remaining navbar-text" data-bind="visible:totalPrice().remaining>0">
-				Total: <strong data-bind="text:'${0}'.format(Number(totalPrice().remaining).format(2))"></strong> 
+				<span data-bind="text:_('Total')"></span>: <strong data-bind="text:'{0}{1}'.format($root.currency().symbol, Number(totalPrice().remaining).format(2))"></strong> 
 			</div>
 		</div>
 	</nav>	
