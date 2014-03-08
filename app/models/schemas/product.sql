@@ -23,7 +23,7 @@ INSERT INTO product_category(name, color) VALUES ('Groceries', '#F5B800');
 INSERT INTO product_category(name, color) VALUES ('Canned foods', '#FF6633'); 
 INSERT INTO product_category(name, color) VALUES ('Dairy', '#FF3366'); 
 INSERT INTO product_category(name, color) VALUES ('Meat', '#CC33FF'); 
-INSERT INTO product_category(name, color) VALUES ('Seefood', '#33CCFF'); 
+INSERT INTO product_category(name, color) VALUES ('Seafood', '#33CCFF'); 
 INSERT INTO product_category(name, color) VALUES ('Beverages', '#33FFCC'); 
 INSERT INTO product_category(name, color) VALUES ('Snacks', '#CC6600'); 
 INSERT INTO product_category(name, color) VALUES ('Baby stuffs', '#FF33CC'); 

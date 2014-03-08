@@ -30,6 +30,9 @@ define(function (require) {
 				}
 				product.getCategories().done(function(response){
 					if (response.success) {
+						$.each(response.categories, function(){
+							this.nameTranslated = _(this.name);
+						});
 						self.productCategories(response.categories);
 					}
 				});

@@ -75,7 +75,7 @@
 						<a href="#" data-bind="visible:cart.id()"><span class="glyphicon glyphicon-shopping-cart"></span></a>
 					</div>
 					<a href="#" class="checkbox" data-bind="click:$root.toggleItemAtCart, style:{'border-left-color':product.category.color? product.category.color : 'inherit'}">
-						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
+						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? _(unit()) : '', product.name()) : product.name()"></span>
 						<span style="color:#a1c5e5;" data-bind="visible:price()>0, text:' {0}{1}'.format($root.currency().symbol, Number((quantity()? quantity() : 1)*price()).format(2))"></span>
 					</a>
 					<div class="row actions-pane" data-bind="visible:$root.currentItem().id()==id(), style:{'border-left-color':product.category.color? product.category.color : 'inherit'}">

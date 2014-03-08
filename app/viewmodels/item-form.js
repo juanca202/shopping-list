@@ -17,7 +17,11 @@ define(function (require) {
 				settings.getOptions('mass-measurement-unit')
 					.done(function(response){
 						if (response.success) {
-							self.units(response.data);
+							var units = [];
+							$.each(response.data, function(){
+								units.push({name:this, nameTranslated:_(this)});
+							});
+							self.units(units);
 						}
 					});
 				list.items.get(id)

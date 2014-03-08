@@ -5,20 +5,20 @@
 		</div>
 		<div class="navbar-text text-center title" data-bind="with:product"><span data-bind="text:name"></span></div>
 		<div class="pull-right">
-			<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> <span class="hidden-xs hidden-sm">Save</span></button>
+			<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> <span class="hidden-xs" data-bind="text:_('Save')"></span></button>
 		</div>
 	</nav>
 	<div data-bind="with:product" style="margin-bottom:20px;">
 		<div class="form-group" style="position:relative;">
-			<input type="text" name="name" class="form-control" placeholder="Name" data-bind="value:name" />
+			<input type="text" name="name" class="form-control" data-bind="value:name, attr:{placeholder:_('Name')}" />
 			<button class="btn btn-default btn-right" type="button" data-bind="click:$root.attachPicture"><span class="glyphicon glyphicon-picture"></span></button>
 		</div>
 		<div class="form-group" style="position:relative;">	
-			<input type="number" class="form-control" name="code" placeholder="Barcode #" data-bind="value:code" />
+			<input type="number" class="form-control" name="code" data-bind="value:code, attr:{placeholder:'{0} #'.format(_('Barcode'))}" />
 			<button class="btn btn-default btn-right" type="button" data-bind="click:$root.scan"><span class="glyphicon glyphicon-barcode"></span></button>
 		</div>
 		<div class="form-group">
-			<select name="cid" class="form-control" data-bind="options:$root.productCategories, optionsValue:'id', optionsText:'name', optionsCaption:'Select a category...', value:category.id"></select>
+			<select name="cid" class="form-control" data-bind="options:$root.productCategories, optionsValue:'id', optionsText:'nameTranslated', optionsCaption:'{0}...'.format(_('Select a category')), value:category.id"></select>
 		</div>
 		
 		<!-- ko if:picture()!='undefined' -->

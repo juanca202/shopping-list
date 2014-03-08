@@ -31,8 +31,8 @@
 						<a href="#" data-bind="visible:cart.id()"><span class="glyphicon glyphicon-shopping-cart"></span></a>
 					</div>
 					<a href="#" class="checkbox" data-bind="click:$root.toggleItemAtCart">
-						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? unit() : '', product.name()) : product.name()"></span>
-						<span style="color:#a1c5e5;" data-bind="visible:price()>0, text:' ${0}'.format(Number((quantity()? quantity() : 1)*price()).format(2))"></span>
+						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? _(unit()) : '', product.name()) : product.name()"></span>
+						<span style="color:#a1c5e5;" data-bind="visible:price()>0, text:' {0}{1}'.format($root.currency().symbol, Number((quantity()? quantity() : 1)*price()).format(2))"></span>
 					</a>
 				</div>		
 			<!-- /ko -->

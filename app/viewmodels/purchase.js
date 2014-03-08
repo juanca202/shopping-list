@@ -21,6 +21,7 @@
 			//Public vars
 			self.activate = function (id, params) {
 				_id = id;
+				self.currency(settings.getVariable('currency'));
 				$.when(purchase.get(id), purchase.items.getAll({puid:id}))
 					.done(function(purchaseResponse, itemsResponse){
 						if (purchaseResponse.success && itemsResponse.success) {
@@ -30,6 +31,7 @@
 					});
 				shell.navGlobal(false); 
 			};
+			self.currency = ko.observable();
 			self.items = ko.observableArray();
 			self.purchase = ko.mapping.fromJS({timestamp:''});
 			self.refreshItems = function(){

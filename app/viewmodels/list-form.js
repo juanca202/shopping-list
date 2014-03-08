@@ -88,6 +88,7 @@
 					}
 				});	
 			};
+			self.currency = ko.observable();
 			self.currentItem = ko.observable({id:ko.observable(-1)});
 			self.items = ko.observableArray();
 			self.list = ko.mapping.fromJS({id:null, name:''});
@@ -236,7 +237,6 @@
 					self.currentItem({id:ko.observable(-1)});
 				}
 			};
-			self.currency = ko.observable();	
 			self.share = function() {
 				message.prompt('Enter an email recipient').done(function(email){
 					if (email) {

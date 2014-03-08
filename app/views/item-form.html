@@ -5,18 +5,18 @@
 		</div>
 		<div class="navbar-text text-center title" data-bind="with:item"><span data-bind="text:product.name"></span></div>
 		<div class="pull-right">
-			<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> <span class="hidden-xs hidden-sm">Save</span></button>
+			<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> <span class="hidden-xs" data-bind="text:_('Save')"></span></button>
 		</div>
 	</nav>
     <div data-bind="with:item">
 		<div class="form-group">
-			<input type="number" class="form-control" min="0" step="any" name="quantity" placeholder="Quantity" data-bind="value:quantity" />
+			<input type="number" class="form-control" min="0" step="any" name="quantity" data-bind="value:quantity, attr:{placeholder:_('Quantity')}" />
 		</div>
 		<div class="form-group">
-			<select name="unit" class="form-control" data-bind="value:unit, options:$root.units, optionsCaption:'Select a unit...'"></select>
+			<select name="unit" class="form-control" data-bind="value:unit, options:$root.units, optionsValue:'name', optionsText:'nameTranslated', optionsCaption:'{0}...'.format(_('Select a unit'))"></select>
 		</div>
 		<div class="form-group">
-			<input type="text" pattern="^-?(?:[0-9]+|[0-9]*\.[0-9]+)$" class="form-control" name="price" placeholder="Price" data-bind="value:price" />
+			<input type="text" pattern="^-?(?:[0-9]+|[0-9]*\.[0-9]+)$" class="form-control" name="price" data-bind="value:price, attr:{placeholder:_('Price')}" />
 		</div>
 	</div>
 </form>

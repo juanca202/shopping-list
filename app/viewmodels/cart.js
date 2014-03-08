@@ -82,6 +82,7 @@
 				purchase.save(ko.mapping.toJS(self.list), ko.mapping.toJS(self.items()))
 					.done(function(response){
 						if(response.success) {
+							self.clearAll('#/purchases');
 							if (window.plugins && typeof window.plugins.gaPlugin!='undefined') {
 								window.plugins.gaPlugin.trackEvent(function(result){
 									//alert('gaPlugin: '+result);
@@ -89,9 +90,8 @@
 								}, function(error){
 									//alert('gaPlugin: '+error);
 									console.log('gaPlugin: '+error);
-								}, "Cart", "checkout", settings.current.currency, self.totalPrice.checked);
+								}, "Cart", "checkout", settings.getVariable('currency').code, self.totalPrice.checked);
 							}
-							self.clearAll('#/purchases');
 						}
 					});	
 			};
