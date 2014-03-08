@@ -10,6 +10,7 @@
 		list = require('models/list'),
 		message = require('factor/message'),
 		moment = require('moment'),
+		settings = require('models/settings'),
 		shell = require('viewmodels/shell'),
 		ViewModel = function(){
 			var self = this,
