@@ -50,8 +50,12 @@ define(function (require) {
 	app.storage = openDatabase("sl", "1.0", "Shopping List", 5 * 1024 * 1024); // 5MB
 	
 	//Settings
+	var language = {"name":"English", "code":"en"};
+	if (navigator.language.split('-')[0]=='es') {
+		language = {"name":"Español", "code":"es"};
+	}
 	settings.setVariable('currency', settings.getVariable('currency') || {"name":"United States Dollar", "code":"USD", "symbol":"$"});
-	settings.setVariable('language', settings.getVariable('language') || {"name":"English", "code":"en"});
+	settings.setVariable('language', settings.getVariable('language') || language);
 	
 	//Language
 	var languagePath = 'locale/{0}.json'.format(settings.getVariable('language').code);
