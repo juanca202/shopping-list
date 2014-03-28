@@ -3,6 +3,7 @@
   `gid` INTEGER NULL,
   `currency` varchar(3) NULL,
   `name` varchar(255) NOT NULL
+  `updatedAt` int(11) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS `list_item` (

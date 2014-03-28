@@ -4,7 +4,7 @@ requirejs.config({
         'durandal':'../libraries/durandal/js',
         'plugins' : '../libraries/durandal/js/plugins',
         'transitions' : '../libraries/durandal/js/transitions',
-        'knockout': '../libraries/knockout/knockout-3.0.0',
+        'knockout': '../libraries/knockout/knockout-3.1.0',
 		'knockout.mapping': '../libraries/knockout/knockout.mapping-latest',
 		'knockouch': '../libraries/knockout/knockouch',
         'bootstrap': '../libraries/bootstrap/js/bootstrap',
