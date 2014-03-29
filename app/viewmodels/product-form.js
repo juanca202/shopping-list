@@ -69,7 +69,7 @@ define(function (require) {
 									id:null, 
 									quantity:1, 
 									unit:null, 
-									product:product, 
+									product:ko.mapping.toJS(self.product), 
 									price:null, 
 									checked:false
 								}]).done(function(response){
