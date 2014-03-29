@@ -5,6 +5,7 @@ define(function (require) {
 		ko = require('knockout'),
 		system = require('durandal/system'),
 		product = require('models/product'),
+		list = require('models/list'),
 		shell = require('viewmodels/shell'),
 		viewModel = function(){
 			var self = this,
@@ -63,7 +64,22 @@ define(function (require) {
 				product.save(ko.mapping.toJS(self.product))
 					.done(function(response){
 						if (response.success) {
-							self.back();
+							if (mode=='create') {
+								list.items.save(self.list.id(), [{
+									id:null, 
+									quantity:1, 
+									unit:null, 
+									product:product, 
+									price:null, 
+									checked:false
+								}]).done(function(response){
+									if (response.success) {
+										self.back();
+									}
+								});
+							}else{
+								self.back();
+							}
 						}
 					});
 			};
