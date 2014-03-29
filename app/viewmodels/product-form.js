@@ -70,7 +70,7 @@ define(function (require) {
 									id:null, 
 									quantity:1, 
 									unit:null, 
-									product:$.extend({}, productItem, {id:response.id}), 
+									product:$.extend(productItem, {id:response.id}), 
 									price:null, 
 									checked:false
 								}]).done(function(response){
