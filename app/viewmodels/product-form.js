@@ -65,7 +65,7 @@ define(function (require) {
 					.done(function(response){
 						if (response.success) {
 							if (mode=='create') {
-								list.items.save(self.list.id(), [{
+								list.items.save(lid, [{
 									id:null, 
 									quantity:1, 
 									unit:null, 
