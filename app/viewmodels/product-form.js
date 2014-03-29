@@ -19,7 +19,7 @@ define(function (require) {
 			self.activate = function (id, params) {
 				_id = id;
 				mode = id == 'create'? 'create' : 'update';
-				lid = params.lid;
+				lid = Number(params.lid);
 				if (mode=='update') {
 					product.get(id).done(function(response){
 						if (response.success) {
@@ -65,11 +65,12 @@ define(function (require) {
 					.done(function(response){
 						if (response.success) {
 							if (mode=='create') {
+								var productItem = ko.mapping.toJS(self.product);
 								list.items.save(lid, [{
 									id:null, 
 									quantity:1, 
 									unit:null, 
-									product:ko.mapping.toJS(self.product), 
+									product:$.extend({}, productItem, {id:response.id}), 
 									price:null, 
 									checked:false
 								}]).done(function(response){
