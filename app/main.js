@@ -67,6 +67,9 @@ define(function (require) {
 		
 	//>>excludeStart("build", true);
     system.debug(true);
+	system.log = function(m){
+		alert(m);
+	}
     //>>excludeEnd("build");
 
     app.title = _('Gosh');
@@ -83,9 +86,7 @@ define(function (require) {
         viewLocator.useConvention();
 
         //Show the app by setting the root view model for our application with a transition.
-		$.when(	list.initialize(), 
-				product.initialize(), 
-				purchase.initialize())
+		$.when(list.initialize(), product.initialize(), purchase.initialize())
 			.done(function(){
 				app.setRoot('viewmodels/shell', 'entrance');
 			});
