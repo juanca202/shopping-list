@@ -77,7 +77,7 @@
 				var deferred = $.Deferred();
 				app.storage.transaction(function(tx) {
 					var params = list.id? [list.name, list.id] : [list.name],
-						query = list.id? 'UPDATE list SET name = ? WHERE id = ?' : 'INSERT INTO list(name) VALUES (?)';
+						query = list.id? 'UPDATE list SET name = ?, updatedAt = DATETIME("now") WHERE id = ?' : 'INSERT INTO list(name, updatedAt) VALUES (?, DATETIME("now"))';
 					tx.executeSql(query, params, function(tx, r){
 						var id = list.id? list.id : r.insertId;
 						deferred.resolve({success:r.rowsAffected==1, id:id});

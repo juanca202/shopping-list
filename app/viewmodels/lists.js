@@ -30,10 +30,10 @@
 								if (window.plugins && typeof window.plugins.gaPlugin!='undefined') {
 									window.plugins.gaPlugin.trackEvent(function(result){
 										//alert('gaPlugin: '+result);
-										console.log('gaPlugin: '+result);
+										//console.log('gaPlugin: '+result);
 									}, function(error){
 										//alert('gaPlugin: '+error);
-										console.log('gaPlugin: '+error);
+										system.log('gaPlugin: '+error);
 									}, "Lists", "create");
 								}
 								location.href = '#/lists/{0}'.format(response.id);
