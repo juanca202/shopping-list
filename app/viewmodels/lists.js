@@ -34,7 +34,7 @@
 									}, function(error){
 										//alert('gaPlugin: '+error);
 										system.log('gaPlugin: '+error);
-									}, "Lists", "create");
+									}, "Lists", "create", "name");
 								}
 								location.href = '#/lists/{0}'.format(response.id);
 							}
