@@ -88,9 +88,8 @@
 									//alert('gaPlugin: '+result);
 									//console.log('gaPlugin: '+result);
 								}, function(error){
-									//alert('gaPlugin: '+error);
 									system.log('gaPlugin: '+error);
-								}, "Cart", "checkout", settings.getVariable('currency').code, self.totalPrice.checked);
+								}, 'Cart', 'checkout', settings.getVariable('currency').code, self.totalPrice().checked);
 							}
 						}
 					});	
