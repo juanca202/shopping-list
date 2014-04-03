@@ -3,14 +3,18 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-		<link href="libraries/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-		<link href="themes/default/base.css" rel="stylesheet" media="screen">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+		<link href="libraries/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="themes/default/base.css" rel="stylesheet" />
+		<style>
+			#splash {display:block !important;}
+		</style>
 	</head>
     <body>
         <div id="applicationHost">
-            <div class="splash">
-				<div style="background:url(themes/default/images/logo.png) no-repeat; background-size:175px 200px; width:175px; height:200px; position:absolute; top:50%; left:50%; margin-top:-100px; margin-left:-75px"></div>
+            <div id="splash">
+				<div style="position:fixed; height:51px; left:0; right:0; top:0; background:#FFF; border-bottom:1px solid #E7E7E7;"></div>
+				<div style="position:fixed; height:50px; left:0; right:0; bottom:0; background:#FFF; border-top:1px solid #E7E7E7;"></div>
 			</div>
         </div>
 		<script src="cordova.js"></script>

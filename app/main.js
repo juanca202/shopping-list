@@ -67,9 +67,11 @@ define(function (require) {
 		
 	//>>excludeStart("build", true);
     system.debug(true);
+	/*
 	system.log = function(m){
 		alert(m);
 	}
+	*/
     //>>excludeEnd("build");
 
     app.title = _('Gosh');
