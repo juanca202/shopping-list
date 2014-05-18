@@ -1,5 +1,7 @@
-﻿<form id="cart" style="padding-bottom:85px;" data-bind="submit:saveItems">
+﻿<form id="cart" style="padding-bottom:85px;" data-bind="submit:saveItems, css:{searching:query().length>0 || searching}">
 	<style>
+        #cart .navbar,
+        #cart .search-input {transition: margin-top .4s;}
 		#cart .search-input {margin-top:15px;}
 		#cart .search-input [type="search"] {padding: 20px 12px;}
 		#cart .list-group {box-shadow: 0 1px 1px #E2E2E2;}
@@ -17,11 +19,17 @@
 		#cart .list-group-item .checkbox,
 		#cart .list-group-item .actions-pane {border-left:2px solid rgba(255,255,255,0);}
 		#cart #summary {background: #F8F8F8; bottom: 50px; border: 0;}
+        #cart.searching .search-input {margin-top: -36px;}
+        #cart.searching .navbar {margin-top:-51px;}
+        #cart.searching .no-data,
+        #cart.searching .list-group.unchecked, 
+        #cart.searching .list-group.checked {display: none;}
 		
 		@media (max-width: 767px) {
 			#cart .search-input {position:relative; margin: -15px; margin-bottom: 15px; margin-top:0;}
 			#cart .summary-values {margin-left: 10px; margin-top: 8px; margin-bottom: 5px; font-size:12px;}
 			#cart .summary-values > div {margin:0;}
+            #cart.searching .search-input {margin-top: -51px;}
 		}
 	</style>
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-bind="with:list">
@@ -37,29 +45,34 @@
 					<li class="divider"></li>
 					<li data-bind="css:{disabled:$root.items().length==0}"><a href="#" data-bind="click:$root.markAll, text:_('Mark all')"></a></li>
 					<li data-bind="css:{disabled:$root.items().length==0}"><a href="#" data-bind="click:$root.unmarkAll, text:_('Unmark all')"></a></li>
-					<!-- <li class="divider"></li> -->
-					<!-- <li data-bind="css:{disabled:$root.items().length==0}"><a href="#" data-bind="click:$root.share, text:_('Share to email')"></a></li> -->
+					<li class="divider"></li>
+					<li data-bind="css:{disabled:$root.items().length==0}"><a href="#" data-bind="click:$root.shareRealtime, text:_('Realtime sharing')"></a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
     <div style="position:relative;">
 		<div class="search-input form-group">
-			<input type="search" class="form-control" data-bind="attr:{placeholder:_('Add a product to list')}, value:query, valueUpdate: 'afterkeydown', hasFocus: items().length==0" />
-			<button class="btn btn-default btn-right" type="button" style="padding: 10px 12px;" data-bind="click:scan"><span class="glyphicon glyphicon-barcode"></span> <span class="hidden-xs" data-bind="text:_('Scan barcode')"></span></button>
-		</div>
+			<input type="search" class="form-control" data-bind="attr:{placeholder:_('Add a product to list')}, value:query, valueUpdate: 'afterkeydown', hasFocus:searching" />
+			<button class="btn btn-default btn-right btn-barcode" type="button" style="padding: 10px 12px;" data-bind="visible:$.trim(query().length)==0 && !searching(), click:scan"><span class="glyphicon glyphicon-barcode"></span> <span class="hidden-xs" data-bind="text:_('Scan barcode')"></span></button>
+            <button class="btn btn-default btn-right btn-clear" type="button" style="padding: 10px 12px;" data-bind="visible:$.trim(query().length)>0 || searching(), click:clearQuery"><span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs" data-bind="text:_('Cancel')"></span></button>		  
+        </div>
 		
 		<div class="list-group autocomplete" data-bind="css:{open:queryParts().name.length>0 || products().length>0}">
 			<!-- ko foreach:products -->
 				<a href="#" class="list-group-item" data-bind="click:$root.addItem">
 					<span class="pull-right glyphicon glyphicon-plus-sign" style="color:#5CB85C;"></span>
-					<span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="color:#999;"></span><span data-bind="text:name"></span><span style="color:#999;" data-bind="visible:$root.queryParts().name==code, text:' - {0}'.format(code)"></span>
+					<span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="color:#A1C5E5;"></span>
+                    <span data-bind="html:highlight"></span>
+                    <span data-bind="visible:$root.queryParts().price>0, text:'{0}{1}'.format($root.currency().symbol, $root.queryParts().price)" style="color:#A1C5E5;"></span>
 				</a>
 			<!-- /ko -->
 			<!-- ko if:queryParts().name.length>0 && products().length==0 -->
 				<a href="#" class="list-group-item" data-bind="click:$root.createProduct.bind($data, $root.queryParts().name)">
 					<span class="pull-right glyphicon glyphicon-plus-sign" style="color:#5CB85C;"></span>
-					<span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="color:#999;"></span><span data-bind="text:$root.queryParts().name"></span>
+					<span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="color:#A1C5E5;"></span>
+                    <span data-bind="text:$root.queryParts().name"></span>
+                    <span data-bind="visible:$root.queryParts().price>0, text:'{0}{1}'.format($root.currency().symbol, $root.queryParts().price)" style="color:#A1C5E5;"></span>
 				</a>
 			<!-- /ko -->
 		</div>
@@ -68,8 +81,13 @@
 			<span class="glyphicon" data-bind="css:{'glyphicon-shopping-cart':list.id()==1}"></span><br />
 			<span data-bind="text:_('You have not added products yet')"></span>
 		</div>
+        
+        <div data-bind="visible:products().length==0 && searching()" class="muted-message">
+            <span class="glyphicon glyphicon-question-sign"></span><br />
+			<span data-bind="text:_('Quick add: Enter quantity product name {0}price'.format($root.currency().symbol))"></span>
+		</div>
 		
-		<div class="list-group" style="margin-bottom:20px;">
+		<div class="list-group unchecked" style="margin-bottom:20px;">
 			<!-- ko foreach:items -->
 				<div class="list-group-item" data-bind="css:{'hidden':checked()}">
 					<div class="actions pull-right">
@@ -108,8 +126,8 @@
 		</div>
 		
 	</div>
-	<nav id="summary" class="navbar navbar-default navbar-fixed-bottom" data-bind="visible:totalPrice().remaining>0 || totalPrice().checked>0">
-		<div class="pull-right" style="margin-right:10px; margin-top:8px;" data-bind="visible:totalPrice().checked>0">
+	<nav id="summary" class="navbar navbar-default navbar-fixed-bottom" data-bind="visible:totalPrice().checkedCount>0">
+		<div class="pull-right" style="margin-right:10px; margin-top:8px;">
 			<button class="btn btn-primary" data-bind="click:checkout, text:_('Checkout')"></button>
 		</div>
 		<div data-bind="css:{'summary-values':totalPrice().remaining>0 && totalPrice().checked>0}" style="margin-left:10px;">

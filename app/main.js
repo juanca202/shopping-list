@@ -66,13 +66,8 @@ define(function (require) {
 	}	
 		
 	//>>excludeStart("build", true);
-    system.debug(true);
-	/*
-	system.log = function(m){
-		alert(m);
-	}
-	*/
-    //>>excludeEnd("build");
+    //system.debug(true);
+	 //>>excludeEnd("build");
 
     app.title = _('Gosh');
 
@@ -83,11 +78,7 @@ define(function (require) {
     });
 
     app.start().then(function() {
-        //Replace 'viewmodels' in the moduleId with 'views' to locate the view.
-        //Look for partial views in a 'views' folder in the root.
         viewLocator.useConvention();
-
-        //Show the app by setting the root view model for our application with a transition.
 		$.when(list.initialize(), product.initialize(), purchase.initialize())
 			.done(function(){
 				app.setRoot('viewmodels/shell', 'entrance');

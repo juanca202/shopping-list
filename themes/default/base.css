@@ -35,8 +35,10 @@ select.form-control  {-webkit-appearance: textfield;}
 .navbar-fixed-top,
 .navbar-fixed-bottom {background:#FFF;}
 
-.no-data {font-size:17px; color:#999; text-align:center; padding:50px;}
-.no-data .glyphicon {font-size:40px;}
+.no-data,
+.muted-message {font-size:17px; color:#999; text-align:center; padding:50px;}
+.no-data .glyphicon,
+.muted-message .glyphicon {font-size:40px;}
 
 /* LIST GROUP */
 .list-group.selection-list {margin:-22px -15px;}

@@ -51,13 +51,17 @@
 			<!-- ko foreach:products -->
 				<a href="#" class="list-group-item" data-bind="click:$root.addItem">
 					<span class="pull-right glyphicon glyphicon-plus-sign" style="color:#5CB85C;"></span>
-					<span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="color:#999;"></span><span data-bind="text:name"></span><span style="color:#999;" data-bind="visible:$root.queryParts().name==code, text:' - {0}'.format(code)"></span>
+					<span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="color:#A1C5E5;"></span>
+                    <span data-bind="html:highlight"></span>
+                    <span data-bind="visible:$root.queryParts().price>0, text:'{0}{1}'.format($root.currency().symbol, $root.queryParts().price)" style="color:#A1C5E5;"></span>
 				</a>
 			<!-- /ko -->
 			<!-- ko if:queryParts().name.length>0 && products().length==0 -->
 				<a href="#" class="list-group-item" data-bind="click:$root.createProduct.bind($data, $root.queryParts().name)">
 					<span class="pull-right glyphicon glyphicon-plus-sign" style="color:#5CB85C;"></span>
-					<span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="color:#999;"></span><span data-bind="text:$root.queryParts().name"></span>
+					<span data-bind="visible:$root.queryParts().quantity>0, text:'{0} '.format($root.queryParts().quantity)" style="color:#A1C5E5;"></span>
+                    <span data-bind="text:$root.queryParts().name"></span>
+                    <span data-bind="visible:$root.queryParts().price>0, text:'{0}{1}'.format($root.currency().symbol, $root.queryParts().price)" style="color:#A1C5E5;"></span>
 				</a>
 			<!-- /ko -->
 		</div>

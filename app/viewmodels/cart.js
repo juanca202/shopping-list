@@ -49,7 +49,7 @@ define(function (require) {
 					quantity:self.queryParts().quantity, 
 					unit:null, 
 					product:product, 
-					price:null, 
+					price:(self.queryParts().price/(self.queryParts().quantity? self.queryParts().quantity : 1)).format(), 
 					checked:false
 				}]).done(function(response){
 					if (response.success) {
@@ -57,6 +57,7 @@ define(function (require) {
 						self.currentItem({id:ko.observable(-1)});
 						self.products([]);
 						self.query('');
+                        shell.navGlobal(true);
 					}
 				});
 			};
@@ -78,7 +79,11 @@ define(function (require) {
 						}
 					});
 			};
-			self.checkout = function() {
+			self.clearQuery = function() {
+                self.query('');
+                shell.navGlobal(true);
+            };
+            self.checkout = function() {
 				purchase.save(ko.mapping.toJS(self.list), ko.mapping.toJS(self.items()))
 					.done(function(response){
 						if(response.success) {
@@ -107,7 +112,6 @@ define(function (require) {
 			self.currentItem = ko.observable({id:ko.observable(-1)});
 			self.items = ko.observableArray();
 			self.list = ko.mapping.fromJS({id:null, name:''});
-			
 			self.markAll = function() {
 				$.each(self.items(), function(){
 					var item = this;
@@ -117,28 +121,44 @@ define(function (require) {
 			};
 			self.products = ko.observableArray();
 			self.query = ko.observable('');
-			self.queryParts = ko.observable({quantity:null, name:''});
+			self.queryParts = ko.observable({quantity:null, name:'', price:null});
 			self.query.subscribe(function(value){
 				clearTimeout(queryTimeout);
-				var query,
-					keywords = $.trim(value).split(' ');
-				//Si el primer valor es un numero entonces corresponde a la cantidad y solo se busca de la segunda palabra en adelante
+				var query = $.trim(value),
+					keywords = $.trim(value).split(' '),
+                    quantity = null,
+                    price = null;
+                
+                //Si el primer valor es un numero entonces corresponde a la cantidad y solo se busca de la segunda palabra en adelante
 				if (keywords.length>1 && Number(keywords[0])>0) {
-					query = $.trim(keywords.splice(1).join(' '));
-					self.queryParts({quantity:Number(keywords[0]), name:query});
-				//Si el valor es un numero no hace la busqueda
-				}else if (!isNaN(value)) {
-					query = '';
-					self.queryParts({quantity:null, name:''});
-				}else{
-					query = $.trim(value);
-					self.queryParts({quantity:null, name:query});
+					query = $.trim(keywords.slice(1).join(' '));
+					quantity = Number(keywords[0]);
 				}
+                
+                //Si el valor es un numero no hace la busqueda
+                if (!isNaN(value)) {
+					query = '';
+                    quantity = null;
+				}
+                
+                //Si encuentra el simbolo de la moneda actual lo considera como un precio y no lo agrega al nombre del producto
+                if (keywords.length>1 && keywords[keywords.length-1].indexOf(settings.getVariable('currency').symbol)==0) {
+                    var nameKeywords = $.trim(query).split(' ');
+                    nameKeywords.pop();
+                    query = $.trim(nameKeywords.join(' '));
+                    price = Number(keywords[keywords.length-1].substring(1));
+                }
+                                 
+                self.queryParts({quantity:quantity, name:query, price:price});
+                
 				if(query!='') {
 					queryTimeout = setTimeout(function(){
 						product.search(query, 5)
 							.done(function(response){
 								if (response.success) {
+                                    $.each(response.products, function(){
+										this.highlight = this.name.replace(new RegExp(query, 'gi'), '<strong>' + query + '</strong>');
+									});
 									self.products(response.products);	
 								}
 							});
@@ -245,6 +265,14 @@ define(function (require) {
 					system.log(e.message);
 				}
 			};
+            self.searching = ko.observable(false);
+            self.searching.subscribe(function(value) {
+                if (value || self.query().length>0) {
+                    shell.navGlobal(false);
+                } else {
+                    shell.navGlobal(true);
+                }
+            });
 			self.setCurrentItem = function(item) {
 				if (self.currentItem().id()!=item.id()) {
 					self.currentItem(item);
@@ -253,7 +281,10 @@ define(function (require) {
 				}
 			};
 			self.currency = ko.observable();	
-			self.share = function() {
+			self.shareRealtime = function(){
+            
+            };
+            self.shareToEmail = function() {
 				message.prompt('Enter an email recipient').done(function(email){
 					if (email) {
 						var subject = _('Shopping list shared'),
@@ -291,7 +322,8 @@ define(function (require) {
 			};
 			self.totalPrice = ko.computed(function(){
 				var remaining = 0, 
-					checked = 0;
+					checked = 0,
+                    checkedCount = 0;
 				$.each(self.items(), function(){
 					if (this.price()>0) {
 						var total = (this.quantity() || 1)*this.price();
@@ -301,8 +333,12 @@ define(function (require) {
 							remaining += total;
 						}
 					}
+                    if (this.checked()) {
+                        checkedCount++;
+                    }
 				});
 				return {
+                    checkedCount:checkedCount,
 					checked:checked,
 					remaining:remaining
 				};

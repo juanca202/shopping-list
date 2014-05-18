@@ -11,6 +11,7 @@
 	"bottle": "botella",
 	"box": "caja",
 	"can": "lata",
+    "Cancel": "Cancelar",
 	"Canned foods": "Enlatados",
 	"Checkout": "Guardar",
 	"Cleaning stuff": "Productos de limpieza",
@@ -43,6 +44,8 @@
 	"Purchase history": "Ultimas compras",
 	"Quantity": "Cantidad",
 	"Quantity\/Price": "Cantidad\/Precio",
+    "Quick add: Enter quantity product name {0}price": "Ingreso rápido: Ingrese cantidad nombre del producto {0}precio",
+	"Rate us": "Calif\u00ecanos",
 	"Refrigerated": "Refrigerado",
 	"Remaining": "Por comprar",
 	"Rename": "Renombrar",
@@ -58,5 +61,7 @@
 	"Vegetables": "Vegetales",
 	"You have not added products yet": "No has a\u00f1adido productos todav\u00eda",
 	"You have not created lists yet": "No has creado listas todav\u00eda",
-	"You have not saved purchases yet": "No has guardado compras todav\u00eda"
+	"You have not saved purchases yet": "No has guardado compras todav\u00eda",
+	"What do you think about Gosh?": "Qu\u00e9 piensas de Gosh?",
+    "Realtime sharing": 'Habilitar uso compartido'
 }
