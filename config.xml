@@ -18,7 +18,7 @@
 	<preference name="phonegap-version" value="3.3.0" />
 	<preference name="orientation" value="default" />
 	<preference name="target-device" value="universal" />
-	<preference name="android-minSdkVersion" value="7" /> 
+	<preference name="android-minSdkVersion" value="11" /> 
 	<preference name="android-targetSdkVersion" value="14" /> 	
 	
 	<access origin="http://127.0.0.1*"/>
@@ -33,6 +33,7 @@
 	<gap:plugin name="org.apache.cordova.network-information" />
 	<gap:plugin name="com.adobe.plugins.gaplugin" />
 	<gap:plugin name="com.phonegap.plugins.barcodescanner" />
+    <gap:plugin name="org.pushandplay.cordova.apprate" />    
 	
 	<icon src="icon.png" />
 </widget>

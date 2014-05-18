@@ -17,11 +17,7 @@
 			self.currency = ko.observable();
 			self.language = ko.observable();
 			self.rateApp = function(){
-				switch(device.platform){
-					case 'Android':
-						window.open('market://details?id=ec.factor.gosh');
-						break;
-				}
+				navigator.apprate.promptForRating();
 			}
 		};
     return viewModel;
