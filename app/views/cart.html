@@ -1,7 +1,7 @@
 ﻿<form id="cart" style="padding-bottom:85px;" data-bind="submit:saveItems, css:{searching:query().length>0 || searching}">
 	<style>
         #cart .navbar,
-        #cart .search-input {transition: margin-top .4s;}
+        #cart .search-input {transition: margin-top .4s; -webkit-transition: margin-top .4s;}
 		#cart .search-input {margin-top:15px;}
 		#cart .search-input [type="search"] {padding: 20px 12px;}
 		#cart .list-group {box-shadow: 0 1px 1px #E2E2E2;}
@@ -84,7 +84,7 @@
         
         <div data-bind="visible:products().length==0 && searching()" class="muted-message">
             <span class="glyphicon glyphicon-question-sign"></span><br />
-			<span data-bind="text:_('Quick add: Enter quantity product name {0}price'.format($root.currency().symbol))"></span>
+			<span data-bind="text:_('Quick add: Enter quantity product name {0}price').format($root.currency().symbol)"></span>
 		</div>
 		
 		<div class="list-group unchecked" style="margin-bottom:20px;">
