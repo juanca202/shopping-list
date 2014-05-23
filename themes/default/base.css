@@ -19,21 +19,21 @@ select.form-control  {-webkit-appearance: textfield;}
 .btn-right {border: 0; position: absolute; top: 0; right: 0; border-radius: 0;}
 .container {width:100%;}
 
-.navbar-fixed-top .title {margin-right: 50px; margin-left: 50px; margin-top:0; margin-bottom:0; position: absolute; left: 0; right: 0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; line-height: 51px; font-size: 18px;}
-.navbar-fixed-top .btn {border-radius: 0; padding-top: 14px; padding-bottom: 14px; display:block; text-align:center; min-width:50px;}
+.navbar-fixed-top {background: #428BCA; border-bottom: 0;}
+.navbar-fixed-top .title {margin-right: 50px; margin-left: 50px; margin-top:0; margin-bottom:0; position: absolute; left: 0; right: 0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; line-height: 51px; font-size: 18px; color:#FFF;}
+.navbar-fixed-top .btn {border-radius: 0; border:0; padding-top: 14px; padding-bottom: 14px; display:block; text-align:center; min-width:50px; min-height: 50px; color: #FFF;}
+.navbar-fixed-top .dropdown-menu {margin:0;}
 
 /* NAVBAR BOTTOM */
-.navbar-fixed-bottom {transition: bottom .4s; -webkit-transition: bottom .4s; margin-left:-1px; margin-right:-1px;}
-.navbar-fixed-bottom .nav-pills>li>a {border-radius:0; margin-bottom:0; min-height: 49px; line-height: 49px; padding: 0;}
+.navbar-fixed-bottom {transition: bottom .4s; -webkit-transition: bottom .4s; margin-left:-1px; margin-right:-1px; background:#FFF;}
+.navbar-fixed-bottom .nav-pills>li>a {border-radius:0; margin-bottom:0; min-height: 49px; line-height: 49px; padding: 0; color:#666;}
+.navbar-fixed-bottom .nav-pills>li.active>a {background: #FFF; color:#428BCA;}
 .navbar-fixed-bottom .nav-justified {display: table;}
 .navbar-fixed-bottom .nav-justified>li {display: table-cell; width:25%; }
-.navbar-fixed-bottom  .glyphicon {top: 7px; font-size: 22px;}
-.navbar-fixed-bottom :not(.active) .badge {background: #D9534F;}
-.navbar-fixed-bottom .active .badge {border: 1px solid #428BCA;}
+.navbar-fixed-bottom .glyphicon {top: 7px; font-size: 22px;}
+.navbar-fixed-bottom a>.badge,
+.navbar-fixed-bottom .active>a>.badge {background: #D9534F; color:#FFF;}
 .navbar-fixed-bottom.hidden {bottom:-60px; display: block!important; visibility: visible!important;}
-
-.navbar-fixed-top,
-.navbar-fixed-bottom {background:#FFF;}
 
 .no-data,
 .muted-message {font-size:17px; color:#999; text-align:center; padding:50px;}

@@ -5,7 +5,7 @@
 		#cart .search-input {margin-top:15px;}
 		#cart .search-input [type="search"] {padding: 20px 12px;}
 		#cart .list-group {box-shadow: 0 1px 1px #E2E2E2;}
-		#cart .list-group.checked .checkbox {text-decoration: line-through;}
+		#cart .list-group.checked .checkbox .checkbox-label {text-decoration: line-through;}
 		#cart .list-group.checked a {color:#999;}
 		#cart .list-group-item {border-radius:0;}
 		#cart .list-group-item a:hover {text-decoration:none; background-color: #F5F5F5;}
@@ -18,7 +18,9 @@
 		#cart .list-group-item .checkbox {display:block; margin: -10px -15px; padding: 10px 15px;}
 		#cart .list-group-item .checkbox,
 		#cart .list-group-item .actions-pane {border-left:2px solid rgba(255,255,255,0);}
-		#cart #summary {background: #F8F8F8; bottom: 50px; border: 0;}
+		#cart #summary {background: #F8F8F8; bottom: 50px; border: 0; transition: bottom .4s; -webkit-transition: bottom .4s;}
+        #cart #summary.hidden,
+        #cart.searching #summary {bottom:-50px;}
         #cart.searching .search-input {margin-top: -36px;}
         #cart.searching .navbar {margin-top:-51px;}
         #cart.searching .no-data,
@@ -95,7 +97,8 @@
 						<a href="#" data-bind="visible:cart.id() && $root.list.id()!=1"><span class="glyphicon glyphicon-shopping-cart"></span></a>
 					</div>
 					<a href="#" class="checkbox" data-bind="click:$root.toggleItemCheck, style:{'border-left-color':product.category.color? product.category.color : 'inherit'}">
-						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? _(unit()) : '', product.name()) : product.name()"></span>
+						<span class="glyphicon glyphicon-unchecked"></span>
+                        <span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? _(unit()) : '', product.name()) : product.name()"></span>
 						<span style="color:#a1c5e5;" data-bind="visible:price()>0, text:' {0}{1}'.format($root.currency().symbol, Number((quantity()? quantity() : 1)*price()).format(2))"></span>
 					</a>
 					<div class="row actions-pane" data-bind="visible:$root.currentItem().id()==id(), style:{'border-left-color':product.category.color? product.category.color : 'inherit'}">
@@ -113,7 +116,8 @@
 						<a href="#" data-bind="click:$root.setCurrentItem"><span class="glyphicon glyphicon-info-sign"></span></a>
 					</div>
 					<a href="#" class="checkbox" data-bind="click:$root.toggleItemCheck">
-						<span data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? _(unit()) : '', product.name()) : product.name()"></span>
+                        <span class="glyphicon glyphicon-check"></span>
+						<span class="checkbox-label" data-bind="text:quantity()>0? '{0} {1} {2}'.format(quantity(), unit() && unit()!='undefined'? _(unit()) : '', product.name()) : product.name()"></span>
 						<span class="price" data-bind="visible:price()>0, text:' {0}{1}'.format($root.currency().symbol, Number((quantity()? quantity() : 1)*price()).format(2))"></span>
 					</a>
 					<div class="row actions-pane" data-bind="visible:$root.currentItem().id()==id()">
@@ -126,7 +130,7 @@
 		</div>
 		
 	</div>
-	<nav id="summary" class="navbar navbar-default navbar-fixed-bottom" data-bind="visible:totalPrice().checkedCount>0">
+	<nav id="summary" class="navbar navbar-default navbar-fixed-bottom" data-bind="css:{hidden:totalPrice().checkedCount==0}">
 		<div class="pull-right" style="margin-right:10px; margin-top:8px;">
 			<button class="btn btn-primary" data-bind="click:checkout, text:_('Checkout')"></button>
 		</div>
